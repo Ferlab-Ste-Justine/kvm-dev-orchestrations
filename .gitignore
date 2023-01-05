@@ -1,0 +1,9 @@
+*/.terraform
+*/terraform.tfstate
+*/terraform.tfstate.backup
+*/.terraform.lock.hcl
+shared/*.key
+shared/*.pem
+shared/*_password
+shared/*_key_algorithm
+shared/kubeconfig

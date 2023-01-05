@@ -1,0 +1,24 @@
+[submodule "etcd/kvm-etcd-server"]
+	path = etcd/kvm-etcd-server
+	url = git@github.com:Ferlab-Ste-Justine/kvm-etcd-server.git
+[submodule "coredns/kvm-coredns-server"]
+	path = coredns/kvm-coredns-server
+	url = git@github.com:Ferlab-Ste-Justine/kvm-coredns-server.git
+[submodule "kubernetes/kubernetes-installation"]
+	path = kubernetes/kubernetes-installation
+	url = git@github.com:Ferlab-Ste-Justine/kubernetes-installation.git
+[submodule "kubernetes/kvm-kubernetes-load-balancer"]
+	path = kubernetes/kvm-kubernetes-load-balancer
+	url = git@github.com:Ferlab-Ste-Justine/kvm-kubernetes-load-balancer.git
+[submodule "kubernetes/kvm-kubernetes-node"]
+	path = kubernetes/kvm-kubernetes-node
+	url = git@github.com:Ferlab-Ste-Justine/kvm-kubernetes-node.git
+[submodule "kubernetes/kvm-bastion"]
+	path = kubernetes/kvm-bastion
+	url = git@github.com:Ferlab-Ste-Justine/kvm-bastion.git
+[submodule "kubernetes/kubernetes-certificates"]
+	path = kubernetes/kubernetes-certificates
+	url = git@github.com:Ferlab-Ste-Justine/kubernetes-certificates.git
+[submodule "kubernetes/kubernetes-client-config"]
+	path = kubernetes/kubernetes-client-config
+	url = git@github.com:Ferlab-Ste-Justine/kubernetes-client-config.git

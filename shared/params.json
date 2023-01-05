@@ -1,0 +1,26 @@
+{
+    "addresses": "192.168.55.0/24",
+    "etcd_addresses": [
+      {
+        "mac": "aa:00:00:00:00:00",
+        "ip": "192.168.55.2"
+      }, 
+      {
+        "mac": "aa:00:00:00:00:01",
+        "ip": "192.168.55.3"
+      },
+      {
+        "mac": "aa:00:00:00:00:02",
+        "ip": "192.168.55.4"
+      }
+    ],
+    "assignable_mac_range": {
+      "start": "aa:00:00:00:00:0b",
+      "end": "aa:ff:ff:ff:ff:ff"
+    },
+    "assignable_ip_range": {
+      "start": "192.168.55.10",
+      "end": "192.168.55.254"
+    },
+    "virsh_console_password": "test"
+}

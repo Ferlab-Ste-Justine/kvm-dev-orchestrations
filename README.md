@@ -38,6 +38,7 @@ This translates into the following steps:
 3. Go to the **image** directory and run `terraform init && terraform apply`
 4. Go to the **libvirt-network** directory and run: `terraform init && terraform apply`
 5. Go to the **etcd** directory and run `terraform init && terraform apply`
+    1. If you get `Permission denied` errors, it's probably because SELinux is not enabled on your system and QEMU enforces it. To fix that, its security driver can be disabled (not a good security practice, but acceptable for a local environment). To do so, add `security_driver = "none"` to `/etc/libvirt/qemu.conf` and restart libvirt (`sudo systemctl restart libvirtd`).
 6. Go to the **netaddr** directory and run `terraform init && terraform apply`
 
 ## Coredns
@@ -50,7 +51,7 @@ For a more seemless local experience after the coredns is running, you can tempo
 
 ## Kubernetes
 
-To setup a kubernetes cluster, perform the following step: Go to the **kubernetes** directory and run `terraform init && terraform apply`
+To setup a kubernetes cluster, perform the following step: Go to the **kubernetes** directory and run `terraform init && terraform apply` (note that this operation is heavy on resources and will take several minutes)
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, a **kubeconfig** file will have been generated in the **shared** directory that you can use with **kubectl** to access the kubernetes masters' api.
 
@@ -61,3 +62,9 @@ Unlike with macvtap interfaces, libvirt networks keep assignment records and don
 To work around this, the ip/mac address mappings have all been moved in the **netaddr** directory with the definition of the address spaces so that you can run **terraform destroy** in the vm repos without changing the mappings since they are located in a separate repo.
 
 However, if you delete the etcd nodes or the netaddr records in them (either the **etcd** or **netaddr** directory), you should probably delete the libvirt network as well (**libvirt-network** directory) in order to start with a new network that has a clean state.
+
+# Useful commands
+|Command|Description
+|---|---
+|`virsh list --all`|List all domains
+|`virsh console <domain>`|Connect to a domain (login: `ubuntu` / password: *see in **shared/params.json***)

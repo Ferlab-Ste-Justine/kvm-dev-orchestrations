@@ -16,7 +16,7 @@ module "etcd_1" {
   source = "./kvm-etcd-server"
   name = "ferlab-etcd-1"
   vcpus = 1
-  memory = 4096
+  memory = local.params.etcd_memory
   volume_id = libvirt_volume.etcd_1.id
   libvirt_network = {
     network_name = "ferlab"
@@ -73,7 +73,7 @@ module "etcd_2" {
   source = "./kvm-etcd-server"
   name = "ferlab-etcd-2"
   vcpus = 1
-  memory = 4096
+  memory = local.params.etcd_memory
   volume_id = libvirt_volume.etcd_2.id
   libvirt_network = {
     network_name = "ferlab"
@@ -126,7 +126,7 @@ module "etcd_3" {
   source = "./kvm-etcd-server"
   name = "ferlab-etcd-3"
   vcpus = 1
-  memory = 4096
+  memory = local.params.etcd_memory
   volume_id = libvirt_volume.etcd_3.id
   libvirt_network = {
     network_name = "ferlab"

@@ -6,7 +6,7 @@ External dependencies are linked via git submodules with an **ssh** link for eas
 
 # Requirements
 
-A Linux machine with modern multi-core cpus and at least 64GB RAM is recommend.
+A Linux machine with modern multi-core cpus and at least 16GB RAM is required.
 
 Additionally, you will need the following:
 - Terraform
@@ -33,7 +33,7 @@ In all cases, you will want to perform the following steps:
 
 This translates into the following steps:
 
-1. Inspect the **shared/params.json** file and change it if needed
+1. Inspect the **shared/params.json** file and change it if needed (if you have more than 16GB RAM, feel free to increase `memory` and `count` values)
 2. Run `git submodule update --init` to fetch the submodules
 3. Go to the **image** directory and run `terraform init && terraform apply`
 4. Go to the **libvirt-network** directory and run: `terraform init && terraform apply`

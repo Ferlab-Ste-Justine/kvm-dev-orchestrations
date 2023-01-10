@@ -11,7 +11,7 @@ module "bastion" {
   source = "./kvm-bastion"
   name = "ferlab-k8-bastion"
   vcpus = 1
-  memory = 4096
+  memory = local.params.k8_bastion_memory
   volume_id = libvirt_volume.bastion.id
   libvirt_network = {
     network_name = "ferlab"

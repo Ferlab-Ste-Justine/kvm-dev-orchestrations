@@ -11,7 +11,7 @@ module "coredns_1" {
   source = "./kvm-coredns-server"
   name = "ferlab-coredns-1"
   vcpus = 1
-  memory = 4096
+  memory = local.params.coredns_memory
   volume_id = libvirt_volume.coredns_1.id
   libvirt_network = {
     network_name = "ferlab"

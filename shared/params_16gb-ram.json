@@ -25,13 +25,13 @@
 
     "virsh_console_password": "test",
 
-    "etcd_memory": 4096,
-    "coredns_memory": 4096,
-    "k8_bastion_memory": 4096,
-    "k8_lb_memory": 4096,
-    "k8_masters_memory": 4096,
-    "k8_workers_memory": 8192,
+    "etcd_memory": 512,
+    "coredns_memory": 512,
+    "k8_bastion_memory": 512,
+    "k8_lb_memory": 512,
+    "k8_masters_memory": 2048,
+    "k8_workers_memory": 1536,
 
-    "k8_masters_count": 3,
-    "k8_workers_count": 3
+    "k8_masters_count": 1,
+    "k8_workers_count": 1
 }

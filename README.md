@@ -6,7 +6,7 @@ External dependencies are linked via git submodules with an **ssh** link for eas
 
 # Requirements
 
-A Linux machine with modern multi-core cpus and at least 64GB RAM is recommend.
+A Linux machine with modern multi-core cpus and at least 64GB RAM is recommend. The setup was tested successfully with Ubuntu 20.04/22.04.
 
 Additionally, you will need the following:
 - Terraform
@@ -36,9 +36,11 @@ This translates into the following steps:
 1. Inspect the **shared/params.json** file and change it if needed
 2. Run `git submodule update --init` to fetch the submodules
 3. Go to the **image** directory and run `terraform init && terraform apply`
+    1. If you get `Error: can't find storage pool 'default'`, you will need to create a pool 'default' manually (normally created automatically when KVM is installed, but on some distributions it doesn't).
+        1. To create, run this command `virsh pool-define-as default dir --target /var/lib/virt/pools/default && virsh pool-build default && virsh pool-start default` (change the path as desired)
+        2. To configure AppArmor for appropriate permissions, add the following under the profile in **/etc/apparmor.d/libvirt/TEMPLATE.qemu**: `"/var/lib/virt/pools/default/*" rwk,` (change the path as desired)
 4. Go to the **libvirt-network** directory and run: `terraform init && terraform apply`
 5. Go to the **etcd** directory and run `terraform init && terraform apply`
-    1. If you get `Permission denied` errors, it's probably because SELinux is not enabled on your system and QEMU enforces it. To fix that, its security driver can be disabled (not a good security practice, but acceptable for a local environment). To do so, add `security_driver = "none"` to `/etc/libvirt/qemu.conf` and restart libvirt (`sudo systemctl restart libvirtd`).
 6. Go to the **netaddr** directory and run `terraform init && terraform apply`
 
 ## Coredns

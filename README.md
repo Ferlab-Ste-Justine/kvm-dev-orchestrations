@@ -53,7 +53,7 @@ For a more seemless local experience after the coredns is running, you can tempo
 
 ## Kubernetes
 
-To setup a kubernetes cluster, perform the following step: Go to the **kubernetes** directory and run `terraform init && terraform apply` (note that this operation is heavy on resources and will take several minutes)
+To setup a kubernetes cluster, perform the following step: Go to the **kubernetes** directory and run `terraform init && terraform apply` (note that this operation will take several minutes)
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, a **kubeconfig** file will have been generated in the **shared** directory that you can use with **kubectl** to access the kubernetes masters' api.
 
@@ -70,3 +70,7 @@ However, if you delete the etcd nodes or the netaddr records in them (either the
 |---|---
 |`virsh list --all`|List all domains
 |`virsh console <domain>`|Connect to a domain (login: `ubuntu` / password: *see in **shared/params.json***)
+|`virsh dumpxml <domain>`|View details about a domain (in XML)
+|`virsh net-list`|List networks
+|`virsh net-dumpxml <network name>`|View details about a libvirt network (in XML)
+|`virsh vol-list default`|List volumes in the default pool

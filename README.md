@@ -37,7 +37,7 @@ This translates into the following steps:
 2. Run `git submodule update --init` to fetch the submodules
 3. Go to the **image** directory and run `terraform init && terraform apply`
     1. If you get `Error: can't find storage pool 'default'`, you will need to create a pool 'default' manually (normally created automatically when KVM is installed, but on some distributions it doesn't).
-        1. To create, run this command `virsh pool-define-as default dir --target /var/lib/virt/pools/default && virsh pool-build default && virsh pool-start default` (change the path as desired)
+        1. To create, run this command `virsh pool-define-as default dir --target /var/lib/virt/pools/default && virsh pool-build default && virsh pool-start default && virsh pool-autostart default` (change the path as desired)
         2. To configure AppArmor for appropriate permissions, add the following under the profile in **/etc/apparmor.d/libvirt/TEMPLATE.qemu**: `"/var/lib/virt/pools/default/*" rwk,` (change the path as desired)
 4. Go to the **libvirt-network** directory and run: `terraform init && terraform apply`
 5. Go to the **etcd** directory and run `terraform init && terraform apply`

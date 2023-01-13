@@ -20,25 +20,25 @@ data "netaddr_address_ipv4" "coredns" {
 }
 
 data "netaddr_address_ipv4" "k8_masters" {
-    count = 3
+    count = local.params.k8_masters_count
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-k8-master-${count.index + 1}"
 }
 
 data "netaddr_address_mac" "k8_masters" {
-    count = 3
+    count = local.params.k8_masters_count
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-k8-master-${count.index + 1}"
 }
 
 data "netaddr_address_ipv4" "k8_workers" {
-    count = 3
+    count = local.params.k8_workers_count
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-k8-worker-${count.index + 1}"
 }
 
 data "netaddr_address_mac" "k8_workers" {
-    count = 3
+    count = local.params.k8_workers_count
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-k8-worker-${count.index + 1}"
 }

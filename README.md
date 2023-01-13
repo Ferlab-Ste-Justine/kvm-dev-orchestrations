@@ -6,7 +6,7 @@ External dependencies are linked via git submodules with an **ssh** link for eas
 
 # Requirements
 
-A Linux machine with modern multi-core cpus and at least 64GB RAM is recommend. The setup was tested successfully with Ubuntu 20.04/22.04.
+A Linux machine with modern multi-core cpus and at least 64GB RAM is required. If you have less RAM, you can try to lower the `memory` and `count` values in **shared/params.json**. Like for 16GB RAM, a very minimal setup can work (see **shared/params_16gb-ram.json**).
 
 Additionally, you will need the following:
 - Terraform
@@ -20,6 +20,8 @@ Additionally, you will need the following:
 In addition, the **libvirtd** service should be enabled and started and your user should belong to the group **libvirt**.
 
 # Setup
+
+The setup was tested successfully with Ubuntu 20.04/22.04.
 
 ## General
 

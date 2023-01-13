@@ -25,12 +25,8 @@ module "kubernetes_installation" {
   front_proxy_ca_certificate = module.k8_certificates.front_proxy_ca_certificate
   front_proxy_ca_private_key = tls_private_key.k8_front_proxy_ca.private_key_pem
   depends_on = [
-    module.kubernetes_master_1,
-    module.kubernetes_master_2,
-    module.kubernetes_master_3,
-    module.kubernetes_worker_1,
-    module.kubernetes_worker_2,
-    module.kubernetes_worker_3,
+    module.kubernetes_masters,
+    module.kubernetes_workers,
     module.kubernetes_lb_1,
     module.bastion,
   ]

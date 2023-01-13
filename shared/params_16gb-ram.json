@@ -25,6 +25,13 @@
 
     "virsh_console_password": "test",
 
+    "etcd_vcpus": 1,
+    "coredns_vcpus": 1,
+    "k8_bastion_vcpus": 1,
+    "k8_lb_vcpus": 1,
+    "k8_masters_vcpus": 2,
+    "k8_workers_vcpus": 8,
+
     "etcd_memory": 512,
     "coredns_memory": 512,
     "k8_bastion_memory": 1024,

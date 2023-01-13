@@ -12,7 +12,7 @@ module "kubernetes_masters" {
   count  = local.params.k8_masters_count
   source = "./kvm-kubernetes-node"
   name = "ferlab-kubernetes-master-${count.index + 1}"
-  vcpus = 2
+  vcpus = local.params.k8_masters_vcpus
   memory = local.params.k8_masters_memory
   volume_id = libvirt_volume.kubernetes_masters[count.index].id
   libvirt_network = {

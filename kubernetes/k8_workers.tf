@@ -12,7 +12,7 @@ module "kubernetes_workers" {
   count  = local.params.k8_workers_count
   source = "./kvm-kubernetes-node"
   name = "ferlab-kubernetes-worker-${count.index + 1}"
-  vcpus = 8
+  vcpus = local.params.k8_workers_vcpus
   memory = local.params.k8_workers_memory
   volume_id = libvirt_volume.kubernetes_workers[count.index].id
   libvirt_network = {

@@ -6,7 +6,7 @@ provider "etcd" {
 }
 
 module "kubernetes_domain" {
-  source = "git::https://github.com/Ferlab-Ste-Justine/etcd-zonefile.git"
+  source = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-zonefile.git"
   domain = "k8.ferlab.local"
   key_prefix = "/ferlab/coredns/"
   dns_server_name = "ns.ferlab.local."

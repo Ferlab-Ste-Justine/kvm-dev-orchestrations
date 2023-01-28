@@ -10,8 +10,8 @@ resource "libvirt_volume" "kubernetes_lb_1" {
 module "kubernetes_lb_1" {
   source = "./kvm-kubernetes-load-balancer"
   name = "ferlab-kubernetes-lb-1"
-  vcpus = local.params.k8_lb_vcpus
-  memory = local.params.k8_lb_memory
+  vcpus = local.params.kubernetes.load_balancer.vcpus
+  memory = local.params.kubernetes.load_balancer.memory
   volume_id = libvirt_volume.kubernetes_lb_1.id
   libvirt_network = {
     network_name = "ferlab"

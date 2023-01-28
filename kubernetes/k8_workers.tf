@@ -1,5 +1,5 @@
 resource "libvirt_volume" "kubernetes_workers" {
-  count            = local.params.k8_workers_count
+  count            = local.params.kubernetes.workers.count
   name             = "ferlab-kubernetes-worker-${count.index + 1}"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -9,11 +9,11 @@ resource "libvirt_volume" "kubernetes_workers" {
 }
 
 module "kubernetes_workers" {
-  count  = local.params.k8_workers_count
+  count  = local.params.kubernetes.workers.count
   source = "./kvm-kubernetes-node"
   name = "ferlab-kubernetes-worker-${count.index + 1}"
-  vcpus = local.params.k8_workers_vcpus
-  memory = local.params.k8_workers_memory
+  vcpus = local.params.kubernetes.workers.vcpus
+  memory = local.params.kubernetes.workers.memory
   volume_id = libvirt_volume.kubernetes_workers[count.index].id
   libvirt_network = {
     network_name = "ferlab"

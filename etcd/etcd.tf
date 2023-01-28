@@ -15,14 +15,14 @@ resource "libvirt_volume" "etcd_1" {
 module "etcd_1" {
   source = "./kvm-etcd-server"
   name = "ferlab-etcd-1"
-  vcpus = local.params.etcd_vcpus
-  memory = local.params.etcd_memory
+  vcpus = local.params.etcd.vcpus
+  memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_1.id
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
-    ip = local.params.etcd_addresses.0.ip
-    mac = local.params.etcd_addresses.0.mac
+    ip = local.params.etcd.addresses.0.ip
+    mac = local.params.etcd.addresses.0.mac
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
@@ -37,15 +37,15 @@ module "etcd_1" {
     initial_token   = "etcd"
     initial_members = [
       {
-        ip = local.params.etcd_addresses.0.ip
+        ip = local.params.etcd.addresses.0.ip
         name = "ferlab-etcd-1"
       },
       {
-        ip = local.params.etcd_addresses.1.ip
+        ip = local.params.etcd.addresses.1.ip
         name = "ferlab-etcd-2"
       },
       {
-        ip = local.params.etcd_addresses.2.ip
+        ip = local.params.etcd.addresses.2.ip
         name = "ferlab-etcd-3"
       } 
     ]
@@ -72,14 +72,14 @@ resource "libvirt_volume" "etcd_2" {
 module "etcd_2" {
   source = "./kvm-etcd-server"
   name = "ferlab-etcd-2"
-  vcpus = local.params.etcd_vcpus
-  memory = local.params.etcd_memory
+  vcpus = local.params.etcd.vcpus
+  memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_2.id
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
-    ip = local.params.etcd_addresses.1.ip
-    mac = local.params.etcd_addresses.1.mac
+    ip = local.params.etcd.addresses.1.ip
+    mac = local.params.etcd.addresses.1.mac
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
@@ -90,15 +90,15 @@ module "etcd_2" {
     initial_token   = "etcd"
     initial_members = [
       {
-        ip = local.params.etcd_addresses.0.ip
+        ip = local.params.etcd.addresses.0.ip
         name = "ferlab-etcd-1"
       },
       {
-        ip = local.params.etcd_addresses.1.ip
+        ip = local.params.etcd.addresses.1.ip
         name = "ferlab-etcd-2"
       },
       {
-        ip = local.params.etcd_addresses.2.ip
+        ip = local.params.etcd.addresses.2.ip
         name = "ferlab-etcd-3"
       }
     ]
@@ -125,14 +125,14 @@ resource "libvirt_volume" "etcd_3" {
 module "etcd_3" {
   source = "./kvm-etcd-server"
   name = "ferlab-etcd-3"
-  vcpus = local.params.etcd_vcpus
-  memory = local.params.etcd_memory
+  vcpus = local.params.etcd.vcpus
+  memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_3.id
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
-    ip = local.params.etcd_addresses.2.ip
-    mac = local.params.etcd_addresses.2.mac
+    ip = local.params.etcd.addresses.2.ip
+    mac = local.params.etcd.addresses.2.mac
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
@@ -143,15 +143,15 @@ module "etcd_3" {
     initial_token   = "etcd"
     initial_members = [
       {
-        ip = local.params.etcd_addresses.0.ip
+        ip = local.params.etcd.addresses.0.ip
         name = "ferlab-etcd-1"
       },
       {
-        ip = local.params.etcd_addresses.1.ip
+        ip = local.params.etcd.addresses.1.ip
         name = "ferlab-etcd-2"
       },
       {
-        ip = local.params.etcd_addresses.2.ip
+        ip = local.params.etcd.addresses.2.ip
         name = "ferlab-etcd-3"
       } 
     ]

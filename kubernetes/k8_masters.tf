@@ -1,5 +1,5 @@
 resource "libvirt_volume" "kubernetes_masters" {
-  count            = local.params.k8_masters_count
+  count            = local.params.kubernetes.masters.count
   name             = "ferlab-kubernetes-master-${count.index + 1}"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -9,11 +9,11 @@ resource "libvirt_volume" "kubernetes_masters" {
 }
 
 module "kubernetes_masters" {
-  count  = local.params.k8_masters_count
+  count  = local.params.kubernetes.masters.count
   source = "./kvm-kubernetes-node"
   name = "ferlab-kubernetes-master-${count.index + 1}"
-  vcpus = local.params.k8_masters_vcpus
-  memory = local.params.k8_masters_memory
+  vcpus = local.params.kubernetes.masters.vcpus
+  memory = local.params.kubernetes.masters.memory
   volume_id = libvirt_volume.kubernetes_masters[count.index].id
   libvirt_network = {
     network_name = "ferlab"

@@ -10,8 +10,8 @@ resource "libvirt_volume" "coredns_1" {
 module "coredns_1" {
   source = "./kvm-coredns-server"
   name = "ferlab-coredns-1"
-  vcpus = local.params.coredns_vcpus
-  memory = local.params.coredns_memory
+  vcpus = local.params.coredns.vcpus
+  memory = local.params.coredns.memory
   volume_id = libvirt_volume.coredns_1.id
   libvirt_network = {
     network_name = "ferlab"
@@ -24,7 +24,7 @@ module "coredns_1" {
   admin_user_password = local.params.virsh_console_password
   etcd = {
     key_prefix = "/ferlab/coredns/"
-    endpoints = [for etcd in local.params.etcd_addresses: "${etcd.ip}:2379"]
+    endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
     ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
     client = {
       certificate = ""

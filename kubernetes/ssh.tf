@@ -6,5 +6,5 @@ resource "tls_private_key" "admin_ssh" {
 resource "local_file" "admin_ssh" {
   content         = tls_private_key.admin_ssh.private_key_openssh
   file_permission = "0600"
-  filename        = "${path.module}/../shared/coredns_ssh_key"
+  filename        = "${path.module}/../shared/kubernetes_ssh_key"
 }

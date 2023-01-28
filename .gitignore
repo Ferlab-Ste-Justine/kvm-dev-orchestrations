@@ -7,4 +7,5 @@ shared/*.key
 shared/*.pem
 shared/*_password
 shared/*_key_algorithm
+shared/*.md
 shared/kubeconfig

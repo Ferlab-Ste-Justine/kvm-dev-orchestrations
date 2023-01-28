@@ -8,4 +8,5 @@ shared/*.pem
 shared/*_password
 shared/*_key_algorithm
 shared/*.md
+shared/*_ssh_key
 shared/kubeconfig

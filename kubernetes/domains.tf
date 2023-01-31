@@ -23,5 +23,9 @@ module "kubernetes_domain" {
       prefix = "workers"
       ip = worker.address
     }],
+    [{
+      prefix = "tunnel"
+      ip = "127.0.0.1"
+    }],
   )
 }

@@ -60,6 +60,12 @@ To setup a kubernetes cluster, perform the following step: Go to the **kubernete
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, a **kubeconfig** file will have been generated in the **shared** directory that you can use with **kubectl** to access the kubernetes masters' api.
 
+## Tunnel support
+
+By setting the load balancer to **true** in the parameters, the load balancer will only be accessible via ssh tunneling.
+
+A **tunnel_config.json** and **auth_secret** file will be generated in the **shared directory**, providing the required configurations for the following project: https://github.com/Ferlab-Ste-Justine/ssh-tunnel-client
+
 # Caveats
 
 Unlike with macvtap interfaces, libvirt networks keep assignment records and don't seem to like it so much when the ip/mac address mappings change.

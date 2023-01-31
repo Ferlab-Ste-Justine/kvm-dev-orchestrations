@@ -7,7 +7,11 @@ module "kubernetes_installation" {
   worker_ips = [for elem in data.netaddr_address_ipv4.k8_workers: elem.address]
   bastion_external_ip = data.netaddr_address_ipv4.k8_bastion.0.address
   load_balancer_ips = concat(
-    ["k8.ferlab.local", data.netaddr_address_ipv4.k8_lb.0.address]
+    [
+        "k8.ferlab.local",
+        "tunnel.k8.ferlab.local",
+        data.netaddr_address_ipv4.k8_lb.0.address
+    ]
   )
   bastion_key_pair = {
     private_key = tls_private_key.admin_ssh.private_key_openssh

@@ -51,5 +51,15 @@
         "vcpus": 8,
         "memory": 8192
       }
+    },
+    "postgres": {
+      "servers": {
+        "vcpus": 1,
+        "memory": 4096
+      },
+      "load_balancer": {
+        "vcpus": 1,
+        "memory": 4096
+      }
     }
 }

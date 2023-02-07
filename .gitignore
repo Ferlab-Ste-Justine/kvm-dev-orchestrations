@@ -5,6 +5,7 @@
 */.terraform.lock.hcl
 shared/*.key
 shared/*.pem
+shared/*.crt
 shared/*_password
 shared/*_key_algorithm
 shared/*.md

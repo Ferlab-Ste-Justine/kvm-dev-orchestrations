@@ -22,3 +22,10 @@ resource "etcd_user" "patroni" {
     password = random_password.patroni_etcd_password.result
     roles = [etcd_role.patroni.name]
 }
+
+resource "etcd_range_scoped_state" "patroni" {
+    key = data.etcd_prefix_range_end.patroni.key
+    range_end = data.etcd_prefix_range_end.patroni.range_end
+    clear_on_creation = true
+    clear_on_deletion = true
+}

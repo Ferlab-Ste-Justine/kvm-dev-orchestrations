@@ -55,7 +55,45 @@
     "postgres": {
       "servers": {
         "vcpus": 1,
-        "memory": 2048
+        "memory": 2048,
+        "params": [
+          {
+            "key": "max_connections",
+            "value": "100"
+          },
+          {
+            "key": "effective_cache_size",
+            "value": "1GB"
+          },
+          {
+            "key": "shared_buffers",
+            "value": "500MB"
+          },
+          {
+            "key": "max_wal_size",
+            "value": "1GB"
+          },
+          {
+            "key": "checkpoint_timeout",
+            "value": "30min"
+          },
+          {
+            "key": "checkpoint_warning",
+            "value": "10min"
+          },
+          {
+            "key": "checkpoint_completion_target",
+            "value": "0.9"
+          },
+          {
+            "key": "work_mem",
+            "value": "2MB"
+          },
+          {
+            "key": "maintenance_work_mem",
+            "value": "56MB"
+          }
+        ]
       },
       "load_balancer": {
         "vcpus": 1,

@@ -28,7 +28,7 @@ module "postgres_1" {
     superuser_password = random_password.postgres_root_password.result
     ca = module.postgres_ca
     certificate = {
-      domains = ["server.postgres.local", "load-balancer.postgres.local", data.netaddr_address_ipv4.postgres_lb.0.address]
+      domains = ["postgres.ferlab.local", "load-balancer.postgres.ferlab.local", "server.postgres.ferlab.local", data.netaddr_address_ipv4.postgres_lb.0.address]
       extra_ips = [data.netaddr_address_ipv4.postgres_lb.0.address]
       organization = "Ferlab"
       validity_period = 100*365*24
@@ -89,7 +89,7 @@ module "postgres_2" {
     superuser_password = random_password.postgres_root_password.result
     ca = module.postgres_ca
     certificate = {
-      domains = ["server.postgres.local", "load-balancer.postgres.local", data.netaddr_address_ipv4.postgres_lb.0.address]
+      domains = ["postgres.ferlab.local", "load-balancer.postgres.ferlab.local", "server.postgres.ferlab.local", data.netaddr_address_ipv4.postgres_lb.0.address]
       extra_ips = [data.netaddr_address_ipv4.postgres_lb.0.address]
       organization = "Ferlab"
       validity_period = 100*365*24
@@ -150,7 +150,7 @@ module "postgres_3" {
     superuser_password = random_password.postgres_root_password.result
     ca = module.postgres_ca
     certificate = {
-      domains = ["server.postgres.local", "load-balancer.postgres.local", data.netaddr_address_ipv4.postgres_lb.0.address]
+      domains = ["postgres.ferlab.local", "load-balancer.postgres.ferlab.local", "server.postgres.ferlab.local", data.netaddr_address_ipv4.postgres_lb.0.address]
       extra_ips = [data.netaddr_address_ipv4.postgres_lb.0.address]
       organization = "Ferlab"
       validity_period = 100*365*24

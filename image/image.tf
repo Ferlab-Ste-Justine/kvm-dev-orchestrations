@@ -1,5 +1,5 @@
-resource "libvirt_volume" "ubuntu_focal_2022_12_13" {
-  name   = "ubuntu-focal-2022-12-13"
+resource "libvirt_volume" "ubuntu_jammy_2023_02_10" {
+  name   = "ubuntu-jammy-2023-02-10"
   pool   = "default"
-  source = "http://cloud-images.ubuntu.com/releases/focal/release-20221213/ubuntu-20.04-server-cloudimg-amd64.img"
+  source = "https://cloud-images.ubuntu.com/releases/jammy/release-20230210/ubuntu-22.04-server-cloudimg-amd64.img"
 }

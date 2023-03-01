@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs
+spec:
+  storageClass: nfs
+  persistentVolumeReclaimPolicy: Retain
+  capacity:
+   storage: 100Mi
+  accessModes:
+   - ReadWriteMany
+  nfs:
+    path: /opt/fs
+    server: "127.0.0.1"
+  mountOptions:
+    - nfsvers=4.2
+    - hard
+    - rw

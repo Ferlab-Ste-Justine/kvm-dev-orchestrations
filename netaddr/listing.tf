@@ -4,7 +4,9 @@ data "netaddr_address_list_ipv4" "ip" {
     netaddr_address_ipv4.coredns,
     netaddr_address_ipv4.k8_masters,
     netaddr_address_ipv4.k8_workers,
-    netaddr_address_ipv4.k8_lb
+    netaddr_address_ipv4.k8_lb,
+    netaddr_address_ipv4.postgres,
+    netaddr_address_ipv4.nfs,
   ]
 }
 

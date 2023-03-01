@@ -49,7 +49,8 @@
       "workers": {
         "count": 3,
         "vcpus": 8,
-        "memory": 8192
+        "memory": 8192,
+        "nfs_tunnel": false
       }
     },
     "postgres": {
@@ -99,5 +100,9 @@
         "vcpus": 1,
         "memory": 4096
       }
+    },
+    "nfs": {
+      "vcpus": 1,
+      "memory": 4096
     }
 }

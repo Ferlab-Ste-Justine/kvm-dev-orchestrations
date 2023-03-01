@@ -1,3 +1,34 @@
+resource "tls_private_key" "nfs_tunnel_client_key" {
+  count = local.params.kubernetes.workers.nfs_tunnel ? 1 : 0
+  algorithm   = "RSA"
+  rsa_bits    = 4096
+}
+
+resource "tls_cert_request" "nfs_tunnel_client_request" {
+  count = local.params.kubernetes.workers.nfs_tunnel ? 1 : 0
+  private_key_pem = tls_private_key.nfs_tunnel_client_key.0.private_key_pem
+  subject {
+    common_name  = "nfs-client"
+    organization = "Ferlab"
+  }
+}
+
+resource "tls_locally_signed_cert" "nfs_tunnel_client_certificate" {
+  count = local.params.kubernetes.workers.nfs_tunnel ? 1 : 0
+  cert_request_pem   = tls_cert_request.nfs_tunnel_client_request.0.cert_request_pem
+  ca_private_key_pem = file("${path.module}/../shared/nfs-ca.key")
+  ca_cert_pem        = file("${path.module}/../shared/nfs-ca.crt")
+
+  validity_period_hours = 365 * 24
+  early_renewal_hours = 14 * 24
+
+  allowed_uses = [
+    "client_auth"
+  ]
+
+  is_ca_certificate = false
+}
+
 resource "libvirt_volume" "kubernetes_workers" {
   count            = local.params.kubernetes.workers.count
   name             = "ferlab-kubernetes-worker-${count.index + 1}"
@@ -24,4 +55,15 @@ module "kubernetes_workers" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
+  nfs_tunnel = {
+    enabled            = local.params.kubernetes.workers.nfs_tunnel
+    server_domain      = "nfs.ferlab.local"
+    server_port        = 2050
+    client_key         = local.params.kubernetes.workers.nfs_tunnel ? tls_private_key.nfs_tunnel_client_key.0.private_key_pem : ""
+    client_certificate = local.params.kubernetes.workers.nfs_tunnel ? tls_locally_signed_cert.nfs_tunnel_client_certificate.0.cert_pem : ""
+    ca_certificate     = local.params.kubernetes.workers.nfs_tunnel ? file("${path.module}/../shared/nfs-ca.crt") : ""
+    nameserver_ips     = [data.netaddr_address_ipv4.coredns.0.address]
+    max_connections    = 200
+    idle_timeout       = "600s"
+  }
 }

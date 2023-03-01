@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-mount
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-mount
+  template:
+    metadata:
+      labels:
+        app: nfs-mount
+    spec:
+      volumes:
+        - name: nfs
+          persistentVolumeClaim:
+            claimName: nfs
+      containers:
+        - name: nfs-mount
+          image: ubuntu:22.04
+          command: ["sleep", "infinity"]
+          volumeMounts:
+            - name: nfs
+              mountPath: "/opt/fs"

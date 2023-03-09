@@ -12,6 +12,7 @@
     "etcd": {
       "vcpus": 1,
       "memory": 512,
+      "data_volumes": false,
       "addresses": [
         {
           "mac": "aa:00:00:00:00:00",

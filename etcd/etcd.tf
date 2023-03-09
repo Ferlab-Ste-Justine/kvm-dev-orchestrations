@@ -1,11 +1,11 @@
 locals {
   params = jsondecode(file("${path.module}/../shared/params.json"))
+  is_initializing = true
 }
 
 resource "libvirt_volume" "etcd_1" {
   name             = "ferlab-etcd-1"
   pool             = "default"
-  // 30 GiB
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
   base_volume_name = "ubuntu-focal-2022-12-13"
@@ -18,6 +18,7 @@ module "etcd_1" {
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_1.id
+  data_volume_id = local.params.etcd.data_volumes ? libvirt_volume.etcd_1_data.0.id : ""
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
@@ -28,12 +29,12 @@ module "etcd_1" {
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
   authentication_bootstrap = {
-    bootstrap = true
+    bootstrap     = local.is_initializing
     root_password = random_password.etcd_root_password.result
   }
   ca = module.etcd_ca
   cluster = {
-    is_initializing = true
+    is_initializing = local.is_initializing
     initial_token   = "etcd"
     initial_members = [
       {
@@ -62,11 +63,10 @@ module "etcd_1" {
 resource "libvirt_volume" "etcd_2" {
   name             = "ferlab-etcd-2"
   pool             = "default"
-  // 30 GiB
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
   base_volume_name = "ubuntu-focal-2022-12-13"
-  format = "qcow2"
+  format           = "qcow2"
 }
 
 module "etcd_2" {
@@ -75,6 +75,7 @@ module "etcd_2" {
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_2.id
+  data_volume_id = local.params.etcd.data_volumes ? libvirt_volume.etcd_2_data.0.id : ""
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
@@ -115,11 +116,10 @@ module "etcd_2" {
 resource "libvirt_volume" "etcd_3" {
   name             = "ferlab-etcd-3"
   pool             = "default"
-  // 30 GiB
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
   base_volume_name = "ubuntu-focal-2022-12-13"
-  format = "qcow2"
+  format           = "qcow2"
 }
 
 module "etcd_3" {
@@ -128,6 +128,7 @@ module "etcd_3" {
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_3.id
+  data_volume_id = local.params.etcd.data_volumes ? libvirt_volume.etcd_3_data.0.id : ""
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
@@ -139,7 +140,7 @@ module "etcd_3" {
   admin_user_password = local.params.virsh_console_password
   ca = module.etcd_ca
   cluster = {
-    is_initializing = true
+    is_initializing = local.is_initializing
     initial_token   = "etcd"
     initial_members = [
       {

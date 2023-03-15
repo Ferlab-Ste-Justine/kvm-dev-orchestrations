@@ -58,6 +58,7 @@
       "servers": {
         "vcpus": 1,
         "memory": 4096,
+        "data_volumes": false,
         "params": [
           {
             "key": "max_connections",

@@ -13,6 +13,7 @@ module "postgres_1" {
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
   volume_id = libvirt_volume.postgres_1.id
+  data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_1_data.0.id : ""
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
@@ -37,7 +38,7 @@ module "postgres_1" {
     }
   }
   etcd = {
-    hosts = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
+    endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
     ca_cert = file("${path.module}/../shared/etcd-ca.pem")
     username = etcd_user.patroni.username
     password = etcd_user.patroni.password
@@ -74,6 +75,7 @@ module "postgres_2" {
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
   volume_id = libvirt_volume.postgres_2.id
+  data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_2_data.0.id : ""
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
@@ -98,7 +100,7 @@ module "postgres_2" {
     }
   }
   etcd = {
-    hosts = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
+    endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
     ca_cert = file("${path.module}/../shared/etcd-ca.pem")
     username = etcd_user.patroni.username
     password = etcd_user.patroni.password
@@ -135,6 +137,7 @@ module "postgres_3" {
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
   volume_id = libvirt_volume.postgres_3.id
+  data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_3_data.0.id : ""
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""
@@ -159,7 +162,7 @@ module "postgres_3" {
     }
   }
   etcd = {
-    hosts = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
+    endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
     ca_cert = file("${path.module}/../shared/etcd-ca.pem")
     username = etcd_user.patroni.username
     password = etcd_user.patroni.password

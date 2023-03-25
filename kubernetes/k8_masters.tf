@@ -10,7 +10,7 @@ resource "libvirt_volume" "kubernetes_masters" {
 
 module "kubernetes_masters" {
   count  = local.params.kubernetes.masters.count
-  source = "./kvm-kubernetes-node"
+  source = "./terraform-libvirt-kubernetes-node"
   name = "ferlab-kubernetes-master-${count.index + 1}"
   vcpus = local.params.kubernetes.masters.vcpus
   memory = local.params.kubernetes.masters.memory

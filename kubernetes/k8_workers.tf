@@ -41,7 +41,7 @@ resource "libvirt_volume" "kubernetes_workers" {
 
 module "kubernetes_workers" {
   count  = local.params.kubernetes.workers.count
-  source = "./kvm-kubernetes-node"
+  source = "./terraform-libvirt-kubernetes-node"
   name = "ferlab-kubernetes-worker-${count.index + 1}"
   vcpus = local.params.kubernetes.workers.vcpus
   memory = local.params.kubernetes.workers.memory

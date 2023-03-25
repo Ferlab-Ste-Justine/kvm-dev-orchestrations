@@ -7,12 +7,6 @@
 [submodule "kubernetes/kubernetes-installation"]
 	path = kubernetes/kubernetes-installation
 	url = git@github.com:Ferlab-Ste-Justine/kubernetes-installation.git
-[submodule "kubernetes/kvm-kubernetes-load-balancer"]
-	path = kubernetes/kvm-kubernetes-load-balancer
-	url = git@github.com:Ferlab-Ste-Justine/kvm-kubernetes-load-balancer.git
-[submodule "kubernetes/kvm-kubernetes-node"]
-	path = kubernetes/kvm-kubernetes-node
-	url = git@github.com:Ferlab-Ste-Justine/kvm-kubernetes-node.git
 [submodule "kubernetes/kvm-bastion"]
 	path = kubernetes/kvm-bastion
 	url = git@github.com:Ferlab-Ste-Justine/kvm-bastion.git
@@ -31,3 +25,12 @@
 [submodule "nfs/terraform-libvirt-nfs-server"]
 	path = nfs/terraform-libvirt-nfs-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-nfs-server.git
+[submodule "kubernetes/terraform-libvirt-kubernetes-node"]
+	path = kubernetes/terraform-libvirt-kubernetes-node
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-kubernetes-node.git
+[submodule "kubernetes/terraform-libvirt-transport-load-balancer"]
+	path = kubernetes/terraform-libvirt-transport-load-balancer
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-transport-load-balancer.git
+[submodule "kubernetes/terraform-etcd-envoy-transport-configuration"]
+	path = kubernetes/terraform-etcd-envoy-transport-configuration
+	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git

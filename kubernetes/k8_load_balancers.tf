@@ -24,6 +24,68 @@ resource "local_file" "tunnel_secret" {
   filename        = "${path.module}/../shared/auth_secret"
 }
 
+module "kubernetes_lb_configs" {
+  source = "./terraform-etcd-envoy-transport-configuration"
+  etcd_prefix = data.etcd_prefix_range_end.kubernetes_load_balancer.key
+  node_id = "kubernetes-local"
+  load_balancer = {
+    services = [
+      {
+        name = "masters"
+        listening_ip = "0.0.0.0"
+        listening_port = 6443
+        cluster_domain = "masters.k8.ferlab.local"
+        cluster_port = 6443
+        idle_timeout = "60s"
+        max_connections = 100
+        access_log_format = "[%START_TIME%][Connection] %DOWNSTREAM_REMOTE_ADDRESS% to %UPSTREAM_HOST% (cluster %UPSTREAM_CLUSTER%). Error flags: %RESPONSE_FLAGS%\n"
+        health_check = {
+          timeout = "3s"
+          interval = "3s"
+          healthy_threshold = 1
+          unhealthy_threshold = 2
+        }
+      },
+      {
+        name = "workers-ingress-http"
+        listening_ip = "0.0.0.0"
+        listening_port = 80
+        cluster_domain = "workers.k8.ferlab.local"
+        cluster_port = 30000
+        idle_timeout = "60s"
+        max_connections = 100
+        access_log_format = "[%START_TIME%][Connection] %DOWNSTREAM_REMOTE_ADDRESS% to %UPSTREAM_HOST% (cluster %UPSTREAM_CLUSTER%). Error flags: %RESPONSE_FLAGS%\n"
+        health_check = {
+          timeout = "3s"
+          interval = "3s"
+          healthy_threshold = 1
+          unhealthy_threshold = 2
+        }
+      },
+      {
+        name = "workers-ingress-https"
+        listening_ip = "0.0.0.0"
+        listening_port = 443
+        cluster_domain = "workers.k8.ferlab.local"
+        cluster_port = 30001
+        idle_timeout = "300s"
+        max_connections = 1000
+        access_log_format = "[%START_TIME%][Connection] %DOWNSTREAM_REMOTE_ADDRESS% to %UPSTREAM_HOST% (cluster %UPSTREAM_CLUSTER%). Error flags: %RESPONSE_FLAGS%\n"
+        health_check = {
+          timeout = "3s"
+          interval = "3s"
+          healthy_threshold = 1
+          unhealthy_threshold = 2
+        }
+      }
+    ]
+    dns_servers = [{
+      ip = data.netaddr_address_ipv4.coredns.0.address
+      port = 53
+    }]
+  }
+}
+
 resource "libvirt_volume" "kubernetes_lb_1" {
   name             = "ferlab-kubernetes-lb-1"
   pool             = "default"
@@ -34,7 +96,7 @@ resource "libvirt_volume" "kubernetes_lb_1" {
 }
 
 module "kubernetes_lb_1" {
-  source = "./kvm-kubernetes-load-balancer"
+  source = "./terraform-libvirt-transport-load-balancer"
   name = "ferlab-kubernetes-lb-1"
   vcpus = local.params.kubernetes.load_balancer.vcpus
   memory = local.params.kubernetes.load_balancer.memory
@@ -48,13 +110,36 @@ module "kubernetes_lb_1" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
-  k8_nameserver_ips = [data.netaddr_address_ipv4.coredns.0.address]
-  k8_domain = "k8.ferlab.local"
-  k8_masters_api_timeout = "30m"
-  k8_workers_ingress_http_timeout = "60s"
-  k8_workers_ingress_https_timeout = "5m"
-  k8_workers_ingress_max_https_connections = 2000
-  tunnel = {
+  load_balancer = {
+    cluster = "kubernetes-local"
+    node_id = "kubernetes-local"
+  }
+  control_plane = {
+    log_level        = "info"
+    version_fallback = "etcd"
+    server           = {
+      port                = 18000
+      max_connections     = 100
+      keep_alive_time     = "30s"
+      keep_alive_timeout  = "5s"
+      keep_alive_min_time = "30s"
+    }
+    etcd        = {
+      key_prefix         = data.etcd_prefix_range_end.kubernetes_load_balancer.key
+      endpoints          = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
+      connection_timeout = "30s"
+      request_timeout    = "30s"
+      retries            = 10
+      ca_certificate     = file("${path.module}/../shared/etcd-ca.pem")
+      client             = {
+        certificate = ""
+        key         = ""
+        username    = etcd_user.kubernetes_load_balancer.username
+        password    = etcd_user.kubernetes_load_balancer.password
+      }
+    }
+  }
+  ssh_tunnel = {
     enabled = local.params.kubernetes.load_balancer.tunnel
     ssh = {
       user = "tunnel"

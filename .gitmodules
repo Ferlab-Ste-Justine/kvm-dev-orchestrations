@@ -28,6 +28,6 @@
 [submodule "postgres/kvm-postgres-load-balancer"]
 	path = postgres/kvm-postgres-load-balancer
 	url = git@github.com:Ferlab-Ste-Justine/kvm-postgres-load-balancer.git
-[submodule "nfs/kvm-nfs-server"]
-	path = nfs/kvm-nfs-server
-	url = git@github.com:Ferlab-Ste-Justine/kvm-nfs-server.git
+[submodule "nfs/terraform-libvirt-nfs-server"]
+	path = nfs/terraform-libvirt-nfs-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-nfs-server.git

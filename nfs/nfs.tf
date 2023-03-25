@@ -8,7 +8,7 @@ resource "libvirt_volume" "nfs" {
 }
 
 module "nfs" {
-  source = "./kvm-nfs-server"
+  source = "./terraform-libvirt-nfs-server"
   name = "ferlab-nfs"
   vcpus = local.params.nfs.vcpus
   memory = local.params.nfs.memory

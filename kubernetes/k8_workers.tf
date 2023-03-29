@@ -16,8 +16,8 @@ resource "tls_cert_request" "nfs_tunnel_client_request" {
 resource "tls_locally_signed_cert" "nfs_tunnel_client_certificate" {
   count = local.params.kubernetes.workers.nfs_tunnel ? 1 : 0
   cert_request_pem   = tls_cert_request.nfs_tunnel_client_request.0.cert_request_pem
-  ca_private_key_pem = file("${path.module}/../shared/nfs-ca.key")
-  ca_cert_pem        = file("${path.module}/../shared/nfs-ca.crt")
+  ca_private_key_pem = local.params.kubernetes.workers.nfs_tunnel ? file("${path.module}/../shared/nfs-ca.key") : ""
+  ca_cert_pem        = local.params.kubernetes.workers.nfs_tunnel ? file("${path.module}/../shared/nfs-ca.crt") : ""
 
   validity_period_hours = 365 * 24
   early_renewal_hours = 14 * 24
@@ -35,7 +35,7 @@ resource "libvirt_volume" "kubernetes_workers" {
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
-  base_volume_name = "ubuntu-focal-2022-12-13"
+  base_volume_name = "ubuntu-jammy-2023-02-10"
   format = "qcow2"
 }
 

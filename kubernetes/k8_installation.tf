@@ -1,7 +1,6 @@
 module "kubernetes_installation" {
-  source = "./kubernetes-installation"
+  source = "./terraform-null-kubernetes-installation"
   k8_cluster_name = "ferlab"
-  k8_version = "v1.20.7"
   ingress_arguments = ["--enable-ssl-passthrough"]
   master_ips = [for elem in data.netaddr_address_ipv4.k8_masters: elem.address]
   worker_ips = [for elem in data.netaddr_address_ipv4.k8_workers: elem.address]
@@ -26,6 +25,7 @@ module "kubernetes_installation" {
   etcd_ca_private_key = tls_private_key.k8_etcd_ca.private_key_pem
   front_proxy_ca_certificate = module.k8_certificates.front_proxy_ca_certificate
   front_proxy_ca_private_key = tls_private_key.k8_front_proxy_ca.private_key_pem
+  custom_container_repos = local.custom_container_repos
   depends_on = [
     module.kubernetes_masters,
     module.kubernetes_workers,

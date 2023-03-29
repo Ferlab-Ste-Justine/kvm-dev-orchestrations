@@ -4,9 +4,6 @@
 [submodule "coredns/kvm-coredns-server"]
 	path = coredns/kvm-coredns-server
 	url = git@github.com:Ferlab-Ste-Justine/kvm-coredns-server.git
-[submodule "kubernetes/kubernetes-installation"]
-	path = kubernetes/kubernetes-installation
-	url = git@github.com:Ferlab-Ste-Justine/kubernetes-installation.git
 [submodule "kubernetes/kvm-bastion"]
 	path = kubernetes/kvm-bastion
 	url = git@github.com:Ferlab-Ste-Justine/kvm-bastion.git
@@ -34,3 +31,6 @@
 [submodule "kubernetes/terraform-etcd-envoy-transport-configuration"]
 	path = kubernetes/terraform-etcd-envoy-transport-configuration
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git
+[submodule "kubernetes/terraform-null-kubernetes-installation"]
+	path = kubernetes/terraform-null-kubernetes-installation
+	url = git@github.com:Ferlab-Ste-Justine/terraform-null-kubernetes-installation.git

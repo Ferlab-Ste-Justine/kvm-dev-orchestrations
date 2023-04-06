@@ -1,5 +1,5 @@
 module "postgres_ca" {
-  source = "./ca"
+  source = "../ca"
   common_name = "postgres"
 }
 

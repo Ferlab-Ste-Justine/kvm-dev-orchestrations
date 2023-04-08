@@ -7,9 +7,6 @@
 [submodule "kubernetes/kvm-bastion"]
 	path = kubernetes/kvm-bastion
 	url = git@github.com:Ferlab-Ste-Justine/kvm-bastion.git
-[submodule "kubernetes/kubernetes-certificates"]
-	path = kubernetes/kubernetes-certificates
-	url = git@github.com:Ferlab-Ste-Justine/kubernetes-certificates.git
 [submodule "kubernetes/kubernetes-client-config"]
 	path = kubernetes/kubernetes-client-config
 	url = git@github.com:Ferlab-Ste-Justine/kubernetes-client-config.git
@@ -34,3 +31,6 @@
 [submodule "kubernetes/terraform-null-kubernetes-installation"]
 	path = kubernetes/terraform-null-kubernetes-installation
 	url = git@github.com:Ferlab-Ste-Justine/terraform-null-kubernetes-installation.git
+[submodule "kubernetes/terraform-tls-kubernetes-certificates"]
+	path = kubernetes/terraform-tls-kubernetes-certificates
+	url = git@github.com:Ferlab-Ste-Justine/terraform-tls-kubernetes-certificates.git

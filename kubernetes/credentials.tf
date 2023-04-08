@@ -19,7 +19,7 @@ resource "tls_private_key" "k8_client" {
 }
 
 module "k8_certificates" {
-  source = "./kubernetes-certificates"
+  source = "./terraform-tls-kubernetes-certificates"
   ca_key = tls_private_key.k8_ca.private_key_pem
   etcd_ca_key = tls_private_key.k8_etcd_ca.private_key_pem
   front_proxy_ca_key = tls_private_key.k8_front_proxy_ca.private_key_pem

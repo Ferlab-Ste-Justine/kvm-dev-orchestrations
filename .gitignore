@@ -6,6 +6,7 @@
 shared/*.key
 shared/*.pem
 shared/*.crt
+shared/*.p12
 shared/*_password
 shared/*_key_algorithm
 shared/*.md

@@ -34,3 +34,9 @@
 [submodule "kubernetes/terraform-tls-kubernetes-certificates"]
 	path = kubernetes/terraform-tls-kubernetes-certificates
 	url = git@github.com:Ferlab-Ste-Justine/terraform-tls-kubernetes-certificates.git
+[submodule "terraform-libvirt-vault-server"]
+	path = vault/terraform-libvirt-vault-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-vault-server.git
+[submodule "vault/terraform-libvirt-vault-load-balancer"]
+	path = vault/terraform-libvirt-vault-load-balancer
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-vault-load-balancer.git

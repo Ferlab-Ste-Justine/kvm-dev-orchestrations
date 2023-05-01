@@ -106,5 +106,17 @@
     "nfs": {
       "vcpus": 1,
       "memory": 4096
+    },
+    "vault": {
+      "servers": {
+        "count": 3,
+        "vcpus": 1,
+        "memory": 1024
+      },
+      "load_balancer": {
+        "vcpus": 1,
+        "memory": 1024
+      },
+      "pkcs12_password": "test"
     }
 }

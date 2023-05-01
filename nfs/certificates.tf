@@ -1,5 +1,5 @@
 module "nfs_ca" {
-  source = "./ca"
+  source = "../ca"
   common_name = "nfs"
 }
 

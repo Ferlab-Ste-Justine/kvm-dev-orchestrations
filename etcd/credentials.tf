@@ -1,5 +1,5 @@
 module "etcd_ca" {
-  source = "./ca"
+  source = "../ca"
   common_name = "etcd"
 }
 

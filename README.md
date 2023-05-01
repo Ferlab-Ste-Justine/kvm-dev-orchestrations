@@ -60,11 +60,33 @@ To setup a kubernetes cluster, perform the following step: Go to the **kubernete
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, a **kubeconfig** file will have been generated in the **shared** directory that you can use with **kubectl** to access the kubernetes masters' api.
 
-## Tunnel support
+### Tunnel support
 
 By setting the load balancer to **true** in the parameters, the load balancer will only be accessible via ssh tunneling.
 
 A **tunnel_config.json** and **auth_secret** file will be generated in the **shared directory**, providing the required configurations for the following project: https://github.com/Ferlab-Ste-Justine/ssh-tunnel-client
+
+## Vault
+
+To setup a vault cluster, perform the following step: Go to the **vault** directory and run `terraform init && terraform apply`
+
+Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access:
+- the servers: https://vault-server-1.ferlab.local:8200 / https://vault-server-2.ferlab.local:8200 / https://vault-server-3.ferlab.local:8200 / ...
+- the load balancer: https://vault.ferlab.local
+
+Before vault is operational, it needs to be initialized and each of it's server unsealed. Example of the ui steps for 3 servers:
+- Add the CA certificate found at **shared/vault-ca.crt** to your browser
+- If you have set **client_auth** to **true**, add the client certificate found at **shared/vault.p12** to your browser as well
+- Connect to https://vault-server-1.ferlab.local:8200:
+  - enter 1 for **Key shares** and 1 for **Key threshold** then click **Initialize**
+  - take note of **Initial root token** and **Key 1** values then click **Continue to Unseal**
+  - enter **Key 1** value for **Unseal Key Portion** then click **Unseal**
+- Connect to https://vault-server-2.ferlab.local:8200:
+  - enter **Key 1** value for **Unseal Key Portion** then click **Unseal**
+- Connect to https://vault-server-3.ferlab.local:8200:
+  - enter **Key 1** value for **Unseal Key Portion** then click **Unseal**
+- Connect to https://vault.ferlab.local:
+  - enter **Initial root token** value for **Token** then click **Sign In**
 
 # Caveats
 

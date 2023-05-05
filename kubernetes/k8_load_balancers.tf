@@ -45,6 +45,10 @@ module "kubernetes_lb_configs" {
           healthy_threshold = 1
           unhealthy_threshold = 2
         }
+        tls_termination = {
+          listener_certificate = ""
+          listener_key = ""
+        }
       },
       {
         name = "workers-ingress-http"
@@ -61,6 +65,10 @@ module "kubernetes_lb_configs" {
           healthy_threshold = 1
           unhealthy_threshold = 2
         }
+        tls_termination = {
+          listener_certificate = ""
+          listener_key = ""
+        }
       },
       {
         name = "workers-ingress-https"
@@ -76,6 +84,10 @@ module "kubernetes_lb_configs" {
           interval = "3s"
           healthy_threshold = 1
           unhealthy_threshold = 2
+        }
+        tls_termination = {
+          listener_certificate = ""
+          listener_key = ""
         }
       }
     ]

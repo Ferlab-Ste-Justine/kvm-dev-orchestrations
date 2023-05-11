@@ -1,5 +1,5 @@
 {
-    "host_md5_fingerprint": "${ssh_fingerprint}",
+    "host_sha256_fingerprint": "${ssh_fingerprint}",
     "host_url": "${ip}:22",
     "host_user": "tunnel",
     "auth_method": "key",

@@ -9,7 +9,7 @@ resource "local_file" "tunnel_config" {
   content         = templatefile(
     "${path.module}/templates/tunnel_config.json.tpl",
     {
-      ssh_fingerprint = tls_private_key.server_ssh.0.public_key_fingerprint_md5
+      ssh_fingerprint = tls_private_key.server_ssh.0.public_key_fingerprint_sha256
       ip = data.netaddr_address_ipv4.k8_lb.0.address
     }
   )

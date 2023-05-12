@@ -19,6 +19,18 @@ data "netaddr_address_ipv4" "coredns" {
   name     = "ferlab-coredns-${count.index + 1}"
 }
 
+data "netaddr_address_ipv4" "vault_lb_tunnel" {
+  count    = local.params.vault.load_balancer.tunnel ? 1 : 0
+  range_id = data.netaddr_range_ipv4.ip.id
+  name     = "ferlab-vault-lb-tunnel"
+}
+
+data "netaddr_address_mac" "vault_lb_tunnel" {
+  count    = local.params.vault.load_balancer.tunnel ? 1 : 0
+  range_id = data.netaddr_range_mac.mac.id
+  name     = "ferlab-vault-lb-tunnel"
+}
+
 data "netaddr_address_ipv4" "vault_lb" {
   count    = 1
   range_id = data.netaddr_range_ipv4.ip.id

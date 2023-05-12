@@ -12,8 +12,8 @@ shared/*_key_algorithm
 shared/*.md
 shared/*_ssh_key
 shared/kubeconfig
-shared/tunnel_config.json
-shared/auth_secret
+shared/*tunnel_config.json
+shared/*auth_secret
 shared/sshtunnel
 kubernetes-orchestrations/*/terraform.tfstate
 kubernetes-orchestrations/*/terraform.tfstate.backup

@@ -1,3 +1,16 @@
+module "vault_lb_tunnel_domain" {
+  source          = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-zonefile.git"
+  domain          = "vault-tunnel.ferlab.local"
+  key_prefix      = "/ferlab/coredns/"
+  dns_server_name = "ns.ferlab.local."
+  a_records = concat(
+    [for lb in data.netaddr_address_ipv4.vault_lb_tunnel: {
+      prefix = ""
+      ip     = "127.0.0.1"
+    }]
+  )
+}
+
 module "vault_lb_domain" {
   source          = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-zonefile.git"
   domain          = "vault.ferlab.local"

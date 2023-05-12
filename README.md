@@ -62,7 +62,7 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, a **k
 
 ### Tunnel support
 
-By setting the load balancer to **true** in the parameters, the load balancer will only be accessible via ssh tunneling.
+By setting the tunnel to **true** in the load balancer parameters, the load balancer will only be accessible via ssh tunneling.
 
 A **tunnel_config.json** and **auth_secret** file will be generated in the **shared directory**, providing the required configurations for the following project: https://github.com/Ferlab-Ste-Justine/ssh-tunnel-client
 
@@ -87,6 +87,10 @@ Before vault is operational, it needs to be initialized and each of it's server 
   - enter **Key 1** value for **Unseal Key Portion** then click **Unseal**
 - Connect to https://vault.ferlab.local:
   - enter **Initial root token** value for **Token** then click **Sign In**
+
+### Tunnel support
+
+By setting the tunnel to **true** in the load balancer parameters, a particuliar load balancer will be added and only be accessible via ssh tunneling (with https://vault-tunnel.ferlab.local).
 
 # Caveats
 

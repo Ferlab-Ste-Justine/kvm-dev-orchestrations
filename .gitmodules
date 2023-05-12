@@ -23,10 +23,10 @@
 	path = kubernetes/terraform-libvirt-kubernetes-node
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-kubernetes-node.git
 [submodule "kubernetes/terraform-libvirt-transport-load-balancer"]
-	path = kubernetes/terraform-libvirt-transport-load-balancer
+	path = terraform-libvirt-transport-load-balancer
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-transport-load-balancer.git
 [submodule "kubernetes/terraform-etcd-envoy-transport-configuration"]
-	path = kubernetes/terraform-etcd-envoy-transport-configuration
+	path = terraform-etcd-envoy-transport-configuration
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git
 [submodule "kubernetes/terraform-null-kubernetes-installation"]
 	path = kubernetes/terraform-null-kubernetes-installation

@@ -115,7 +115,8 @@
       },
       "load_balancer": {
         "vcpus": 1,
-        "memory": 1024
+        "memory": 1024,
+        "tunnel": false
       },
       "pkcs12_password": "test"
     }

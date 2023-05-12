@@ -11,6 +11,7 @@ data "netaddr_address_list_ipv4" "ip" {
     netaddr_address_ipv4.nfs,
     netaddr_address_ipv4.vault_servers,
     netaddr_address_ipv4.vault_lb,
+    netaddr_address_ipv4.vault_lb_tunnel,
   ]
 }
 

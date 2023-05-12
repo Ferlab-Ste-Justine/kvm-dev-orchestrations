@@ -9,6 +9,14 @@
       "end": "192.168.55.254"
     },
     "virsh_console_password": "test",
+    "bootstrap_vm": {
+      "vcpus": 1,
+      "memory": 4096,
+      "address": {
+        "mac": "aa:00:00:00:00:03",
+        "ip": "192.168.55.5"
+      }
+    },
     "etcd": {
       "vcpus": 1,
       "memory": 512,

@@ -40,3 +40,6 @@
 [submodule "vault/terraform-libvirt-vault-load-balancer"]
 	path = vault/terraform-libvirt-vault-load-balancer
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-vault-load-balancer.git
+[submodule "bootstrap-vm/terraform-libvirt-automation-bootstrap"]
+	path = bootstrap-vm/terraform-libvirt-automation-bootstrap
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-automation-bootstrap.git

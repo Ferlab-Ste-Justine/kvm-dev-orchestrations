@@ -48,11 +48,17 @@ This translates into the following steps:
 
 ## Coredns
 
-Kubernetes, opensearch and postgres/patroni will also require a coredns setup.
+Nfs, kubernetes, postgres/patroni and vault will also require a coredns setup.
 
 This translates into the following step: Go to the **coredns** directory and run `terraform init && terraform apply`
 
 For a more seemless local experience after the coredns is running, you can temporarily add the dns' ip as **nameserver** in your **/etc/resolv.conf** file (it will always be the first assignable ip in your address range and it will use google's dns as backup for names it can't resolve). This will allow you to resolve all the domains locally against the dns.
+
+## NFS
+
+To setup a nfs server, perform the following step: Go to the **nfs** directory and run `terraform init && terraform apply`
+
+Note that a kubernetes orchestration can be found in the **kubernetes-orchestrations/nfs-volume** directory if needed for future troubleshooting.
 
 ## Kubernetes
 
@@ -65,6 +71,12 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, a **k
 By setting the tunnel to **true** in the load balancer parameters, the load balancer will only be accessible via ssh tunneling.
 
 A **kubernetes_tunnel_config.json** and **kubernetes_auth_secret** file will be generated in the **shared** directory, providing the required configurations for the following project: https://github.com/Ferlab-Ste-Justine/ssh-tunnel-client
+
+## Postgres/Patroni
+
+To setup a patroni/postgres cluster, perform the following step: Go to the **postgres** directory and run `terraform init && terraform apply`
+
+Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can create a test database by performing the following step: Go to the **postgres-conf** directory and run `terraform init && terraform apply`
 
 ## Vault
 

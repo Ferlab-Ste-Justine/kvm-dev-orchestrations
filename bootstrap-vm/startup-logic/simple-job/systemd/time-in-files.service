@@ -1,0 +1,12 @@
+[Unit]
+Description="Time in files"
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=/etc/terraform-backend-etcd/terraform/backend-vars
+Environment=TERRACD_CONFIG_FILE=/opt/timer-in-files/terracd-conf.yml
+User=root
+Group=root
+Type=simple
+ExecStart=/usr/local/bin/terracd

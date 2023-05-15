@@ -1,0 +1,24 @@
+terraform_path: /usr/local/bin/terraform
+command: apply
+working_directory: /opt/terraform/timer-in-files/work
+timeouts:
+  terraform_init: "5m"
+  terraform_plan: "5m"
+  terraform_apply: "5m"
+  wait: "2m"
+sources:
+  - dir: "/opt/terraform/timer-in-files-cloud-init"
+  - backend_http:
+      filename: backend.tf
+      address:
+        base: https://127.0.0.10:9090/state
+        query_string:
+          state: ["/bootstrap/terraform/backend/timer-in-files"]
+      lock_address:
+        base: https://127.0.0.10:9090/lock
+        query_string:
+          state: ["/bootstrap/terraform/backend/timer-in-files"]
+      unlock_address:
+        base: https://127.0.0.10:9090/lock
+        query_string:
+          state: ["/bootstrap/terraform/backend/timer-in-files"]

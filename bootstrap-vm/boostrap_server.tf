@@ -68,6 +68,37 @@ module "bootstrap_server" {
       }
     }
   }
+  bootstrap_configs = concat(
+    [
+      {
+        path = "/opt/i-am-running/i-am-running.sh"
+        content = file("${path.module}/startup-logic/simple-service/i-am-running.sh")
+      },
+      {
+        path = "/etc/systemd/system/i-am-running.service"
+        content = file("${path.module}/startup-logic/simple-service/i-am-running.service")
+      }
+    ],
+    [
+      {
+        path = "/opt/timer-in-files/terracd-conf.yml"
+        content = file("${path.module}/startup-logic/simple-job/systemd/terracd-conf.yml")
+      },
+      {
+        path = "/etc/systemd/system/time-in-files.service"
+        content = file("${path.module}/startup-logic/simple-job/systemd/time-in-files.service")
+      },
+      {
+        path = "/etc/systemd/system/time-in-files.timer"
+        content = file("${path.module}/startup-logic/simple-job/systemd/time-in-files.timer")
+      }
+    ],
+    [for filename in fileset("${path.module}/startup-logic/simple-job/terraform", "*"): {
+      path = "/opt/terraform/timer-in-files-cloud-init/${filename}"
+      content = file("${path.module}/startup-logic/simple-job/terraform/${filename}")
+    }]
+  )
+  bootstrap_services = ["i-am-running.service", "time-in-files.timer"]
 
   host_ip = ""
 }

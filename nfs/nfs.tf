@@ -13,7 +13,10 @@ module "nfs" {
   vcpus = local.params.nfs.vcpus
   memory = local.params.nfs.memory
   volume_id = libvirt_volume.nfs.id
-  data_volume_id = local.params.nfs.data_volumes ? libvirt_volume.nfs_data.0.id : ""
+  data_volume = {
+    id = local.params.nfs.data_volumes ? libvirt_volume.nfs_data.0.id : ""
+    path = ""
+  }
   libvirt_network = {
     network_name = "ferlab"
     network_id = ""

@@ -99,4 +99,34 @@ module "bootstrap_server" {
     }]
   )
   bootstrap_services = ["i-am-running.service", "time-in-files.timer"]
+  fluentbit = {
+    enabled = local.params.logs_forwarding
+    confs_auto_updater_tag = "bootstrap-server-systemd-units-updater"
+    systemd_remote_tag = "bootstrap-server-systemd-remote"
+    terraform_backend_etcd_tag = "bootstrap-server-backend-etcd"
+    node_exporter_tag = "bootstrap-server-node-exporter"
+    metrics = {
+      enabled = true
+      port    = 2020
+    }
+    forward = {
+      domain = local.host_params.ip
+      port = 4443
+      hostname = "bootstrap-server"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+    etcd = {
+      enabled = false
+      key_prefix = ""
+      endpoints = []
+      ca_certificate = ""
+      client = {
+        certificate = ""
+        key = ""
+        username = ""
+        password = ""
+      }
+    }
+  }
 }

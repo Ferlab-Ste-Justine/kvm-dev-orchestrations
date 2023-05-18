@@ -15,6 +15,9 @@ shared/kubeconfig
 shared/*tunnel_config.json
 shared/*auth_secret
 shared/sshtunnel
+shared/logs_shared_key
+logs/certs/
+logs/logs/
 kubernetes-orchestrations/*/terraform.tfstate
 kubernetes-orchestrations/*/terraform.tfstate.backup
 kubernetes-orchestrations/*/.terraform.tfstate.lock.info

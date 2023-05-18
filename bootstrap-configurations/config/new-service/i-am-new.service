@@ -1,0 +1,16 @@
+[Unit]
+Description="I am new service"
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+User=root
+Group=root
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/opt/dynamic-configurations/new-service/i-am-new.sh
+
+[Install]
+WantedBy=multi-user.target

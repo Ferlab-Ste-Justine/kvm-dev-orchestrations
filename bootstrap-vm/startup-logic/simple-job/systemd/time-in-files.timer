@@ -1,0 +1,10 @@
+[Unit]
+Description="Run time-in-files recurrently"
+Requires=time-in-files.service
+
+[Timer]
+Unit=time-in-files.service
+OnCalendar=*-*-* *:*:00
+
+[Install]
+WantedBy=timers.target

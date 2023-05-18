@@ -1,0 +1,16 @@
+i-am-running.service:
+  name: i-am-running.service
+  on: true
+  job: false
+time-in-files.service:
+  name: time-in-files.service
+  on: false
+  job: true
+time-in-files.timer:
+  name: time-in-files.timer
+  on: false
+  job: false
+i-am-new.service:
+  name: i-am-new.service
+  on: true
+  job: false

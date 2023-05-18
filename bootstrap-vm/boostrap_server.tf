@@ -99,6 +99,4 @@ module "bootstrap_server" {
     }]
   )
   bootstrap_services = ["i-am-running.service", "time-in-files.timer"]
-
-  host_ip = ""
 }

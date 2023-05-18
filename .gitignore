@@ -16,6 +16,7 @@ shared/*tunnel_config.json
 shared/*auth_secret
 shared/sshtunnel
 shared/logs_shared_key
+shared/host_params.json
 logs/certs/
 logs/logs/
 kubernetes-orchestrations/*/terraform.tfstate

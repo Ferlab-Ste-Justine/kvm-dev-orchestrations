@@ -7,7 +7,7 @@ resource "tls_private_key" "vault_server_ssh" {
 resource "local_file" "vault_tunnel_config" {
   count   = local.params.vault.load_balancer.tunnel ? 1 : 0
   content = templatefile(
-    "${path.module}/../templates/tunnel_config.json.tpl",
+    "${path.module}/templates/tunnel_config.json.tpl",
     {
       ssh_fingerprint = tls_private_key.vault_server_ssh.0.public_key_fingerprint_sha256
       ip              = data.netaddr_address_ipv4.vault_lb_tunnel.0.address
@@ -26,7 +26,7 @@ resource "local_file" "vault_tunnel_secret" {
 
 module "vault_lb_configs" {
   count         = local.params.vault.load_balancer.tunnel ? 1 : 0
-  source        = "../terraform-etcd-envoy-transport-configuration"
+  source        = "./terraform-etcd-envoy-transport-configuration"
   etcd_prefix   = data.etcd_prefix_range_end.vault_tunnel.0.key
   node_id       = "vault-local"
   load_balancer = {
@@ -71,7 +71,7 @@ resource "libvirt_volume" "vault_lb_tunnel" {
 
 module "vault_lb_tunnel" {
   count           = local.params.vault.load_balancer.tunnel ? 1 : 0
-  source          = "../terraform-libvirt-transport-load-balancer"
+  source          = "./terraform-libvirt-transport-load-balancer"
   name            = "ferlab-vault-lb-tunnel"
   vcpus           = local.params.vault.load_balancer.vcpus
   memory          = local.params.vault.load_balancer.memory

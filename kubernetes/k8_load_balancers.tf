@@ -7,7 +7,7 @@ resource "tls_private_key" "server_ssh" {
 resource "local_file" "tunnel_config" {
   count = local.params.kubernetes.load_balancer.tunnel ? 1 : 0
   content         = templatefile(
-    "${path.module}/../templates/tunnel_config.json.tpl",
+    "${path.module}/templates/tunnel_config.json.tpl",
     {
       ssh_fingerprint = tls_private_key.server_ssh.0.public_key_fingerprint_sha256
       ip = data.netaddr_address_ipv4.k8_lb.0.address
@@ -25,7 +25,7 @@ resource "local_file" "tunnel_secret" {
 }
 
 module "kubernetes_lb_configs" {
-  source = "../terraform-etcd-envoy-transport-configuration"
+  source = "./terraform-etcd-envoy-transport-configuration"
   etcd_prefix = data.etcd_prefix_range_end.kubernetes_load_balancer.key
   node_id = "kubernetes-local"
   load_balancer = {
@@ -108,7 +108,7 @@ resource "libvirt_volume" "kubernetes_lb_1" {
 }
 
 module "kubernetes_lb_1" {
-  source = "../terraform-libvirt-transport-load-balancer"
+  source = "./terraform-libvirt-transport-load-balancer"
   name = "ferlab-kubernetes-lb-1"
   vcpus = local.params.kubernetes.load_balancer.vcpus
   memory = local.params.kubernetes.load_balancer.memory

@@ -4,29 +4,26 @@
 [submodule "coredns/kvm-coredns-server"]
 	path = coredns/kvm-coredns-server
 	url = git@github.com:Ferlab-Ste-Justine/kvm-coredns-server.git
-[submodule "kubernetes/kvm-bastion"]
-	path = kubernetes/kvm-bastion
-	url = git@github.com:Ferlab-Ste-Justine/kvm-bastion.git
-[submodule "kubernetes/kubernetes-client-config"]
-	path = kubernetes/kubernetes-client-config
-	url = git@github.com:Ferlab-Ste-Justine/kubernetes-client-config.git
 [submodule "postgres/kvm-postgres-server"]
 	path = postgres/kvm-postgres-server
 	url = git@github.com:Ferlab-Ste-Justine/kvm-postgres-server.git
 [submodule "postgres/kvm-postgres-load-balancer"]
 	path = postgres/kvm-postgres-load-balancer
 	url = git@github.com:Ferlab-Ste-Justine/kvm-postgres-load-balancer.git
-[submodule "nfs/terraform-libvirt-nfs-server"]
-	path = nfs/terraform-libvirt-nfs-server
-	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-nfs-server.git
+[submodule "kubernetes/kvm-bastion"]
+	path = kubernetes/kvm-bastion
+	url = git@github.com:Ferlab-Ste-Justine/kvm-bastion.git
+[submodule "kubernetes/kubernetes-client-config"]
+	path = kubernetes/kubernetes-client-config
+	url = git@github.com:Ferlab-Ste-Justine/kubernetes-client-config.git
 [submodule "kubernetes/terraform-libvirt-kubernetes-node"]
 	path = kubernetes/terraform-libvirt-kubernetes-node
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-kubernetes-node.git
 [submodule "kubernetes/terraform-libvirt-transport-load-balancer"]
-	path = terraform-libvirt-transport-load-balancer
+	path = kubernetes/terraform-libvirt-transport-load-balancer
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-transport-load-balancer.git
 [submodule "kubernetes/terraform-etcd-envoy-transport-configuration"]
-	path = terraform-etcd-envoy-transport-configuration
+	path = kubernetes/terraform-etcd-envoy-transport-configuration
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git
 [submodule "kubernetes/terraform-null-kubernetes-installation"]
 	path = kubernetes/terraform-null-kubernetes-installation
@@ -34,12 +31,21 @@
 [submodule "kubernetes/terraform-tls-kubernetes-certificates"]
 	path = kubernetes/terraform-tls-kubernetes-certificates
 	url = git@github.com:Ferlab-Ste-Justine/terraform-tls-kubernetes-certificates.git
-[submodule "terraform-libvirt-vault-server"]
+[submodule "nfs/terraform-libvirt-nfs-server"]
+	path = nfs/terraform-libvirt-nfs-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-nfs-server.git
+[submodule "vault/terraform-libvirt-vault-server"]
 	path = vault/terraform-libvirt-vault-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-vault-server.git
 [submodule "vault/terraform-libvirt-vault-load-balancer"]
 	path = vault/terraform-libvirt-vault-load-balancer
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-vault-load-balancer.git
+[submodule "vault/terraform-libvirt-transport-load-balancer"]
+	path = vault/terraform-libvirt-transport-load-balancer
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-transport-load-balancer.git
+[submodule "vault/terraform-etcd-envoy-transport-configuration"]
+	path = vault/terraform-etcd-envoy-transport-configuration
+	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git
 [submodule "bootstrap-vm/terraform-libvirt-automation-bootstrap"]
 	path = bootstrap-vm/terraform-libvirt-automation-bootstrap
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-automation-bootstrap.git

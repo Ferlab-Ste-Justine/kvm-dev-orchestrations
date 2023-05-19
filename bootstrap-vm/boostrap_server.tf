@@ -117,15 +117,15 @@ module "bootstrap_server" {
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
     etcd = {
-      enabled = false
-      key_prefix = ""
-      endpoints = []
-      ca_certificate = ""
+      enabled = true
+      key_prefix = "/bootstrap/fluent-bit/"
+      endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
+      ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
       client = {
         certificate = ""
         key = ""
-        username = ""
-        password = ""
+        username = "boostrap"
+        password = random_password.boostrap_etcd.result
       }
     }
   }

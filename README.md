@@ -102,9 +102,13 @@ Before vault is operational, it needs to be initialized and each of it's server 
 
 ### Tunnel support
 
-By setting the tunnel to **true** in the load balancer parameters, a particuliar load balancer will be added and only be accessible via ssh tunneling (with https://vault-tunnel.ferlab.local).
+By setting the tunnel to **true** in the load balancer parameters, a particuliar load balancer will be added and only be accessible via ssh tunneling.
 
 A **vault_tunnel_config.json** and **vault_auth_secret** file will be generated in the **shared** directory, providing the required configurations for the following project: https://github.com/Ferlab-Ste-Justine/ssh-tunnel-client
+
+Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access:
+- the servers: https://vault-tunnel.ferlab.local:4431 / https://vault-tunnel.ferlab.local:4432 / https://vault-tunnel.ferlab.local:4433
+- the load balancer: https://vault-tunnel.ferlab.local
 
 # Caveats
 

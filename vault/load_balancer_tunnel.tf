@@ -50,6 +50,66 @@ module "vault_lb_configs" {
           listener_certificate = ""
           listener_key         = ""
         }
+      },
+      {
+        name              = "server-1"
+        listening_ip      = "127.0.0.1"
+        listening_port    = 4431
+        cluster_domain    = "vault-server-1.ferlab.local"
+        cluster_port      = 8200
+        idle_timeout      = "60s"
+        max_connections   = 100
+        access_log_format = "[%START_TIME%][Connection] %DOWNSTREAM_REMOTE_ADDRESS% to %UPSTREAM_HOST% (cluster %UPSTREAM_CLUSTER%). Error flags: %RESPONSE_FLAGS%\n"
+        health_check      = {
+          timeout             = "3s"
+          interval            = "3s"
+          healthy_threshold   = 1
+          unhealthy_threshold = 2
+        }
+        tls_termination = {
+          listener_certificate = ""
+          listener_key         = ""
+        }
+      },
+      {
+        name              = "server-2"
+        listening_ip      = "127.0.0.1"
+        listening_port    = 4432
+        cluster_domain    = "vault-server-2.ferlab.local"
+        cluster_port      = 8200
+        idle_timeout      = "60s"
+        max_connections   = 100
+        access_log_format = "[%START_TIME%][Connection] %DOWNSTREAM_REMOTE_ADDRESS% to %UPSTREAM_HOST% (cluster %UPSTREAM_CLUSTER%). Error flags: %RESPONSE_FLAGS%\n"
+        health_check      = {
+          timeout             = "3s"
+          interval            = "3s"
+          healthy_threshold   = 1
+          unhealthy_threshold = 2
+        }
+        tls_termination = {
+          listener_certificate = ""
+          listener_key         = ""
+        }
+      },
+      {
+        name              = "server-3"
+        listening_ip      = "127.0.0.1"
+        listening_port    = 4433
+        cluster_domain    = "vault-server-3.ferlab.local"
+        cluster_port      = 8200
+        idle_timeout      = "60s"
+        max_connections   = 100
+        access_log_format = "[%START_TIME%][Connection] %DOWNSTREAM_REMOTE_ADDRESS% to %UPSTREAM_HOST% (cluster %UPSTREAM_CLUSTER%). Error flags: %RESPONSE_FLAGS%\n"
+        health_check      = {
+          timeout             = "3s"
+          interval            = "3s"
+          healthy_threshold   = 1
+          unhealthy_threshold = 2
+        }
+        tls_termination = {
+          listener_certificate = ""
+          listener_key         = ""
+        }
       }
     ]
     dns_servers = [{

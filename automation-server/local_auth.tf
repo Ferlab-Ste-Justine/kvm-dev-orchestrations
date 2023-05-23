@@ -1,26 +1,26 @@
-module "bootstrap_ca" {
+module "automation_server_ca" {
   source = "../ca"
-  common_name = "bootstrap"
+  common_name = "automation-server"
 }
 
-resource "tls_private_key" "bootstrap" {
+resource "tls_private_key" "automation_server" {
   algorithm   = "RSA"
   rsa_bits    = 4096
 }
 
-resource "tls_cert_request" "bootstrap" {
-  private_key_pem = tls_private_key.bootstrap.private_key_pem
+resource "tls_cert_request" "automation_server" {
+  private_key_pem = tls_private_key.automation_server.private_key_pem
   subject {
-    common_name  = "bootstrap"
+    common_name  = "automation-server"
     organization = "Ferlab"
   }
   ip_addresses   = ["127.0.0.10"]
 }
 
-resource "tls_locally_signed_cert" "bootstrap" {
-  cert_request_pem   = tls_cert_request.bootstrap.cert_request_pem
-  ca_private_key_pem = module.bootstrap_ca.key
-  ca_cert_pem        = module.bootstrap_ca.certificate
+resource "tls_locally_signed_cert" "automation_server" {
+  cert_request_pem   = tls_cert_request.automation_server.cert_request_pem
+  ca_private_key_pem = module.automation_server_ca.key
+  ca_cert_pem        = module.automation_server_ca.certificate
 
   validity_period_hours = 365 * 24
   early_renewal_hours = 14 * 24

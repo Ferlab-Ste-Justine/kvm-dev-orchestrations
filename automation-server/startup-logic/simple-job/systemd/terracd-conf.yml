@@ -13,12 +13,12 @@ sources:
       address:
         base: https://127.0.0.10:9090/state
         query_string:
-          state: ["/bootstrap/terraform/backend/timer-in-files"]
+          state: ["/automation-server/terraform/backend/timer-in-files"]
       lock_address:
         base: https://127.0.0.10:9090/lock
         query_string:
-          state: ["/bootstrap/terraform/backend/timer-in-files"]
+          state: ["/automation-server/terraform/backend/timer-in-files"]
       unlock_address:
         base: https://127.0.0.10:9090/lock
         query_string:
-          state: ["/bootstrap/terraform/backend/timer-in-files"]
+          state: ["/automation-server/terraform/backend/timer-in-files"]

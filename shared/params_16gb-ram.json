@@ -10,7 +10,7 @@
     },
     "virsh_console_password": "test",
     "logs_forwarding": false,
-    "bootstrap_vm": {
+    "automation_server": {
       "vcpus": 1,
       "memory": 4096,
       "address": {

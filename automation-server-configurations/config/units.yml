@@ -8,7 +8,7 @@ time-in-files.service:
   job: true
 time-in-files.timer:
   name: time-in-files.timer
-  on: false
+  on: true
   job: false
 i-am-new.service:
   name: i-am-new.service

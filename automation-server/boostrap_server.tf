@@ -22,40 +22,50 @@ module "bootstrap_server" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
-  configurations_auto_updater = {
-    etcd = {
-      key_prefix = "/bootstrap/configurations/"
-      endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
-      ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
-      client = {
-        certificate = ""
-        key = ""
-        username = "boostrap"
-        password = random_password.boostrap_etcd.result
+  systemd_remote = {
+    server = {
+      port = 8080
+      address = "127.0.0.10"
+      tls = {
+        ca_certificate = module.bootstrap_ca.certificate
+        server_certificate = tls_locally_signed_cert.bootstrap.cert_pem
+        server_key = tls_private_key.bootstrap.private_key_pem
       }
     }
-  }
-  systemd_remote = {
-    port = 8080
-    address = "127.0.0.10"
-    tls = {
-      ca_certificate = module.bootstrap_ca.certificate
-      server_certificate = tls_locally_signed_cert.bootstrap.cert_pem
-      server_key = tls_private_key.bootstrap.private_key_pem
+    client = {
+      etcd = {
+        key_prefix = "/bootstrap/configurations/"
+        endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
+        ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
+        client = {
+          certificate = ""
+          key = ""
+          username = "boostrap"
+          password = random_password.boostrap_etcd.result
+        }
+      }
+      tls = {
+        ca_certificate = module.bootstrap_ca.certificate
+        client_certificate = tls_locally_signed_cert.bootstrap.cert_pem
+        client_key = tls_private_key.bootstrap.private_key_pem
+      }
     }
+    sync_directory = "/opt/dynamic-configurations"
   }
   terraform_backend_etcd = {
     enabled = true
-    port = 9090
-    address = "127.0.0.10"
-    tls = {
-      ca_certificate = module.bootstrap_ca.certificate
-      server_certificate = tls_locally_signed_cert.bootstrap.cert_pem
-      server_key = tls_private_key.bootstrap.private_key_pem
-    }
-    auth = {
-      username = "terraform-backend-etcd"
-      password = random_password.terraform_backend_etcd.result
+    server = {
+      port = 9090
+      address = "127.0.0.10"
+      tls = {
+        ca_certificate = module.bootstrap_ca.certificate
+        server_certificate = tls_locally_signed_cert.bootstrap.cert_pem
+        server_key = tls_private_key.bootstrap.private_key_pem
+      }
+      auth = {
+        username = "terraform-backend-etcd"
+        password = random_password.terraform_backend_etcd.result
+      }
     }
     etcd = {
       endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
@@ -101,7 +111,7 @@ module "bootstrap_server" {
   bootstrap_services = ["i-am-running.service", "time-in-files.timer"]
   fluentbit = {
     enabled = local.params.logs_forwarding
-    confs_auto_updater_tag = "bootstrap-server-systemd-units-updater"
+    systemd_remote_source_tag = "bootstrap-server-systemd-remote-source"
     systemd_remote_tag = "bootstrap-server-systemd-remote"
     terraform_backend_etcd_tag = "bootstrap-server-backend-etcd"
     node_exporter_tag = "bootstrap-server-node-exporter"

@@ -46,6 +46,6 @@
 [submodule "vault/terraform-etcd-envoy-transport-configuration"]
 	path = vault/terraform-etcd-envoy-transport-configuration
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git
-[submodule "bootstrap-vm/terraform-libvirt-automation-bootstrap"]
+[submodule "bootstrap-vm/terraform-libvirt-automation-server"]
 	path = automation-server/terraform-libvirt-automation-server
-	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-automation-bootstrap.git
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-automation-server.git

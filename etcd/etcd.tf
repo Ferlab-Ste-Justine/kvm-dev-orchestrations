@@ -1,5 +1,4 @@
 locals {
-  params = jsondecode(file("${path.module}/../shared/params.json"))
   is_initializing = true
 }
 
@@ -32,7 +31,11 @@ module "etcd_1" {
     bootstrap     = local.is_initializing
     root_password = random_password.etcd_root_password.result
   }
-  ca = module.etcd_ca
+  tls = {
+    ca_cert     = module.etcd_ca.certificate
+    server_cert = "${tls_locally_signed_cert.etcd.cert_pem}\n${module.etcd_ca.certificate}"
+    server_key  = tls_private_key.etcd.private_key_pem
+  }
   cluster = {
     is_initializing = local.is_initializing
     initial_token   = "etcd"
@@ -57,6 +60,34 @@ module "etcd_1" {
     space_quota                = 8*1024*1024*1024
     grpc_gateway_enabled       = true
     client_cert_auth           = false
+  }
+  fluentbit = {
+    enabled = local.params.logs_forwarding
+    etcd_tag = "etcd-server-1-etcd"
+    node_exporter_tag = "etcd-server-1-node-exporter"
+    metrics = {
+      enabled = true
+      port    = 2020
+    }
+    forward = {
+      domain = local.host_params.ip
+      port = 4443
+      hostname = "etcd-server-1"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+    etcd = {
+      enabled = false
+      key_prefix = ""
+      endpoints = []
+      ca_certificate = ""
+      client = {
+        certificate = ""
+        key = ""
+        username = ""
+        password = ""
+      }
+    }
   }
 }
 
@@ -85,7 +116,11 @@ module "etcd_2" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
-  ca = module.etcd_ca
+  tls = {
+    ca_cert     = module.etcd_ca.certificate
+    server_cert = "${tls_locally_signed_cert.etcd.cert_pem}\n${module.etcd_ca.certificate}"
+    server_key  = tls_private_key.etcd.private_key_pem
+  }
   cluster = {
     is_initializing = true
     initial_token   = "etcd"
@@ -110,6 +145,34 @@ module "etcd_2" {
     space_quota                = 8*1024*1024*1024
     grpc_gateway_enabled       = true
     client_cert_auth           = false
+  }
+  fluentbit = {
+    enabled = local.params.logs_forwarding
+    etcd_tag = "etcd-server-2-etcd"
+    node_exporter_tag = "etcd-server-2-node-exporter"
+    metrics = {
+      enabled = true
+      port    = 2020
+    }
+    forward = {
+      domain = local.host_params.ip
+      port = 4443
+      hostname = "etcd-server-2"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+    etcd = {
+      enabled = false
+      key_prefix = ""
+      endpoints = []
+      ca_certificate = ""
+      client = {
+        certificate = ""
+        key = ""
+        username = ""
+        password = ""
+      }
+    }
   }
 }
 
@@ -138,7 +201,11 @@ module "etcd_3" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
-  ca = module.etcd_ca
+  tls = {
+    ca_cert     = module.etcd_ca.certificate
+    server_cert = "${tls_locally_signed_cert.etcd.cert_pem}\n${module.etcd_ca.certificate}"
+    server_key  = tls_private_key.etcd.private_key_pem
+  }
   cluster = {
     is_initializing = local.is_initializing
     initial_token   = "etcd"
@@ -163,5 +230,33 @@ module "etcd_3" {
     space_quota                = 8*1024*1024*1024
     grpc_gateway_enabled       = true
     client_cert_auth           = false
+  }
+  fluentbit = {
+    enabled = local.params.logs_forwarding
+    etcd_tag = "etcd-server-3-etcd"
+    node_exporter_tag = "etcd-server-3-node-exporter"
+    metrics = {
+      enabled = true
+      port    = 2020
+    }
+    forward = {
+      domain = local.host_params.ip
+      port = 4443
+      hostname = "etcd-server-3"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+    etcd = {
+      enabled = false
+      key_prefix = ""
+      endpoints = []
+      ca_certificate = ""
+      client = {
+        certificate = ""
+        key = ""
+        username = ""
+        password = ""
+      }
+    }
   }
 }

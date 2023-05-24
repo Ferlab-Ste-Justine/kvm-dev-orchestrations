@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets:
+          - "prometheus.ferlab.lan:9090"
+  - job_name: "prometheus-node-exporter"
+    static_configs:
+      - targets:
+          - "prometheus.ferlab.lan:9100"
+  - job_name: "etcd-node-exporter"
+    dns_sd_configs:
+      - names:
+          - etcd.ferlab.lan
+        refresh_interval: 5s
+        type: A
+        port: 9100
+  - job_name: "coredns-node-exporter"
+    dns_sd_configs:
+      - names:
+          - ns.ferlab.lan
+        refresh_interval: 5s
+        type: A
+        port: 9100

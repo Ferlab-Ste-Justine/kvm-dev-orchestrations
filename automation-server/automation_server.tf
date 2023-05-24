@@ -18,6 +18,7 @@ module "automation_server" {
     network_id = ""
     ip = local.params.automation_server.address.ip
     mac = local.params.automation_server.address.mac
+    dns_servers = [local.params.assignable_ip_range.start]
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh

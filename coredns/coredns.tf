@@ -38,4 +38,33 @@ module "coredns_1" {
     load_balance_records = true
     alternate_dns_servers = ["8.8.8.8"]
   }
+  fluentbit = {
+    enabled = local.params.logs_forwarding
+    coredns_tag = "coredns-server-1-coredns"
+    coredns_updater_tag = "coredns-server-1-coredns-updater"
+    node_exporter_tag = "coredns-server-1-node-exporter"
+    metrics = {
+      enabled = true
+      port    = 2020
+    }
+    forward = {
+      domain = local.host_params.ip
+      port = 4443
+      hostname = "coredns-server-1"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+    etcd = {
+      enabled = false
+      key_prefix = ""
+      endpoints = []
+      ca_certificate = ""
+      client = {
+        certificate = ""
+        key = ""
+        username = ""
+        password = ""
+      }
+    }
+  }
 }

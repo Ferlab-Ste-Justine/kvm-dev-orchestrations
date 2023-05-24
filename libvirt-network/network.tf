@@ -1,7 +1,3 @@
-locals {
-  params = jsondecode(file("${path.module}/../shared/params.json"))
-}
-
 resource "libvirt_network" "ferlab" {
   name = "ferlab"
   mode = "nat"
@@ -14,6 +10,7 @@ resource "libvirt_network" "ferlab" {
 
   dns {
     enabled = true
+    local_only = true
   }
 
   autostart = true

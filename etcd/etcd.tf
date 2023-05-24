@@ -23,6 +23,7 @@ module "etcd_1" {
     network_id = ""
     ip = local.params.etcd.addresses.0.ip
     mac = local.params.etcd.addresses.0.mac
+    dns_servers = []
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
@@ -112,6 +113,7 @@ module "etcd_2" {
     network_id = ""
     ip = local.params.etcd.addresses.1.ip
     mac = local.params.etcd.addresses.1.mac
+    dns_servers = []
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
@@ -197,6 +199,7 @@ module "etcd_3" {
     network_id = ""
     ip = local.params.etcd.addresses.2.ip
     mac = local.params.etcd.addresses.2.mac
+    dns_servers = []
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh

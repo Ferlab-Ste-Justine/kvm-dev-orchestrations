@@ -1,5 +1,5 @@
 provider "postgresql" {
-  host     = "load-balancer.postgres.ferlab.local"
+  host     = "load-balancer.postgres.ferlab.lan"
   database = "postgres"
   username = "postgres"
   password = file("${path.module}/../shared/postgres_root_password")

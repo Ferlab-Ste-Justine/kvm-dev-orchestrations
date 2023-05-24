@@ -26,7 +26,7 @@ resource "tls_cert_request" "nfs_tunnel_server_request" {
     common_name  = "nfs-server"
     organization = "Ferlab"
   }
-  dns_names       = ["nfs.ferlab.local"]
+  dns_names       = ["nfs.ferlab.lan"]
 }
 
 resource "tls_locally_signed_cert" "nfs_tunnel_server_certificate" {

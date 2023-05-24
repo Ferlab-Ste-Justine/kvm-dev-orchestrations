@@ -34,7 +34,7 @@ module "kubernetes_lb_configs" {
         name = "masters"
         listening_ip = "0.0.0.0"
         listening_port = 6443
-        cluster_domain = "masters.k8.ferlab.local"
+        cluster_domain = "masters.k8.ferlab.lan"
         cluster_port = 6443
         idle_timeout = "60s"
         max_connections = 100
@@ -54,7 +54,7 @@ module "kubernetes_lb_configs" {
         name = "workers-ingress-http"
         listening_ip = "0.0.0.0"
         listening_port = 80
-        cluster_domain = "workers.k8.ferlab.local"
+        cluster_domain = "workers.k8.ferlab.lan"
         cluster_port = 30000
         idle_timeout = "60s"
         max_connections = 100
@@ -74,7 +74,7 @@ module "kubernetes_lb_configs" {
         name = "workers-ingress-https"
         listening_ip = "0.0.0.0"
         listening_port = 443
-        cluster_domain = "workers.k8.ferlab.local"
+        cluster_domain = "workers.k8.ferlab.lan"
         cluster_port = 30001
         idle_timeout = "300s"
         max_connections = 1000

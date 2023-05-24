@@ -28,7 +28,7 @@ resource "tls_cert_request" "vault_request" {
     common_name = "vault-client-server"
   }
 
-  dns_names = ["*.ferlab.local"]
+  dns_names = ["*.ferlab.lan"]
 }
 
 resource "tls_locally_signed_cert" "vault_certificate" {

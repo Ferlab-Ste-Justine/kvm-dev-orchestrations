@@ -7,9 +7,9 @@ provider "etcd" {
 
 module "nfs_domain" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-zonefile.git"
-  domain = "nfs.ferlab.local"
+  domain = "nfs.ferlab.lan"
   key_prefix = "/ferlab/coredns/"
-  dns_server_name = "ns.ferlab.local."
+  dns_server_name = "ns.ferlab.lan."
   a_records = concat(
     [{
       prefix = ""

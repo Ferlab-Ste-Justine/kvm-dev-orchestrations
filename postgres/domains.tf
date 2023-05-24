@@ -7,9 +7,9 @@ provider "etcd" {
 
 module "postgres_domain" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-zonefile.git"
-  domain = "postgres.ferlab.local"
+  domain = "postgres.ferlab.lan"
   key_prefix = "/ferlab/coredns/"
-  dns_server_name = "ns.ferlab.local."
+  dns_server_name = "ns.ferlab.lan."
   a_records = concat(
     [for lb in data.netaddr_address_ipv4.postgres: {
       prefix = "server"

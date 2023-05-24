@@ -30,7 +30,7 @@ module "k8_certificates" {
 module "kubeconfig" {
   source = "./kubernetes-client-config"
   cluster_name = "ferlab"
-  api_url = local.params.kubernetes.load_balancer.tunnel ? "https://tunnel.k8.ferlab.local:6443" : "https://k8.ferlab.local:6443"
+  api_url = local.params.kubernetes.load_balancer.tunnel ? "https://tunnel.k8.ferlab.lan:6443" : "https://k8.ferlab.lan:6443"
   ca_certificate = module.k8_certificates.ca_certificate
   client_certificate = module.k8_certificates.client_certificate
   client_key = tls_private_key.k8_client.private_key_pem

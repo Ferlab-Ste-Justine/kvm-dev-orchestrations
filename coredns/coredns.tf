@@ -18,6 +18,7 @@ module "coredns_1" {
     network_id = ""
     ip = data.netaddr_address_ipv4.coredns.0.address
     mac = data.netaddr_address_mac.coredns.0.address
+    dns_servers = []
   }
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
@@ -36,7 +37,7 @@ module "coredns_1" {
   dns = {
     zonefiles_reload_interval = "3s"
     load_balance_records = true
-    alternate_dns_servers = ["8.8.8.8"]
+    alternate_dns_servers = [local.host_params.dns]
   }
   fluentbit = {
     enabled = local.params.logs_forwarding

@@ -25,7 +25,7 @@ module "postgres_lb_1" {
   haproxy = {
     postgres_nodes_max_count   = 3
     postgres_nameserver_ips    = [data.netaddr_address_ipv4.coredns.0.address]
-    postgres_domain            = "server.postgres.ferlab.local"
+    postgres_domain            = "server.postgres.ferlab.lan"
     patroni_client             = {
       ca_key                           = module.postgres_ca.key
       ca_certificate                   = module.postgres_ca.certificate

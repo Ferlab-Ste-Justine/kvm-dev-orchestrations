@@ -31,7 +31,7 @@ module "vault_lb_1" {
   haproxy                = {
     vault_nodes_max_count    = local.params.vault.servers.count
     vault_nameserver_ips     = [data.netaddr_address_ipv4.coredns.0.address]
-    vault_domain             = "servers.vault.ferlab.local"
+    vault_domain             = "servers.vault.ferlab.lan"
     timeouts = {
       connect    = "15s"
       check      = "15s"

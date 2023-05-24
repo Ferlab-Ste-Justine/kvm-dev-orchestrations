@@ -57,7 +57,7 @@ module "kubernetes_workers" {
   admin_user_password = local.params.virsh_console_password
   nfs_tunnel = {
     enabled            = local.params.kubernetes.workers.nfs_tunnel
-    server_domain      = "nfs.ferlab.local"
+    server_domain      = "nfs.ferlab.lan"
     server_port        = 2050
     client_key         = local.params.kubernetes.workers.nfs_tunnel ? tls_private_key.nfs_tunnel_client_key.0.private_key_pem : ""
     client_certificate = local.params.kubernetes.workers.nfs_tunnel ? tls_locally_signed_cert.nfs_tunnel_client_certificate.0.cert_pem : ""

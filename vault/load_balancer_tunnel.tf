@@ -35,7 +35,7 @@ module "vault_lb_configs" {
         name              = "lbs"
         listening_ip      = "127.0.0.1"
         listening_port    = 443
-        cluster_domain    = "vault.ferlab.local"
+        cluster_domain    = "vault.ferlab.lan"
         cluster_port      = 443
         idle_timeout      = "60s"
         max_connections   = 100
@@ -55,7 +55,7 @@ module "vault_lb_configs" {
         name              = "server-1"
         listening_ip      = "127.0.0.1"
         listening_port    = 4431
-        cluster_domain    = "vault-server-1.ferlab.local"
+        cluster_domain    = "vault-server-1.ferlab.lan"
         cluster_port      = 8200
         idle_timeout      = "60s"
         max_connections   = 100
@@ -75,7 +75,7 @@ module "vault_lb_configs" {
         name              = "server-2"
         listening_ip      = "127.0.0.1"
         listening_port    = 4432
-        cluster_domain    = "vault-server-2.ferlab.local"
+        cluster_domain    = "vault-server-2.ferlab.lan"
         cluster_port      = 8200
         idle_timeout      = "60s"
         max_connections   = 100
@@ -95,7 +95,7 @@ module "vault_lb_configs" {
         name              = "server-3"
         listening_ip      = "127.0.0.1"
         listening_port    = 4433
-        cluster_domain    = "vault-server-3.ferlab.local"
+        cluster_domain    = "vault-server-3.ferlab.lan"
         cluster_port      = 8200
         idle_timeout      = "60s"
         max_connections   = 100

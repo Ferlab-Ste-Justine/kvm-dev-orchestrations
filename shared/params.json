@@ -63,6 +63,11 @@
         "nfs_tunnel": false
       }
     },
+    "nfs": {
+      "vcpus": 1,
+      "memory": 4096,
+      "data_volumes": false
+    },
     "postgres": {
       "servers": {
         "vcpus": 1,
@@ -112,10 +117,9 @@
         "memory": 4096
       }
     },
-    "nfs": {
+    "prometheus": {
       "vcpus": 1,
-      "memory": 4096,
-      "data_volumes": false
+      "memory": 4096
     },
     "vault": {
       "servers": {

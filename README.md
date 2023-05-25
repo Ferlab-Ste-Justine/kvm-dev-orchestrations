@@ -83,21 +83,21 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you c
 To setup a vault cluster, perform the following step: Go to the **vault** directory and run `terraform init && terraform apply`
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access:
-- the servers: https://vault-server-1.ferlab.local:8200 / https://vault-server-2.ferlab.local:8200 / https://vault-server-3.ferlab.local:8200 / ...
-- the load balancer: https://vault.ferlab.local
+- the servers: https://vault-server-1.ferlab.lan:8200 / https://vault-server-2.ferlab.lan:8200 / https://vault-server-3.ferlab.lan:8200 / ...
+- the load balancer: https://vault.ferlab.lan
 
 Before vault is operational, it needs to be initialized and each of it's server unsealed. Example of the ui steps for 3 servers:
 - Add the CA certificate found at **shared/vault-ca.crt** to your browser
 - If you have set **client_auth** to **true**, add the client certificate found at **shared/vault.p12** to your browser as well
-- Connect to https://vault-server-1.ferlab.local:8200:
+- Connect to https://vault-server-1.ferlab.lan:8200:
   - enter 1 for **Key shares** and 1 for **Key threshold** then click **Initialize**
   - take note of **Initial root token** and **Key 1** values then click **Continue to Unseal**
   - enter **Key 1** value for **Unseal Key Portion** then click **Unseal**
-- Connect to https://vault-server-2.ferlab.local:8200:
+- Connect to https://vault-server-2.ferlab.lan:8200:
   - enter **Key 1** value for **Unseal Key Portion** then click **Unseal**
-- Connect to https://vault-server-3.ferlab.local:8200:
+- Connect to https://vault-server-3.ferlab.lan:8200:
   - enter **Key 1** value for **Unseal Key Portion** then click **Unseal**
-- Connect to https://vault.ferlab.local:
+- Connect to https://vault.ferlab.lan:
   - enter **Initial root token** value for **Token** then click **Sign In**
 
 ### Tunnel support
@@ -107,8 +107,8 @@ By setting the tunnel to **true** in the load balancer parameters, a particuliar
 A **vault_tunnel_config.json** and **vault_auth_secret** file will be generated in the **shared** directory, providing the required configurations for the following project: https://github.com/Ferlab-Ste-Justine/ssh-tunnel-client
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access:
-- the servers: https://vault-tunnel.ferlab.local:4431 / https://vault-tunnel.ferlab.local:4432 / https://vault-tunnel.ferlab.local:4433
-- the load balancer: https://vault-tunnel.ferlab.local
+- the servers: https://vault-tunnel.ferlab.lan:4431 / https://vault-tunnel.ferlab.lan:4432 / https://vault-tunnel.ferlab.lan:4433
+- the load balancer: https://vault-tunnel.ferlab.lan
 
 # Caveats
 

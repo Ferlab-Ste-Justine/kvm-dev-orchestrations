@@ -13,6 +13,7 @@ shared/*.md
 shared/*_ssh_key
 shared/kubeconfig
 shared/*tunnel_config.json
+shared/registry_credentials.yml
 shared/*auth_secret
 shared/sshtunnel
 shared/logs_shared_key

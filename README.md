@@ -6,7 +6,7 @@ External dependencies are linked via git submodules with an **ssh** link for eas
 
 # Requirements
 
-A Linux machine with modern multi-core cpus and at least 64GB RAM is required. If you have less RAM, you can try to lower the `memory` and `count` values in **shared/params.json**. Like for 16GB RAM, a very minimal setup can work (see **shared/params_16gb-ram.json**).
+A Linux machine with modern multi-core cpus and at least 64GB RAM is required. If you have less RAM, you can try to lower the `memory` and `count` values in **shared/params.json**. Like for 16GB RAM, a very minimal setup may work (see **shared/params_16gb-ram.json**), but continuous validation is done with greater amounts of RAM on our end.
 
 Additionally, you will need the following:
 - Terraform
@@ -58,7 +58,7 @@ For a more seemless local experience after the coredns is running, you can tempo
 
 To setup a nfs server, perform the following step: Go to the **nfs** directory and run `terraform init && terraform apply`
 
-Note that a kubernetes orchestration can be found in the **kubernetes-orchestrations/nfs-volume** directory if needed for future troubleshooting.
+Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can troubleshoot volume integration in kubernetes by running the orchestration in the **kubernetes-orchestrations/nfs-volume** directory.
 
 ## Kubernetes
 
@@ -109,6 +109,30 @@ A **vault_tunnel_config.json** and **vault_auth_secret** file will be generated 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access:
 - the servers: https://vault-tunnel.ferlab.lan:4431 / https://vault-tunnel.ferlab.lan:4432 / https://vault-tunnel.ferlab.lan:4433
 - the load balancer: https://vault-tunnel.ferlab.lan
+
+### Centralised Logs
+
+We are in the process of integrating centralised logs validation for our vms in the development environment. To enable it, you need to follow the steps below:
+1. Create a **host_params.json** file in the **shared** directory with the following two properties:
+  - **ip**: The ip of your local machine
+  - **dns**: The ip of a dns server your local machine uses
+2. Set the **logs_forwarding** property to true in the **params.json** file.
+3. In a separate terminal, go to the **logs** directory and run the **run.sh** script. It will run **fluentd** in a docker container that will listen for log traffic coming from the vms.
+
+### Docker Registry Credentials
+
+You can integrate your kubernetes installation with private Docker registry credentials (if you don't wish to be limited by image download limits while you are testing repeated kubernetes installations).
+
+To do so, you need to create a **registry_credentials.yml** file in the **shared** directory.
+
+The file should have the following format:
+
+```
+credentials:
+  - registry: https://index.docker.io/v1/
+    username: <your username>
+    password: <your password>
+```
 
 # Caveats
 

@@ -1,5 +1,8 @@
 locals {
   params = jsondecode(file("${path.module}/../shared/params.json"))
+  registry_credentials = fileexists("${path.module}/../shared/registry_credentials.yml") ? yamldecode(file("${path.module}/../shared/registry_credentials.yml")) : {
+    credentials = []
+  }
   custom_container_repos = {
     enabled     = true
     registry    = "docker.io/ferlabcrsj"

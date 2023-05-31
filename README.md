@@ -121,7 +121,7 @@ We are in the process of integrating centralised logs validation for our vms in 
 
 ### Docker Registry Credentials
 
-You can integrate your kubernetes installation with private Docker registry credentials (if don't wish to be limited by image download limits while you are testing repeated kubernetes installations).
+You can integrate your kubernetes installation with private Docker registry credentials (if you don't wish to be limited by image download limits while you are testing repeated kubernetes installations).
 
 To do so, you need to create a **registry_credentials.yml** file in the **shared** directory.
 

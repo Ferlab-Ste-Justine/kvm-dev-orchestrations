@@ -129,7 +129,7 @@ The file should have the following format:
 
 ```
 credentials:
-  - registry: https://index.docker.io/v1/
+  - registry: registry-1.docker.io
     username: <your username>
     password: <your password>
 ```

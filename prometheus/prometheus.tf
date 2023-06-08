@@ -13,13 +13,16 @@ module "prometheus" {
   vcpus = local.params.prometheus.vcpus
   memory = local.params.prometheus.memory
   volume_id = libvirt_volume.prometheus.id
-  libvirt_network = {
+  data_volume_id = local.params.prometheus.data_volumes ? libvirt_volume.prometheus_1_data.0.id : ""
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.prometheus.0.address
-    mac = data.netaddr_address_mac.prometheus.0.address
+    ip = netaddr_address_ipv4.prometheus.0.address
+    mac = netaddr_address_mac.prometheus.0.address
+    gateway = local.params.network.gateway
     dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
-  }
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password

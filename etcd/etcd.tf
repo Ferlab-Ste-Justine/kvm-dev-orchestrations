@@ -18,13 +18,15 @@ module "etcd_1" {
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_1.id
   data_volume_id = local.params.etcd.data_volumes ? libvirt_volume.etcd_1_data.0.id : ""
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
     ip = local.params.etcd.addresses.0.ip
     mac = local.params.etcd.addresses.0.mac
-    dns_servers = []
-  }
+    gateway = local.params.network.gateway
+    dns_servers = [local.params.network.dns]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
@@ -108,13 +110,15 @@ module "etcd_2" {
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_2.id
   data_volume_id = local.params.etcd.data_volumes ? libvirt_volume.etcd_2_data.0.id : ""
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
     ip = local.params.etcd.addresses.1.ip
     mac = local.params.etcd.addresses.1.mac
-    dns_servers = []
-  }
+    gateway = local.params.network.gateway
+    dns_servers = [local.params.network.dns]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
@@ -194,13 +198,15 @@ module "etcd_3" {
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.etcd_3.id
   data_volume_id = local.params.etcd.data_volumes ? libvirt_volume.etcd_3_data.0.id : ""
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
     ip = local.params.etcd.addresses.2.ip
     mac = local.params.etcd.addresses.2.mac
-    dns_servers = []
-  }
+    gateway = local.params.network.gateway
+    dns_servers = [local.params.network.dns]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password

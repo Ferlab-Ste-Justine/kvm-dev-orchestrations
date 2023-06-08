@@ -1,4 +1,4 @@
-resource "netaddr_address_ipv4" "vault_servers" {
+/*resource "netaddr_address_ipv4" "vault_servers" {
     count      = local.params.vault.servers.count
     range_id   = netaddr_range_ipv4.ip.id
     name       = "ferlab-vault-${count.index + 1}"
@@ -35,4 +35,4 @@ resource "netaddr_address_mac" "vault_lb_tunnel" {
     count    = local.params.vault.load_balancer.tunnel ? 1 : 0
     range_id = netaddr_range_mac.mac.id
     name     = "ferlab-vault-lb-tunnel"
-}
+}*/

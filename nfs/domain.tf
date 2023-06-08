@@ -13,7 +13,7 @@ module "nfs_domain" {
   a_records = concat(
     [{
       prefix = ""
-      ip = data.netaddr_address_ipv4.nfs.address
+      ip = netaddr_address_ipv4.nfs.address
     }]
   )
 }

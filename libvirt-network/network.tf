@@ -2,7 +2,7 @@ resource "libvirt_network" "ferlab" {
   name = "ferlab"
   mode = "nat"
 
-  addresses = [local.params.addresses]
+  addresses = [local.params.network.addresses]
 
   dhcp {
     enabled = false

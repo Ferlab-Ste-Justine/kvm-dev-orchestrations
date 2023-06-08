@@ -1,15 +1,24 @@
 {
-    "addresses": "192.168.55.0/24",
-    "assignable_mac_range": {
+    "network": {
+      "addresses": "192.168.55.0/24",
+      "gateway": "192.168.55.1",
+      "dns": "192.168.55.1",
+      "broadcast": "192.168.55.255",
+      "static_range": {
+        "start": "192.168.55.10",
+        "end": "192.168.55.244"
+      },
+      "dhcp_range": {
+        "start": "192.168.55.245",
+        "end": "192.168.55.254"
+      }
+    },
+    "mac_range": {
       "start": "aa:00:00:00:00:0b",
       "end": "aa:ff:ff:ff:ff:ff"
     },
-    "assignable_ip_range": {
-      "start": "192.168.55.10",
-      "end": "192.168.55.254"
-    },
     "virsh_console_password": "test",
-    "logs_forwarding": false,
+    "logs_forwarding": true,
     "automation_server": {
       "vcpus": 1,
       "memory": 4096,
@@ -17,6 +26,10 @@
         "mac": "aa:00:00:00:00:03",
         "ip": "192.168.55.5"
       }
+    },
+    "dhcp": {
+      "vcpus": 1,
+      "memory": 4096
     },
     "etcd": {
       "vcpus": 1,

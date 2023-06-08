@@ -6,7 +6,7 @@ module "coredns_domain" {
   a_records = [
     {
       prefix = ""
-      ip = data.netaddr_address_ipv4.coredns.0.address
+      ip = netaddr_address_ipv4.coredns.address
     },
   ]
 }

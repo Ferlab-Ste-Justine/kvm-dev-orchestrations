@@ -13,13 +13,15 @@ module "coredns_1" {
   vcpus = local.params.coredns.vcpus
   memory = local.params.coredns.memory
   volume_id = libvirt_volume.coredns_1.id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.coredns.0.address
-    mac = data.netaddr_address_mac.coredns.0.address
-    dns_servers = []
-  }
+    ip = netaddr_address_ipv4.coredns.address
+    mac = netaddr_address_mac.coredns.address
+    gateway = local.params.network.gateway
+    dns_servers = [local.params.network.dns]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password

@@ -13,12 +13,15 @@ module "postgres_lb_1" {
   vcpus = local.params.postgres.load_balancer.vcpus
   memory = local.params.postgres.load_balancer.memory
   volume_id = libvirt_volume.postgres_lb_1.id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.postgres_lb.0.address
-    mac = data.netaddr_address_mac.postgres_lb.0.address
-  }
+    ip = netaddr_address_ipv4.postgres_lb.0.address
+    mac = netaddr_address_mac.postgres_lb.0.address
+    gateway = local.params.network.gateway
+    dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password

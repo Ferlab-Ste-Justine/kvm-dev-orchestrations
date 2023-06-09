@@ -10,7 +10,7 @@ resource "local_file" "tunnel_config" {
     "${path.module}/templates/tunnel_config.json.tpl",
     {
       ssh_fingerprint = tls_private_key.server_ssh.0.public_key_fingerprint_sha256
-      ip = data.netaddr_address_ipv4.k8_lb.0.address
+      ip = netaddr_address_ipv4.k8_lb.0.address
     }
   )
   file_permission = "0600"
@@ -113,12 +113,15 @@ module "kubernetes_lb_1" {
   vcpus = local.params.kubernetes.load_balancer.vcpus
   memory = local.params.kubernetes.load_balancer.memory
   volume_id = libvirt_volume.kubernetes_lb_1.id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.k8_lb.0.address
-    mac = data.netaddr_address_mac.k8_lb.0.address
-  }
+    ip = netaddr_address_ipv4.k8_lb.0.address
+    mac = netaddr_address_mac.k8_lb.0.address
+    gateway = local.params.network.gateway
+    dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
@@ -161,5 +164,34 @@ module "kubernetes_lb_1" {
   ssh_host_key_rsa = {
     public = local.params.kubernetes.load_balancer.tunnel ? tls_private_key.server_ssh.0.public_key_openssh : ""
     private = local.params.kubernetes.load_balancer.tunnel ? tls_private_key.server_ssh.0.private_key_openssh : ""
+  }
+  fluentbit = {
+    enabled = local.params.logs_forwarding
+    load_balancer_tag = "kubernetes-load-balancer-1-transport-load-balancer"
+    control_plane_tag = "kubernetes-load-balancer-1-transport-control-plane"
+    node_exporter_tag = "kubernetes-load-balancer-1-node-exporter"
+    metrics = {
+      enabled = true
+      port    = 2020
+    }
+    forward = {
+      domain = local.host_params.ip
+      port = 4443
+      hostname = "kubernetes-load-balancer-1"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+    etcd = {
+      enabled = false
+      key_prefix = ""
+      endpoints = []
+      ca_certificate = ""
+      client = {
+        certificate = ""
+        key = ""
+        username = ""
+        password = ""
+      }
+    }
   }
 }

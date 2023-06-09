@@ -18,7 +18,7 @@
       "end": "aa:ff:ff:ff:ff:ff"
     },
     "virsh_console_password": "test",
-    "logs_forwarding": true,
+    "logs_forwarding": false,
     "automation_server": {
       "vcpus": 1,
       "memory": 4096,

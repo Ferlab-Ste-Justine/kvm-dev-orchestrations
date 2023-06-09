@@ -30,6 +30,9 @@ module "kubernetes_masters" {
   fluentbit = {
     enabled = local.params.logs_forwarding
     nfs_tunnel_client_tag = ""
+    containerd_tag        = "kubernetes-master-${count.index + 1}-containerd"
+    kubelet_tag           = "kubernetes-master-${count.index + 1}-kubelet"
+    etcd_tag              = "kubernetes-master-${count.index + 1}-etcd"
     node_exporter_tag     = "kubernetes-master-${count.index + 1}-node-exporter"
     metrics = {
       enabled = true

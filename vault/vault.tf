@@ -15,12 +15,15 @@ module "vault" {
   vcpus           = local.params.vault.servers.vcpus
   memory          = local.params.vault.servers.memory
   volume_id       = libvirt_volume.vault[count.index].id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name      = "ferlab"
     network_id        = ""
-    ip                = element(data.netaddr_address_ipv4.vault_servers.*.address, count.index)
-    mac               = element(data.netaddr_address_mac.vault_servers.*.address, count.index)
-  }
+    ip                = element(netaddr_address_ipv4.vault_servers.*.address, count.index)
+    mac               = element(netaddr_address_mac.vault_servers.*.address, count.index)
+    gateway           = local.params.network.gateway
+    dns_servers       = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length     = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password

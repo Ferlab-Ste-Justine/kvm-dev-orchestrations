@@ -11,16 +11,16 @@ module "postgres_domain" {
   key_prefix = "/ferlab/coredns/"
   dns_server_name = "ns.ferlab.lan."
   a_records = concat(
-    [for lb in data.netaddr_address_ipv4.postgres: {
+    [for lb in netaddr_address_ipv4.postgres: {
       prefix = "server"
       ip = lb.address
     }],
     [{
       prefix = "load-balancer"
-      ip = data.netaddr_address_ipv4.postgres_lb.0.address
+      ip = netaddr_address_ipv4.postgres_lb.0.address
     }, {
       prefix = ""
-      ip = data.netaddr_address_ipv4.postgres_lb.0.address
+      ip = netaddr_address_ipv4.postgres_lb.0.address
     }]
   )
 }

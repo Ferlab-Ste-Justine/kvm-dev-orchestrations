@@ -13,13 +13,15 @@ module "automation_server" {
   vcpus = local.params.automation_server.vcpus
   memory = local.params.automation_server.memory
   volume_id = libvirt_volume.automation_server.id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
     ip = local.params.automation_server.address.ip
     mac = local.params.automation_server.address.mac
-    dns_servers = [local.params.assignable_ip_range.start]
-  }
+    gateway = local.params.network.gateway
+    dns_servers = [local.params.network.static_range.start]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password

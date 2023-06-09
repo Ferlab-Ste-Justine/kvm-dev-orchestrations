@@ -4,7 +4,7 @@ module "vault_lb_tunnel_domain" {
   key_prefix      = "/ferlab/coredns/"
   dns_server_name = "ns.ferlab.lan."
   a_records = concat(
-    [for lb in data.netaddr_address_ipv4.vault_lb_tunnel: {
+    [for lb in netaddr_address_ipv4.vault_lb_tunnel: {
       prefix = ""
       ip     = "127.0.0.1"
     }]
@@ -17,11 +17,11 @@ module "vault_lb_domain" {
   key_prefix      = "/ferlab/coredns/"
   dns_server_name = "ns.ferlab.lan."
   a_records = concat(
-    [for lb in data.netaddr_address_ipv4.vault_lb: {
+    [for lb in netaddr_address_ipv4.vault_lb: {
       prefix = ""
       ip = lb.address
     }],
-    [for server in data.netaddr_address_ipv4.vault_servers: {
+    [for server in netaddr_address_ipv4.vault_servers: {
       prefix = "servers"
       ip     = server.address
     }]
@@ -37,7 +37,7 @@ module "vault_domain" {
   a_records       = concat(
     [{
       prefix = ""
-      ip     = element(data.netaddr_address_ipv4.vault_servers.*.address, count.index)
+      ip     = element(netaddr_address_ipv4.vault_servers.*.address, count.index)
     }]
   )
 }

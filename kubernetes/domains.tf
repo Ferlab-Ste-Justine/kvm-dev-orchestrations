@@ -11,15 +11,15 @@ module "kubernetes_domain" {
   key_prefix = "/ferlab/coredns/"
   dns_server_name = "ns.ferlab.lan."
   a_records = concat(
-    [for lb in data.netaddr_address_ipv4.k8_lb: {
+    [for lb in netaddr_address_ipv4.k8_lb: {
       prefix = ""
       ip = lb.address
     }],
-    [for master in data.netaddr_address_ipv4.k8_masters: {
+    [for master in netaddr_address_ipv4.k8_masters: {
       prefix = "masters"
       ip = master.address
     }],
-    [for worker in data.netaddr_address_ipv4.k8_workers: {
+    [for worker in netaddr_address_ipv4.k8_workers: {
       prefix = "workers"
       ip = worker.address
     }],

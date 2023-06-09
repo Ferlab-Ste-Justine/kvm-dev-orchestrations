@@ -13,14 +13,13 @@ data "netaddr_range_mac" "mac" {
     key_prefix = "/ferlab/netaddr/mac/"
 }
 
-data "netaddr_address_ipv4" "coredns" {
-    count = 1
+resource "netaddr_address_ipv4" "coredns" {
     range_id = data.netaddr_range_ipv4.ip.id
-    name     = "ferlab-coredns-${count.index + 1}"
+    name     = "ferlab-coredns-1"
+    hardcoded_address = local.params.network.static_range.start
 }
 
-data "netaddr_address_mac" "coredns" {
-    count = 1
+resource "netaddr_address_mac" "coredns" {
     range_id = data.netaddr_range_mac.mac.id
-    name     = "ferlab-coredns-${count.index + 1}"
+    name     = "ferlab-coredns-1"
 }

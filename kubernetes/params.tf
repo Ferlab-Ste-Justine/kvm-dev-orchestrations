@@ -1,5 +1,8 @@
 locals {
   params = jsondecode(file("${path.module}/../shared/params.json"))
+  host_params = fileexists("${path.module}/../shared/host_params.json") ? jsondecode(file("${path.module}/../shared/host_params.json")) : {
+    ip = ""
+  }
   registry_credentials = fileexists("${path.module}/../shared/registry_credentials.yml") ? yamldecode(file("${path.module}/../shared/registry_credentials.yml")) : {
     credentials = []
   }

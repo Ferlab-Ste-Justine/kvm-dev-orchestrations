@@ -31,7 +31,7 @@ In all cases, you will want to perform the following steps:
 - Setup a base os image
 - Setup a ferlab libvirt network
 - Setup an etcd cluster
-- Setup the ip/mac address space
+- Setup the network address space in etcd to manage ips and mac addresses
 
 This translates into the following steps:
 
@@ -134,13 +134,11 @@ credentials:
     password: <your password>
 ```
 
-# Caveats
+### Assigned Ips
 
-Unlike with macvtap interfaces, libvirt networks keep assignment records and don't seem to like it so much when the ip/mac address mappings change.
+Whenever you run **terraform apply** in the **netaddr** directory, the **shared/ips.md** file will be updated with all currently assigned ips (minus the hardcoded ones for the etcd cluster and automation server).
 
-To work around this, the ip/mac address mappings have all been moved in the **netaddr** directory with the definition of the address spaces so that you can run **terraform destroy** in the vm repos without changing the mappings since they are located in a separate repo.
-
-However, if you delete the etcd nodes or the netaddr records in them (either the **etcd** or **netaddr** directory), you should probably delete the libvirt network as well (**libvirt-network** directory) in order to start with a new network that has a clean state.
+This provides basic visualization of the assigned ips so far.
 
 # Useful commands
 |Command|Description

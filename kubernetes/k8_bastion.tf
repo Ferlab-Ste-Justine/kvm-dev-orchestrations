@@ -13,12 +13,15 @@ module "bastion" {
   vcpus = local.params.kubernetes.bastion.vcpus
   memory = local.params.kubernetes.bastion.memory
   volume_id = libvirt_volume.bastion.id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.k8_bastion.0.address
-    mac = data.netaddr_address_mac.k8_bastion.0.address
-  }
+    ip = netaddr_address_ipv4.k8_bastion.0.address
+    mac = netaddr_address_mac.k8_bastion.0.address
+    gateway = local.params.network.gateway
+    dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   admin_user_password = local.params.virsh_console_password
   ssh_internal_public_key = tls_private_key.admin_ssh.public_key_openssh

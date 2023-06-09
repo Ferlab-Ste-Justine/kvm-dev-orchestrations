@@ -19,13 +19,13 @@ data "netaddr_address_ipv4" "coredns" {
     name     = "ferlab-coredns-${count.index + 1}"
 }
 
-data "netaddr_address_ipv4" "prometheus" {
+resource "netaddr_address_ipv4" "prometheus" {
     count = 1
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-prometheus-${count.index + 1}"
 }
 
-data "netaddr_address_mac" "prometheus" {
+resource "netaddr_address_mac" "prometheus" {
     count = 1
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-prometheus-${count.index + 1}"

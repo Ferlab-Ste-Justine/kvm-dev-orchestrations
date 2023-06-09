@@ -19,49 +19,49 @@ data "netaddr_address_ipv4" "coredns" {
     name     = "ferlab-coredns-${count.index + 1}"
 }
 
-data "netaddr_address_ipv4" "k8_masters" {
+resource "netaddr_address_ipv4" "k8_masters" {
     count = local.params.kubernetes.masters.count
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-k8-master-${count.index + 1}"
 }
 
-data "netaddr_address_mac" "k8_masters" {
+resource "netaddr_address_mac" "k8_masters" {
     count = local.params.kubernetes.masters.count
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-k8-master-${count.index + 1}"
 }
 
-data "netaddr_address_ipv4" "k8_workers" {
+resource "netaddr_address_ipv4" "k8_workers" {
     count = local.params.kubernetes.workers.count
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-k8-worker-${count.index + 1}"
 }
 
-data "netaddr_address_mac" "k8_workers" {
+resource "netaddr_address_mac" "k8_workers" {
     count = local.params.kubernetes.workers.count
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-k8-worker-${count.index + 1}"
 }
 
-data "netaddr_address_ipv4" "k8_lb" {
+resource "netaddr_address_ipv4" "k8_lb" {
     count = 1
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-k8-lb-${count.index + 1}"
 }
 
-data "netaddr_address_mac" "k8_lb" {
+resource "netaddr_address_mac" "k8_lb" {
     count = 1
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-k8-lb-${count.index + 1}"
 }
 
-data "netaddr_address_ipv4" "k8_bastion" {
+resource "netaddr_address_ipv4" "k8_bastion" {
     count = 1
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-k8-bastion-${count.index + 1}"
 }
 
-data "netaddr_address_mac" "k8_bastion" {
+resource "netaddr_address_mac" "k8_bastion" {
     count = 1
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-k8-bastion-${count.index + 1}"

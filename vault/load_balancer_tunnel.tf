@@ -10,7 +10,7 @@ resource "local_file" "vault_tunnel_config" {
     "${path.module}/templates/tunnel_config.json.tpl",
     {
       ssh_fingerprint = tls_private_key.vault_server_ssh.0.public_key_fingerprint_sha256
-      ip              = data.netaddr_address_ipv4.vault_lb_tunnel.0.address
+      ip              = netaddr_address_ipv4.vault_lb_tunnel.0.address
     }
   )
   file_permission = "0600"
@@ -136,12 +136,15 @@ module "vault_lb_tunnel" {
   vcpus           = local.params.vault.load_balancer.vcpus
   memory          = local.params.vault.load_balancer.memory
   volume_id       = libvirt_volume.vault_lb_tunnel.0.id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name      = "ferlab"
     network_id        = ""
-    ip                = data.netaddr_address_ipv4.vault_lb_tunnel.0.address
-    mac               = data.netaddr_address_mac.vault_lb_tunnel.0.address
-  }
+    ip                = netaddr_address_ipv4.vault_lb_tunnel.0.address
+    mac               = netaddr_address_mac.vault_lb_tunnel.0.address
+    gateway = local.params.network.gateway
+    dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password

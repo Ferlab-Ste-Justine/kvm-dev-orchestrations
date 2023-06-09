@@ -14,12 +14,15 @@ module "postgres_1" {
   memory = local.params.postgres.servers.memory
   volume_id = libvirt_volume.postgres_1.id
   data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_1_data.0.id : ""
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.postgres.0.address
-    mac = data.netaddr_address_mac.postgres.0.address
-  }
+    ip = netaddr_address_ipv4.postgres.0.address
+    mac = netaddr_address_mac.postgres.0.address
+    gateway = local.params.network.gateway
+    dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
@@ -29,8 +32,8 @@ module "postgres_1" {
     superuser_password = random_password.postgres_root_password.result
     ca = module.postgres_ca
     certificate = {
-      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", data.netaddr_address_ipv4.postgres_lb.0.address]
-      extra_ips = [data.netaddr_address_ipv4.postgres_lb.0.address]
+      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", netaddr_address_ipv4.postgres_lb.0.address]
+      extra_ips = [netaddr_address_ipv4.postgres_lb.0.address]
       organization = "Ferlab"
       validity_period = 100*365*24
       early_renewal_period = 365*24
@@ -76,12 +79,15 @@ module "postgres_2" {
   memory = local.params.postgres.servers.memory
   volume_id = libvirt_volume.postgres_2.id
   data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_2_data.0.id : ""
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.postgres.1.address
-    mac = data.netaddr_address_mac.postgres.1.address
-  }
+    ip = netaddr_address_ipv4.postgres.1.address
+    mac = netaddr_address_mac.postgres.1.address
+    gateway = local.params.network.gateway
+    dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
@@ -91,8 +97,8 @@ module "postgres_2" {
     superuser_password = random_password.postgres_root_password.result
     ca = module.postgres_ca
     certificate = {
-      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", data.netaddr_address_ipv4.postgres_lb.0.address]
-      extra_ips = [data.netaddr_address_ipv4.postgres_lb.0.address]
+      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", netaddr_address_ipv4.postgres_lb.0.address]
+      extra_ips = [netaddr_address_ipv4.postgres_lb.0.address]
       organization = "Ferlab"
       validity_period = 100*365*24
       early_renewal_period = 365*24
@@ -138,12 +144,15 @@ module "postgres_3" {
   memory = local.params.postgres.servers.memory
   volume_id = libvirt_volume.postgres_3.id
   data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_3_data.0.id : ""
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = data.netaddr_address_ipv4.postgres.2.address
-    mac = data.netaddr_address_mac.postgres.2.address
-  }
+    ip = netaddr_address_ipv4.postgres.2.address
+    mac = netaddr_address_mac.postgres.2.address
+    gateway = local.params.network.gateway
+    dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
@@ -153,8 +162,8 @@ module "postgres_3" {
     superuser_password = random_password.postgres_root_password.result
     ca = module.postgres_ca
     certificate = {
-      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", data.netaddr_address_ipv4.postgres_lb.0.address]
-      extra_ips = [data.netaddr_address_ipv4.postgres_lb.0.address]
+      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", netaddr_address_ipv4.postgres_lb.0.address]
+      extra_ips = [netaddr_address_ipv4.postgres_lb.0.address]
       organization = "Ferlab"
       validity_period = 100*365*24
       early_renewal_period = 365*24

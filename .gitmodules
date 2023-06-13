@@ -52,3 +52,6 @@
 [submodule "prometheus/kvm-prometheus"]
 	path = prometheus/kvm-prometheus
 	url = git@github.com:Ferlab-Ste-Justine/kvm-prometheus.git
+[submodule "minio/terraform-libvirt-minio-server"]
+	path = minio/terraform-libvirt-minio-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-minio-server.git

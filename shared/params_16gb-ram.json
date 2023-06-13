@@ -29,7 +29,11 @@
     },
     "dhcp": {
       "vcpus": 1,
-      "memory": 4096
+      "memory": 2048
+    },
+    "minio": {
+      "vcpus": 1,
+      "memory": 2048
     },
     "etcd": {
       "vcpus": 1,

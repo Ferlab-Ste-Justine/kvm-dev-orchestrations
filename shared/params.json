@@ -31,6 +31,10 @@
       "vcpus": 1,
       "memory": 4096
     },
+    "minio": {
+      "vcpus": 1,
+      "memory": 4096
+    },
     "etcd": {
       "vcpus": 1,
       "memory": 4096,

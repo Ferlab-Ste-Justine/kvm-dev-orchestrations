@@ -46,6 +46,21 @@ This translates into the following steps:
 5. Go to the **etcd** directory and run `terraform init && terraform apply`
 6. Go to the **netaddr** directory and run `terraform init && terraform apply`
 
+### Assigned Ips
+
+Whenever you run **terraform apply** in the **netaddr** directory, the **shared/ips.md** file will be updated with all currently assigned ips (minus the hardcoded ones for the etcd cluster and automation server).
+
+This provides basic visualization of the assigned ips so far.
+
+### Centralised Logs
+
+We are in the process of integrating centralised logs validation for our vms in the development environment. To enable it, you need to follow the steps below:
+1. Create a **host_params.json** file in the **shared** directory with the following two properties:
+  - **ip**: The ip of your local machine
+  - **dns**: The ip of a dns server your local machine uses
+2. Set the **logs_forwarding** property to true in the **params.json** file.
+3. In a separate terminal, go to the **logs** directory and run the **run.sh** script. It will run **fluentd** in a docker container that will listen for log traffic coming from the vms.
+
 ## Coredns
 
 Nfs, kubernetes, postgres/patroni and vault will also require a coredns setup.
@@ -65,6 +80,23 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you c
 To setup a kubernetes cluster, perform the following step: Go to the **kubernetes** directory and run `terraform init && terraform apply` (note that this operation will take several minutes)
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, a **kubeconfig** file will have been generated in the **shared** directory that you can use with **kubectl** to access the kubernetes masters' api.
+
+### Docker Registry Credentials
+
+You can integrate your kubernetes installation with private Docker registry credentials (if you don't wish to be limited by image download limits while you are testing repeated kubernetes installations).
+
+To do so, you need to create a **registry_credentials.yml** file in the **shared** directory.
+
+The file should have the following format:
+
+```
+credentials:
+  - registry: registry-1.docker.io
+    username: <your username>
+    password: <your password>
+```
+
+These credentials will be configured on masters/workers regarding docker for `nerdctl` commands that kubespray uses during deployment (see local value **docker_registry_auth**) as well as containerd for pods that will run in the kubernetes cluster (see local value **registry_credentials**).
 
 ### Tunnel support
 
@@ -109,36 +141,6 @@ A **vault_tunnel_config.json** and **vault_auth_secret** file will be generated 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access:
 - the servers: https://vault-tunnel.ferlab.lan:4431 / https://vault-tunnel.ferlab.lan:4432 / https://vault-tunnel.ferlab.lan:4433
 - the load balancer: https://vault-tunnel.ferlab.lan
-
-### Centralised Logs
-
-We are in the process of integrating centralised logs validation for our vms in the development environment. To enable it, you need to follow the steps below:
-1. Create a **host_params.json** file in the **shared** directory with the following two properties:
-  - **ip**: The ip of your local machine
-  - **dns**: The ip of a dns server your local machine uses
-2. Set the **logs_forwarding** property to true in the **params.json** file.
-3. In a separate terminal, go to the **logs** directory and run the **run.sh** script. It will run **fluentd** in a docker container that will listen for log traffic coming from the vms.
-
-### Docker Registry Credentials
-
-You can integrate your kubernetes installation with private Docker registry credentials (if you don't wish to be limited by image download limits while you are testing repeated kubernetes installations).
-
-To do so, you need to create a **registry_credentials.yml** file in the **shared** directory.
-
-The file should have the following format:
-
-```
-credentials:
-  - registry: registry-1.docker.io
-    username: <your username>
-    password: <your password>
-```
-
-### Assigned Ips
-
-Whenever you run **terraform apply** in the **netaddr** directory, the **shared/ips.md** file will be updated with all currently assigned ips (minus the hardcoded ones for the etcd cluster and automation server).
-
-This provides basic visualization of the assigned ips so far.
 
 # Useful commands
 |Command|Description

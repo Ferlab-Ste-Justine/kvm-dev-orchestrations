@@ -27,6 +27,7 @@ module "kubernetes_masters" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
+  docker_registry_auth = local.docker_registry_auth
   fluentbit = {
     enabled = local.params.logs_forwarding
     nfs_tunnel_client_tag = ""

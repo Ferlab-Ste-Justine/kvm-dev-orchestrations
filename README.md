@@ -142,6 +142,29 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you c
 - the servers: https://vault-tunnel.ferlab.lan:4431 / https://vault-tunnel.ferlab.lan:4432 / https://vault-tunnel.ferlab.lan:4433
 - the load balancer: https://vault-tunnel.ferlab.lan
 
+## Minio
+
+To setup a distributed minio, go tothe **minio** directory and run `terraform init && terraform apply`.
+
+It will setup a minio cluster consisting of 4 servers 2 disks per server (8 disks total). 
+
+The **minio.ferlab.lan** domain will do dns load balancing on all servers. Individual servers can be fetched using the **server1.minio.ferlab.lan**, **server2.minio.ferlab.lan**, **server3.minio.ferlab.lan** and **server4.minio.ferlab.lan** domains. Here, we assume that you set up the coredns server locally as described above.
+
+The minios are accessible on port 9000 via tls. The CA used to provision the server certificates can be found at **shared/minio_ca.crt**.
+
+The root credentials for minio can be found in the parameters file, in the **minio** entry.
+
+## Dhcp/pxe Server
+
+A dhcp/pxe server can be setup on the libvirt network. It is dependent on minio running as it synchronizes with minio for os images.
+
+In order to troubleshoot a pxe installation on a vm, you need to:
+1. Start a minio cluster as outlined above
+2. Go in the **dhcp-pxe-os-setup** directory, run **run.sh** (it will open a shell in a docker container) and then **setup.sh** to upload a ubuntu server image in minio. Note that it assumes that the minio domain resolves locally (ie, you have the coredns server pluged in your local environment)
+3. Boot the dhcp/pxe server, by going to the **dhcp** directory and and run `terraform init && terraform apply`
+4. Run the **pxe_client_setup.sh** script to start a blank vm that will be setup with the pxe server. You can interact with the prompt to install ubuntu server on the vm from the libvirt network.
+5. Once you are done, you can run the **pxe_client_destroy.sh** script to cleanup the vm.
+
 # Useful commands
 |Command|Description
 |---|---

@@ -1,6 +1,6 @@
 sudo virt-install --connect qemu:///system \
     --name testvm \
-    --network=bridge:virbr1 --pxe \
+    --network network=ferlab --pxe \
     --ram=8192 \
     --vcpus=2 \
     --os-type=linux \

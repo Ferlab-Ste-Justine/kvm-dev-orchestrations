@@ -25,3 +25,5 @@ kubernetes-orchestrations/*/terraform.tfstate.backup
 kubernetes-orchestrations/*/.terraform.tfstate.lock.info
 kubernetes-orchestrations/*/.terraform.lock.hcl
 kubernetes-orchestrations/*/.terraform/
+dhcp-pxe-os-setup/bin/
+dhcp-pxe-os-setup/image/

@@ -44,3 +44,9 @@ resource "tls_locally_signed_cert" "minio" {
 
   is_ca_certificate = false
 }
+
+resource "local_file" "minio_ca_cert" {
+  content         = module.minio_ca.certificate
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/minio_ca.crt"
+}

@@ -1,0 +1,15 @@
+#!ipxe
+
+menu Select Your installation
+
+item ubuntu-22.04-server-amd64 Install Ubuntu Server 22.04 LTS
+
+choose --default exit --timeout 10000 option && goto ${option}
+
+:ubuntu-22.04-server-amd64
+
+kernel http://dhcp.ferlab.lan/os/casper/vmlinuz
+
+initrd http://dhcp.ferlab.lan/os/casper/initrd
+
+boot

@@ -55,3 +55,6 @@
 [submodule "minio/terraform-libvirt-minio-server"]
 	path = minio/terraform-libvirt-minio-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-minio-server.git
+[submodule "dhcp/terraform-libvirt-dhcp-server"]
+	path = dhcp/terraform-libvirt-dhcp-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-dhcp-server.git

@@ -41,8 +41,8 @@ module "minio_1" {
       ca_cert     = module.minio_ca.certificate
     }
     auth = {
-      root_username = "minio"
-      root_password = "testtest"
+      root_username = local.params.minio.root_username
+      root_password = local.params.minio.root_password
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }
@@ -131,8 +131,8 @@ module "minio_2" {
       ca_cert     = module.minio_ca.certificate
     }
     auth = {
-      root_username = "minio"
-      root_password = "testtest"
+      root_username = local.params.minio.root_username
+      root_password = local.params.minio.root_password
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }
@@ -221,8 +221,8 @@ module "minio_3" {
       ca_cert     = module.minio_ca.certificate
     }
     auth = {
-      root_username = "minio"
-      root_password = "testtest"
+      root_username = local.params.minio.root_username
+      root_password = local.params.minio.root_password
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }
@@ -311,8 +311,8 @@ module "minio_4" {
       ca_cert     = module.minio_ca.certificate
     }
     auth = {
-      root_username = "minio"
-      root_password = "testtest"
+      root_username = local.params.minio.root_username
+      root_password = local.params.minio.root_password
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }

@@ -33,7 +33,9 @@
     },
     "minio": {
       "vcpus": 1,
-      "memory": 2048
+      "memory": 2048,
+      "root_username": "minio",
+      "root_password": "testtest"
     },
     "etcd": {
       "vcpus": 1,

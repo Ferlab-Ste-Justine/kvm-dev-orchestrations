@@ -8,8 +8,8 @@ choose --default exit --timeout 10000 option && goto ${option}
 
 :ubuntu-22.04-server-amd64
 
-kernel http://dhcp.ferlab.lan/os/casper/vmlinuz
+initrd http://dhcp.ferlab.lan/os/ubuntu-22.04-server-amd64/casper/initrd
 
-initrd http://dhcp.ferlab.lan/os/casper/initrd
+kernel http://dhcp.ferlab.lan/os/ubuntu-22.04-server-amd64/casper/vmlinuz autoinstall ip=dhcp url=http://dhcp.ferlab.lan/os/ubuntu-22.04-server-amd64.iso
 
 boot

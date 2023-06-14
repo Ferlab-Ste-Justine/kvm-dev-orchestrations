@@ -13,7 +13,7 @@ module "dhcp" {
   vcpus = local.params.dhcp.vcpus
   memory = local.params.dhcp.memory
   volume_id = libvirt_volume.dhcp.id
-  libvirt_network = {
+  libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
     ip = netaddr_address_ipv4.dhcp.address
@@ -21,7 +21,7 @@ module "dhcp" {
     prefix_length = split("/", local.params.network.addresses).1
     gateway = local.params.network.gateway
     dns_servers = [data.netaddr_address_ipv4.coredns.address]
-  }
+  }]
   dhcp = {
     networks = [{
       addresses   = local.params.network.addresses
@@ -31,6 +31,7 @@ module "dhcp" {
       range_start = local.params.network.dhcp_range.start
       range_end   = local.params.network.dhcp_range.end
     }]
+    interfaces = ["libvirt0"]
   }
   pxe = {
     enabled = true

@@ -28,7 +28,10 @@ fi
 bin/mc --insecure alias set ferlab https://minio.ferlab.lan:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD
 bin/mc --insecure mb --ignore-existing ferlab/pxe
 
-mount -o loop image/ubuntu-22.04-server-amd64.iso /mnt
+mkdir -p /mnt/ubuntu-22.04-server-amd64
+mount -o loop image/ubuntu-22.04-server-amd64.iso /mnt/ubuntu-22.04-server-amd64
+
+cp image/ubuntu-22.04-server-amd64.iso /mnt/
 
 export RCLONE_CONFIG_S3_ACCESS_KEY_ID=$MINIO_ROOT_USER
 export RCLONE_CONFIG_S3_SECRET_ACCESS_KEY=$MINIO_ROOT_PASSWORD

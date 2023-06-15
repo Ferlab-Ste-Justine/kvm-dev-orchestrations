@@ -29,7 +29,8 @@
     },
     "dhcp": {
       "vcpus": 1,
-      "memory": 4096
+      "memory": 4096,
+      "data_volumes": false
     },
     "minio": {
       "vcpus": 1,

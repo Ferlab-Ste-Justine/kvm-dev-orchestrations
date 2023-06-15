@@ -13,6 +13,7 @@ module "dhcp" {
   vcpus = local.params.dhcp.vcpus
   memory = local.params.dhcp.memory
   volume_id = libvirt_volume.dhcp.id
+  data_volume_id = local.params.dhcp.data_volumes ? libvirt_volume.dhcp_data.0.id : ""
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -32,6 +33,8 @@ module "dhcp" {
       range_end   = local.params.network.dhcp_range.end
     }]
     interfaces = ["libvirt0"]
+    default_lease_time = 3 * 3600
+    max_lease_time = 24 * 3600
   }
   pxe = {
     enabled = true

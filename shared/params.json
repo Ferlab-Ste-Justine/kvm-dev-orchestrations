@@ -25,6 +25,21 @@
       "address": {
         "mac": "aa:00:00:00:00:03",
         "ip": "192.168.55.5"
+      },
+      "dynamic_config": {
+        "source": "etcd",
+        "git": {
+          "systemd": {
+            "repo": "git@github.com:Ferlab-Ste-Justine/kvm-dev-orchestrations.git",
+            "ref": "main",
+            "path": "automation-server-configurations/config"
+          },
+          "fluentbit": {
+            "repo": "git@github.com:Ferlab-Ste-Justine/kvm-dev-orchestrations.git",
+            "ref": "main",
+            "path": "automation-server-configurations/fluent-bit-config"
+          }
+        }
       }
     },
     "dhcp": {

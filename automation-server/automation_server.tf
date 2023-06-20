@@ -36,17 +36,6 @@ module "automation_server" {
       }
     }
     client = {
-      etcd = {
-        key_prefix = "/automation-server/configurations/"
-        endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
-        ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
-        client = {
-          certificate = ""
-          key = ""
-          username = "automation-server"
-          password = random_password.automation_server_etcd.result
-        }
-      }
       tls = {
         ca_certificate = module.automation_server_ca.certificate
         client_certificate = tls_locally_signed_cert.automation_server.cert_pem
@@ -54,6 +43,30 @@ module "automation_server" {
       }
     }
     sync_directory = "/opt/dynamic-configurations"
+  }
+  systemd_remote_source = {
+    source = local.params.automation_server.dynamic_config.source
+    etcd = {
+      key_prefix = "/automation-server/configurations/"
+      endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
+      ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
+      client = {
+        certificate = ""
+        key = ""
+        username = "automation-server"
+        password = random_password.automation_server_etcd.result
+      }
+    }
+    git = {
+      repo = local.params.automation_server.dynamic_config.git.systemd.repo
+      ref = local.params.automation_server.dynamic_config.git.systemd.ref
+      path = local.params.automation_server.dynamic_config.git.systemd.path
+      trusted_gpg_keys = local.host_params.accepted_signature != "" ? [file(pathexpand(local.host_params.accepted_signature))] : []
+      auth = {
+        client_ssh_key         = local.host_params.ssh_key != "" ? file(pathexpand(local.host_params.ssh_key)) : ""
+        server_ssh_fingerprint = file("${path.module}/git/known_host")
+      }
+    }
   }
   terraform_backend_etcd = {
     enabled = true
@@ -129,8 +142,11 @@ module "automation_server" {
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
+  }
+  fluentbit_dynamic_config = {
+    enabled = true
+    source = local.params.automation_server.dynamic_config.source
     etcd = {
-      enabled = true
       key_prefix = "/automation-server/fluent-bit/"
       endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
       ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
@@ -139,6 +155,16 @@ module "automation_server" {
         key = ""
         username = "automation-server"
         password = random_password.automation_server_etcd.result
+      }
+    }
+    git = {
+      repo = local.params.automation_server.dynamic_config.git.fluentbit.repo
+      ref = local.params.automation_server.dynamic_config.git.fluentbit.ref
+      path = local.params.automation_server.dynamic_config.git.fluentbit.path
+      trusted_gpg_keys = local.host_params.accepted_signature != "" ? [file(pathexpand(local.host_params.accepted_signature))] : []
+      auth = {
+        client_ssh_key         = local.host_params.ssh_key != "" ? file(pathexpand(local.host_params.ssh_key)) : ""
+        server_ssh_fingerprint = file("${path.module}/git/known_host")
       }
     }
   }

@@ -18,10 +18,16 @@
       "end": "aa:ff:ff:ff:ff:ff"
     },
     "virsh_console_password": "test",
-    "logs_forwarding": false,
+    "logs_forwarding": true,
+    "alertmanager": {
+      "vcpus": 1,
+      "memory": 2048,
+      "data_volumes": false,
+      "client_auth": "certificate"
+    },
     "automation_server": {
       "vcpus": 1,
-      "memory": 4096,
+      "memory": 2048,
       "address": {
         "mac": "aa:00:00:00:00:03",
         "ip": "192.168.55.5"

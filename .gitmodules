@@ -58,3 +58,6 @@
 [submodule "dhcp/terraform-libvirt-dhcp-server"]
 	path = dhcp/terraform-libvirt-dhcp-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-dhcp-server.git
+[submodule "alertmanager/terraform-libvirt-alertmanager-server"]
+	path = alertmanager/terraform-libvirt-alertmanager-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-alertmanager-server.git

@@ -11,6 +11,7 @@ shared/*_password
 shared/*_key_algorithm
 shared/*.md
 shared/*_ssh_key
+shared/*_webhook
 shared/kubeconfig
 shared/*tunnel_config.json
 shared/registry_credentials.yml

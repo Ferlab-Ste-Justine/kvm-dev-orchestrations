@@ -67,19 +67,26 @@ module "prometheus" {
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
-    etcd = {
-      enabled = false
-      key_prefix = ""
-      endpoints = []
-      ca_certificate = ""
-      client = {
-        certificate = ""
-        key = ""
-        username = ""
-        password = ""
-      }
-    }
   }
+
+  prometheus_secrets = fileexists("${path.module}/../shared/alertmanager_ca.crt") ? [
+    {
+      path = "/opt/alertmanager/ca.crt",
+      content = file("${path.module}/../shared/alertmanager_ca.crt")
+    },
+    {
+      path = "/opt/alertmanager/client.crt",
+      content = file("${path.module}/../shared/alertmanager_client.crt")
+    },
+    {
+      path = "/opt/alertmanager/client.key",
+      content = file("${path.module}/../shared/alertmanager_client.key")
+    },
+    {
+      path = "/opt/alertmanager/password",
+      content = file("${path.module}/../shared/alertmanager_password")
+    }
+  ] : []
 
   install_dependencies = true
 }

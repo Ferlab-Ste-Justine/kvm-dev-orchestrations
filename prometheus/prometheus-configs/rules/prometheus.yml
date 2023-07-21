@@ -1,0 +1,27 @@
+groups:
+  - name: prometheus-metrics
+    rules:
+      #prometheus hosts count
+      - record: prometheus:up:count
+        expr: sum without(instance) (up{job="prometheus-node-exporter"})
+      - alert: PrometheusDown
+        expr: prometheus:up:count < 1
+      #prometheus hosts memory metrics
+      - record: prometheus:total_memory:gigabytes
+        expr: node_memory_MemTotal_bytes{job="prometheus-node-exporter"} / 1024 / 1024 / 1024     
+      - record: prometheus:memory_usage:percentage
+        expr: (1 - (node_memory_MemFree_bytes{job="prometheus-node-exporter"} / node_memory_MemTotal_bytes{job="prometheus-node-exporter"}))*100
+      - record: prometheus:reserved_memory_ratio:percentage
+        expr: (1 - (node_memory_MemAvailable_bytes{job="prometheus-node-exporter"} / node_memory_MemTotal_bytes{job="prometheus-node-exporter"}))*100
+      #prometheus hosts CPU metrics
+      - record: prometheus:cpu_cores:count
+        expr: count without(mode, cpu) (node_cpu_seconds_total{job="prometheus-node-exporter", mode="idle"})
+      - record: prometheus:cpu_usage:percentage
+        expr: (sum without(cpu, mode) (rate(node_cpu_seconds_total{job="prometheus-node-exporter", mode!="idle"}[5m]))) / (sum without(cpu, mode) (rate(node_cpu_seconds_total{job="prometheus-node-exporter"}[5m]))) * 100
+      #prometheus hosts filesystem metrics
+      - record: prometheus:filesystem_size:gigabytes
+        expr: node_filesystem_size_bytes{job="prometheus-node-exporter", fstype="ext4"} / 1024 / 1024 / 1024
+      - record: prometheus:filesystem_space_usage_ratio:percentage
+        expr: (1 - node_filesystem_avail_bytes{job="prometheus-node-exporter", fstype="ext4"} / node_filesystem_size_bytes{job="prometheus-node-exporter", fstype="ext4"}) * 100
+      - record: prometheus:disks_io_usage:percentage
+        expr: rate(node_disk_io_time_seconds_total{job="prometheus-node-exporter", device="vda"}[5m]) * 100

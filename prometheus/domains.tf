@@ -11,7 +11,7 @@ module "prometheus_domain" {
   ]
 }
 
-module "etcd_scape_domain" {
+module "etcd_scrape_domain" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-zonefile.git"
   domain = "etcd.ferlab.lan"
   key_prefix = "/ferlab/coredns/"

@@ -1,0 +1,27 @@
+groups:
+  - name: dhcp-metrics
+    rules:
+      #dhcp hosts count
+      - record: dhcp:up:count
+        expr: sum without(instance) (up{job="dhcp-node-exporter"})
+      - alert: DhcpDown
+        expr: dhcp:up:count < 1
+      #dhcp hosts memory metrics
+      - record: dhcp:total_memory:gigabytes
+        expr: node_memory_MemTotal_bytes{job="dhcp-node-exporter"} / 1024 / 1024 / 1024     
+      - record: dhcp:memory_usage:percentage
+        expr: (1 - (node_memory_MemFree_bytes{job="dhcp-node-exporter"} / node_memory_MemTotal_bytes{job="dhcp-node-exporter"}))*100
+      - record: dhcp:reserved_memory_ratio:percentage
+        expr: (1 - (node_memory_MemAvailable_bytes{job="dhcp-node-exporter"} / node_memory_MemTotal_bytes{job="dhcp-node-exporter"}))*100
+      #dhcp hosts CPU metrics
+      - record: dhcp:cpu_cores:count
+        expr: count without(mode, cpu) (node_cpu_seconds_total{job="dhcp-node-exporter", mode="idle"})
+      - record: dhcp:cpu_usage:percentage
+        expr: (sum without(cpu, mode) (rate(node_cpu_seconds_total{job="dhcp-node-exporter", mode!="idle"}[5m]))) / (sum without(cpu, mode) (rate(node_cpu_seconds_total{job="dhcp-node-exporter"}[5m]))) * 100
+      #dhcp hosts filesystem metrics
+      - record: dhcp:filesystem_size:gigabytes
+        expr: node_filesystem_size_bytes{job="dhcp-node-exporter", fstype="ext4"} / 1024 / 1024 / 1024
+      - record: dhcp:filesystem_space_usage_ratio:percentage
+        expr: (1 - node_filesystem_avail_bytes{job="dhcp-node-exporter", fstype="ext4"} / node_filesystem_size_bytes{job="dhcp-node-exporter", fstype="ext4"}) * 100
+      - record: dhcp:disks_io_usage:percentage
+        expr: rate(node_disk_io_time_seconds_total{job="dhcp-node-exporter", device="vda"}[5m]) * 100

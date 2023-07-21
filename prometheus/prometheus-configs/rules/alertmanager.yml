@@ -1,0 +1,27 @@
+groups:
+  - name: alertmanager-metrics
+    rules:
+      #alertmanager hosts count
+      - record: alertmanager:up:count
+        expr: sum without(instance) (up{job="alertmanager-node-exporter"})
+      - alert: SomeAlertManagerDown
+        expr: alertmanager:up:count < 2
+      #alertmanager hosts memory metrics
+      - record: alertmanager:total_memory:gigabytes
+        expr: node_memory_MemTotal_bytes{job="alertmanager-node-exporter"} / 1024 / 1024 / 1024     
+      - record: alertmanager:memory_usage:percentage
+        expr: (1 - (node_memory_MemFree_bytes{job="alertmanager-node-exporter"} / node_memory_MemTotal_bytes{job="alertmanager-node-exporter"}))*100
+      - record: alertmanager:reserved_memory_ratio:percentage
+        expr: (1 - (node_memory_MemAvailable_bytes{job="alertmanager-node-exporter"} / node_memory_MemTotal_bytes{job="alertmanager-node-exporter"}))*100
+      #alertmanager hosts CPU metrics
+      - record: alertmanager:cpu_cores:count
+        expr: count without(mode, cpu) (node_cpu_seconds_total{job="alertmanager-node-exporter", mode="idle"})
+      - record: alertmanager:cpu_usage:percentage
+        expr: (sum without(cpu, mode) (rate(node_cpu_seconds_total{job="alertmanager-node-exporter", mode!="idle"}[5m]))) / (sum without(cpu, mode) (rate(node_cpu_seconds_total{job="alertmanager-node-exporter"}[5m]))) * 100
+      #alertmanager hosts filesystem metrics
+      - record: alertmanager:filesystem_size:gigabytes
+        expr: node_filesystem_size_bytes{job="alertmanager-node-exporter", fstype="ext4"} / 1024 / 1024 / 1024
+      - record: alertmanager:filesystem_space_usage_ratio:percentage
+        expr: (1 - node_filesystem_avail_bytes{job="alertmanager-node-exporter", fstype="ext4"} / node_filesystem_size_bytes{job="alertmanager-node-exporter", fstype="ext4"}) * 100
+      - record: alertmanager:disks_io_usage:percentage
+        expr: rate(node_disk_io_time_seconds_total{job="alertmanager-node-exporter", device="vda"}[5m]) * 100

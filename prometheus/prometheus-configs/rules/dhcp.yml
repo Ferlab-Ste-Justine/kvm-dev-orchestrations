@@ -6,6 +6,10 @@ groups:
         expr: sum without(instance) (up{job="dhcp-node-exporter"})
       - alert: DhcpDown
         expr: dhcp:up:count < 1
+        for: 15m
+        annotations:
+          summary: "Dhcp VM(s) Down"
+          description: "Number of vm instances detected by job *{{ $labels.job }}* has dropped to *{{ $value }}*"
       #dhcp hosts memory metrics
       - record: dhcp:total_memory:gigabytes
         expr: node_memory_MemTotal_bytes{job="dhcp-node-exporter"} / 1024 / 1024 / 1024     
@@ -24,4 +28,4 @@ groups:
       - record: dhcp:filesystem_space_usage_ratio:percentage
         expr: (1 - node_filesystem_avail_bytes{job="dhcp-node-exporter", fstype="ext4"} / node_filesystem_size_bytes{job="dhcp-node-exporter", fstype="ext4"}) * 100
       - record: dhcp:disks_io_usage:percentage
-        expr: rate(node_disk_io_time_seconds_total{job="dhcp-node-exporter", device="vda"}[5m]) * 100
+        expr: rate(node_disk_io_time_seconds_total{job="dhcp-node-exporter", device=~"vd."}[5m]) * 100

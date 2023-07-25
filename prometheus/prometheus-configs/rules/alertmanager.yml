@@ -6,6 +6,10 @@ groups:
         expr: sum without(instance) (up{job="alertmanager-node-exporter"})
       - alert: SomeAlertManagerDown
         expr: alertmanager:up:count < 2
+        for: 15m
+        annotations:
+          summary: "Alertmanager VM(s) Down"
+          description: "Number of vm instances detected by job *{{ $labels.job }}* has dropped to *{{ $value }}*"
       #alertmanager hosts memory metrics
       - record: alertmanager:total_memory:gigabytes
         expr: node_memory_MemTotal_bytes{job="alertmanager-node-exporter"} / 1024 / 1024 / 1024     
@@ -24,4 +28,4 @@ groups:
       - record: alertmanager:filesystem_space_usage_ratio:percentage
         expr: (1 - node_filesystem_avail_bytes{job="alertmanager-node-exporter", fstype="ext4"} / node_filesystem_size_bytes{job="alertmanager-node-exporter", fstype="ext4"}) * 100
       - record: alertmanager:disks_io_usage:percentage
-        expr: rate(node_disk_io_time_seconds_total{job="alertmanager-node-exporter", device="vda"}[5m]) * 100
+        expr: rate(node_disk_io_time_seconds_total{job="alertmanager-node-exporter", device=~"vd."}[5m]) * 100

@@ -13,3 +13,8 @@ receivers:
         channel: local-alerts
         icon_emoji: ":robot_face:"
         username: kvm-dev-orchestrations
+        title: '{{ .CommonAnnotations.summary }}'
+        text: '{{ template "slack_message" . }}'
+
+templates:
+  - templates/slack.tmpl

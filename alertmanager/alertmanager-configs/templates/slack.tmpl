@@ -1,0 +1,4 @@
+{{ define "slack_message" }}{{ range $idx, $alert := .Alerts }}
+{{- if $idx }}{{ printf "\n" }}{{ end }}
+{{- $alert.Annotations.description }}
+{{- end }}{{ end }}

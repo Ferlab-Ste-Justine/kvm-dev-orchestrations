@@ -94,6 +94,31 @@ module "automation_server" {
       }
     }
   }
+  pushgateway = {
+    enabled = true
+    server = {
+      tls = {
+        ca_cert     = module.pushgateway_ca.certificate
+        server_cert = tls_locally_signed_cert.pushgateway.cert_pem
+        server_key  = tls_private_key.pushgateway.private_key_pem
+      }
+      basic_auth = {
+        username = ""
+        hashed_password = ""
+      }
+    }
+    client = {
+      tls = {
+        ca_cert     = module.pushgateway_ca.certificate
+        client_cert = tls_locally_signed_cert.pushgateway.cert_pem
+        client_key  = tls_private_key.pushgateway.private_key_pem
+      }
+      basic_auth = {
+        username = ""
+        password = ""
+      }
+    }
+  }
   bootstrap_configs = concat(
     [
       {

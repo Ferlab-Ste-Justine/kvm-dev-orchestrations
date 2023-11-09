@@ -6,6 +6,20 @@ timeouts:
   terraform_plan: "5m"
   terraform_apply: "5m"
   wait: "2m"
+state_store:
+  fs:
+    enabled: true
+cache:
+  versions_file: "version.tf"
+random_jitter: "1s"
+metrics:
+  job_name: "time-in-files"
+  pushgateway:
+    url: https://127.0.0.10:9091
+    auth:
+      ca_cert: /etc/pushgateway-client/ca.crt
+      client_cert: /etc/pushgateway-client/client.crt
+      client_key: /etc/pushgateway-client/client.key
 sources:
   - dir: "/opt/terraform/timer-in-files-cloud-init"
   - backend_http:

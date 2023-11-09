@@ -18,7 +18,7 @@
       "end": "aa:ff:ff:ff:ff:ff"
     },
     "virsh_console_password": "test",
-    "logs_forwarding": true,
+    "logs_forwarding": false,
     "alertmanager": {
       "vcpus": 1,
       "memory": 4096,
@@ -161,7 +161,8 @@
     "prometheus": {
       "vcpus": 1,
       "memory": 4096,
-      "data_volumes": false
+      "data_volumes": false,
+      "alerting": false
     },
     "vault": {
       "servers": {

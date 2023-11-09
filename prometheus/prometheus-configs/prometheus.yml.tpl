@@ -9,6 +9,7 @@ rule_files:
   - rules/alertmanager.yml
   - rules/dhcp.yml
 
+%{ if alerting ~}
 alerting:
   alertmanagers:
     - scheme: https
@@ -20,6 +21,7 @@ alerting:
         - targets:
           - server-1.alertmanager.ferlab.lan:9093
           - server-2.alertmanager.ferlab.lan:9093
+%{ endif ~}
 
 scrape_configs:
   - job_name: "prometheus"

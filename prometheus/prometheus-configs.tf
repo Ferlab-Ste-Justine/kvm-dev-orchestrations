@@ -1,7 +1,10 @@
-resource "null_resource" "prometheus_yml_generated" {
-  provisioner "local-exec" {
-    command = "echo '${templatefile("${path.module}/prometheus-configs/prometheus.yml.tpl", local.params.prometheus)}' > ${path.module}/prometheus-configs/prometheus.yml"
-  }
+resource "local_file" "prometheus_config" {
+  content         = templatefile(
+    "${path.module}/prometheus-configs/prometheus.yml.tpl",
+    local.params.prometheus
+  )
+  file_permission = "0600"
+  filename        = "${path.module}/prometheus-configs/prometheus.yml"
 }
 
 resource "etcd_synchronized_directory" "prometheus_confs" {
@@ -9,4 +12,6 @@ resource "etcd_synchronized_directory" "prometheus_confs" {
     key_prefix = "/ferlab/prometheus/"
     source = "directory"
     recurrence = "onchange"
+
+    depends_on = [local_file.prometheus_config]
 }

@@ -3,11 +3,9 @@ global:
   evaluation_interval: 10s
 
 rule_files:
-  - rules/coredns.yml
-  - rules/etcd.yml
-  - rules/prometheus.yml
-  - rules/alertmanager.yml
-  - rules/dhcp.yml
+%{ for rule_path in node_exporter_rule_paths ~}
+  - ${rule_path}
+%{ endfor ~}
 
 %{ if alertmanager_enabled ~}
 alerting:

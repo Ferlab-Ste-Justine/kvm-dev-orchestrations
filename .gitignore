@@ -29,3 +29,4 @@ kubernetes-orchestrations/*/.terraform/
 dhcp-pxe-os-setup/bin/
 dhcp-pxe-os-setup/image/
 prometheus/prometheus-configs/prometheus.yml
+prometheus/prometheus-configs/rules/*-node-exporter.yml

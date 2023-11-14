@@ -60,3 +60,21 @@ scrape_configs:
         refresh_interval: 5s
         type: A
         port: 9100
+  - job_name: "automation-server-node-exporter"
+    dns_sd_configs:
+      - names:
+          - automation.ferlab.lan
+        refresh_interval: 5s
+        type: A
+        port: 9100
+  - job_name: "automation-server-pushgateway"
+    dns_sd_configs:
+      - names:
+          - automation.ferlab.lan
+        refresh_interval: 5s
+        type: A
+        port: 9091
+    tls_config:
+      ca_file: /opt/automation-server-pushgateway/ca.crt
+      cert_file: /opt/automation-server-pushgateway/client.crt
+      key_file: /opt/automation-server-pushgateway/client.key

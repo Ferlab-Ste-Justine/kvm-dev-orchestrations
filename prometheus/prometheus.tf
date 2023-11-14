@@ -1,3 +1,38 @@
+locals {
+  alertmanager_secrets = fileexists("${path.module}/../shared/alertmanager_ca.crt") ? [
+    {
+      path = "/opt/alertmanager/ca.crt",
+      content = file("${path.module}/../shared/alertmanager_ca.crt")
+    },
+    {
+      path = "/opt/alertmanager/client.crt",
+      content = file("${path.module}/../shared/alertmanager_client.crt")
+    },
+    {
+      path = "/opt/alertmanager/client.key",
+      content = file("${path.module}/../shared/alertmanager_client.key")
+    },
+    {
+      path = "/opt/alertmanager/password",
+      content = file("${path.module}/../shared/alertmanager_password")
+    }
+  ] : []
+  automation_server_secrets = fileexists("${path.module}/../shared/automation_server_pushgateway_ca.crt") ? [
+    {
+      path = "/opt/automation-server-pushgateway/ca.crt",
+      content = file("${path.module}/../shared/automation_server_pushgateway_ca.crt")
+    },
+    {
+      path = "/opt/automation-server-pushgateway/client.crt",
+      content = file("${path.module}/../shared/automation_server_pushgateway.crt")
+    },
+    {
+      path = "/opt/automation-server-pushgateway/client.key",
+      content = file("${path.module}/../shared/automation_server_pushgateway.key")
+    }
+  ] : []
+}
+
 resource "libvirt_volume" "prometheus" {
   name             = "ferlab-prometheus"
   pool             = "default"
@@ -69,24 +104,10 @@ module "prometheus" {
     }
   }
 
-  prometheus_secrets = fileexists("${path.module}/../shared/alertmanager_ca.crt") ? [
-    {
-      path = "/opt/alertmanager/ca.crt",
-      content = file("${path.module}/../shared/alertmanager_ca.crt")
-    },
-    {
-      path = "/opt/alertmanager/client.crt",
-      content = file("${path.module}/../shared/alertmanager_client.crt")
-    },
-    {
-      path = "/opt/alertmanager/client.key",
-      content = file("${path.module}/../shared/alertmanager_client.key")
-    },
-    {
-      path = "/opt/alertmanager/password",
-      content = file("${path.module}/../shared/alertmanager_password")
-    }
-  ] : []
+  prometheus_secrets = concat(
+    local.alertmanager_secrets,
+    local.automation_server_secrets
+  )
 
   install_dependencies = true
 }

@@ -74,6 +74,7 @@ scrape_configs:
         refresh_interval: 5s
         type: A
         port: 9091
+    scheme: https
     tls_config:
       ca_file: /opt/automation-server-pushgateway/ca.crt
       cert_file: /opt/automation-server-pushgateway/client.crt

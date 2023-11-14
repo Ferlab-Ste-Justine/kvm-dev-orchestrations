@@ -18,6 +18,9 @@ resource "tls_cert_request" "pushgateway" {
     "127.0.0.10",
     local.params.automation_server.address.ip
   ]
+  dns_names = [
+    "automation.ferlab.lan"
+  ]
 }
 
 resource "tls_locally_signed_cert" "pushgateway" {
@@ -39,17 +42,17 @@ resource "tls_locally_signed_cert" "pushgateway" {
 resource "local_file" "pushgateway_ca_cert" {
   content         = module.pushgateway_ca.certificate
   file_permission = "0600"
-  filename        = "${path.module}/../shared/automation-server-pushgateway-ca.crt"
+  filename        = "${path.module}/../shared/automation_server_pushgateway_ca.crt"
 }
 
 resource "local_file" "pushgateway_cert" {
   content         = tls_locally_signed_cert.pushgateway.cert_pem
   file_permission = "0600"
-  filename        = "${path.module}/../shared/automation-server-pushgateway.crt"
+  filename        = "${path.module}/../shared/automation_server_pushgateway.crt"
 }
 
 resource "local_file" "pushgateway_key" {
   content         = tls_private_key.pushgateway.private_key_pem
   file_permission = "0600"
-  filename        = "${path.module}/../shared/automation-server-pushgateway.key"
+  filename        = "${path.module}/../shared/automation_server_pushgateway.key"
 }

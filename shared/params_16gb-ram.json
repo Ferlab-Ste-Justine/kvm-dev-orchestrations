@@ -159,8 +159,7 @@
     "prometheus": {
       "vcpus": 1,
       "memory": 2048,
-      "data_volumes": false,
-      "alerting": false
+      "data_volumes": false
     },
     "vault": {
       "servers": {

@@ -9,7 +9,7 @@ rule_files:
   - rules/alertmanager.yml
   - rules/dhcp.yml
 
-%{ if alerting ~}
+%{ if alertmanager_enabled ~}
 alerting:
   alertmanagers:
     - scheme: https

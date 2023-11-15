@@ -6,6 +6,9 @@ rule_files:
 %{ for rule_path in node_exporter_rule_paths ~}
   - ${rule_path}
 %{ endfor ~}
+%{ for rule_path in terracd_rule_paths ~}
+  - ${rule_path}
+%{ endfor ~}
 
 %{ if alertmanager_enabled ~}
 alerting:
@@ -72,6 +75,7 @@ scrape_configs:
         refresh_interval: 5s
         type: A
         port: 9091
+    honor_labels: true
     scheme: https
     tls_config:
       ca_file: /opt/automation-server-pushgateway/ca.crt

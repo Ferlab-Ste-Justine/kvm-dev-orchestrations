@@ -1,5 +1,5 @@
 groups:
-  - name: ${job.label}-metrics
+  - name: ${job.label}-node-exporter-metrics
     rules:
       #${replace(job.label, "-", " ")} hosts count
       - record: ${replace(job.label, "-", "_")}:up:count
@@ -43,13 +43,11 @@ groups:
       - alert: ${replace(title(replace(job.label, "-", " ")), " ", "")}DiskSpaceUsageHigh
         expr: ${replace(job.label, "-", "_")}:filesystem_space_usage_ratio:percentage > ${job.disk_space_usage_threshold}
         annotations:
-          testing: false
           summary: "${title(replace(job.label, "-", " "))} VM(s) High Disk Space Usage"
           description: "Instance *{{ $labels.instance }}* of job *{{ $labels.job }}* has disk space usage *{{ $value }}*% for device *{{ $labels.device }}*"
       - alert: ${replace(title(replace(job.label, "-", " ")), " ", "")}DiskIoUsageHigh
         expr: ${replace(job.label, "-", "_")}:disks_io_usage:percentage > ${job.disk_io_usage_threshold}
         for: 15m
         annotations:
-          testing: false
           summary: "${title(replace(job.label, "-", " "))} VM(s) High Disk Io Usage"
           description: "Instance *{{ $labels.instance }}* of job *{{ $labels.job }}* has been running high io on device *{{ $labels.device }}* for a while. Current io at *{{ $value }}*%"

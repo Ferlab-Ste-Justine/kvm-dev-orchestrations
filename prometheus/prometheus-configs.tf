@@ -53,4 +53,12 @@ module "prometheus_confs" {
       disk_io_usage_threshold    = 90
     }
   ]
+  terracd_jobs   = [
+    {
+      label                    = "time-in-files"
+      plan_interval_threshold  = 60
+      apply_interval_threshold = 600
+      unit                     = "minute"
+    }
+  ]
 }

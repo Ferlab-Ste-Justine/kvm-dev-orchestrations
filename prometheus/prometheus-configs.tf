@@ -2,7 +2,12 @@ module "prometheus_confs" {
   source               = "./terraform-etcd-prometheus-confs"
   etcd_key_prefix      = "/ferlab/prometheus/"
   fs_path              = "${path.module}/prometheus-configs"
-  alertmanager_enabled = fileexists("${path.module}/../shared/alertmanager_ca.crt") ? true : false
+  config               = templatefile(
+    "${path.module}/prometheus-configs/prometheus.yml.tpl",
+    {
+      alertmanager_enabled = fileexists("${path.module}/../shared/alertmanager_ca.crt")
+    }
+  )
   node_exporter_jobs   = [
     {
       label                      = "etcd"

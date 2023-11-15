@@ -22,15 +22,17 @@ resource "local_file" "terracd_confs" {
   filename        = "${var.fs_path}/rules/${each.value.label}-terracd.yml"
 }
 
-resource "local_file" "prometheus_conf" {
-  content         = templatefile(
-    "${var.fs_path}/prometheus.yml.tpl",
-    {
-      alertmanager_enabled = var.alertmanager_enabled
-      node_exporter_rule_paths = [for node_exporter_job in var.node_exporter_jobs: "rules/${node_exporter_job.label}-node-exporter.yml"]
-      terracd_rule_paths = [for terracd_job in var.terracd_jobs: "rules/${terracd_job.label}-terracd.yml"]
-    }
+locals {
+  parsed_config = yamldecode(var.config)
+  rule_files = concat(
+    contains(keys(local.parsed_config), "rule_files") ? local.parsed_config.rule_files : [],
+    [for node_exporter_job in var.node_exporter_jobs: "rules/${node_exporter_job.label}-node-exporter.yml"],
+    [for terracd_job in var.terracd_jobs: "rules/${terracd_job.label}-terracd.yml"]
   )
+}
+
+resource "local_file" "prometheus_conf" {
+  content         = yamlencode(merge(local.parsed_config, {rule_files=local.rule_files}))
   file_permission = "0600"
   filename        = "${var.fs_path}/prometheus.yml"
 }

@@ -2,14 +2,6 @@ global:
   scrape_interval: 10s
   evaluation_interval: 10s
 
-rule_files:
-%{ for rule_path in node_exporter_rule_paths ~}
-  - ${rule_path}
-%{ endfor ~}
-%{ for rule_path in terracd_rule_paths ~}
-  - ${rule_path}
-%{ endfor ~}
-
 %{ if alertmanager_enabled ~}
 alerting:
   alertmanagers:

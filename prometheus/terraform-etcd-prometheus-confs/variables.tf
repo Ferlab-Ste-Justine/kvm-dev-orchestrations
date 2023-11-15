@@ -27,8 +27,8 @@ variable "node_exporter_jobs" {
   default = []
 }
 
-variable "alertmanager_enabled" {
-  description = "Indicates whether the alertmanager is enabled."
+variable "config" {
+  description = "Content of your prometheus main configuration file."
   type = string
 }
 

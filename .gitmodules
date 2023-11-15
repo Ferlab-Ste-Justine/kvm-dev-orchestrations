@@ -61,3 +61,6 @@
 [submodule "alertmanager/terraform-libvirt-alertmanager-server"]
 	path = alertmanager/terraform-libvirt-alertmanager-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-alertmanager-server.git
+[submodule "prometheus/terraform-etcd-prometheus-configuration"]
+	path = prometheus/terraform-etcd-prometheus-configuration
+	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-prometheus-configuration.git

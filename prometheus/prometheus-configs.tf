@@ -10,60 +10,81 @@ module "prometheus_confs" {
   )
   node_exporter_jobs   = [
     {
-      label                      = "etcd"
+      tag                        = "etcd"
       expected_count             = 3
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
+      alert_labels               = {
+        org = "ferlab"
+      }
     },
     {
-      label                      = "coredns"
+      tag                        = "coredns"
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
+      alert_labels               = {
+        org = "ferlab"
+      }
     },
     {
-      label                      = "prometheus"
+      tag                        = "prometheus"
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
+      alert_labels               = {
+        org = "ferlab"
+      }
     },
     {
-      label                      = "alertmanager"
+      tag                        = "alertmanager"
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
+      alert_labels               = {
+        org = "ferlab"
+      }
     },
     {
-      label                      = "automation-server"
+      tag                        = "automation-server"
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
+      alert_labels               = {
+        org = "ferlab"
+      }
     },
     {
-      label                      = "dhcp"
+      tag                        = "dhcp"
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
+      alert_labels               = {
+        org = "ferlab"
+      }
     }
   ]
   terracd_jobs   = [
     {
-      label                    = "time-in-files"
+      tag                      = "time-in-files"
       plan_interval_threshold  = 60
       apply_interval_threshold = 600
       unit                     = "minute"
+      alert_labels               = {
+        org = "ferlab"
+      }
     }
   ]
 }

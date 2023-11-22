@@ -64,3 +64,6 @@
 [submodule "prometheus/terraform-etcd-prometheus-configuration"]
 	path = prometheus/terraform-etcd-prometheus-configuration
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-prometheus-configuration.git
+[submodule "kubernetes-orchestrations/prometheus/k8-generic-orchestrations"]
+	path = kubernetes-orchestrations/prometheus/k8-generic-orchestrations
+	url = git@github.com:Ferlab-Ste-Justine/k8-generic-orchestrations

@@ -5,7 +5,8 @@ module "prometheus_confs" {
   config               = templatefile(
     "${path.module}/prometheus-configs/prometheus.yml.tpl",
     {
-      alertmanager_enabled = fileexists("${path.module}/../shared/alertmanager_ca.crt")
+      alertmanager_enabled          = fileexists("${path.module}/../shared/alertmanager_ca.crt")
+      kubernetes_cluster_federation = local.params.prometheus.kubernetes_cluster_federation
     }
   )
   node_exporter_jobs   = [

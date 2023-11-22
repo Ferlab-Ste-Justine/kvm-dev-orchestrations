@@ -14,6 +14,7 @@ module "prometheus_confs" {
       expected_count             = 3
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
+      expected_disks_count       = -1
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
       alert_labels               = {
@@ -25,6 +26,7 @@ module "prometheus_confs" {
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
+      expected_disks_count       = 1
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
       alert_labels               = {
@@ -36,6 +38,7 @@ module "prometheus_confs" {
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
+      expected_disks_count       = -1
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
       alert_labels               = {
@@ -47,6 +50,7 @@ module "prometheus_confs" {
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
+      expected_disks_count       = -1
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
       alert_labels               = {
@@ -58,6 +62,7 @@ module "prometheus_confs" {
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
+      expected_disks_count       = -1
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
       alert_labels               = {
@@ -69,6 +74,7 @@ module "prometheus_confs" {
       expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
+      expected_disks_count       = -1
       disk_space_usage_threshold = 90
       disk_io_usage_threshold    = 90
       alert_labels               = {

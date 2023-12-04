@@ -31,3 +31,4 @@ dhcp-pxe-os-setup/image/
 prometheus/prometheus-configs/prometheus.yml
 prometheus/prometheus-configs/rules/*-node-exporter.yml
 prometheus/prometheus-configs/rules/*-terracd.yml
+prometheus/prometheus-configs/rules/*-kubernetes.yml

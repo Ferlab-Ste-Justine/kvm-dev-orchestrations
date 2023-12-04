@@ -83,15 +83,20 @@ module "prometheus_confs" {
       }
     }
   ]
-  terracd_jobs   = [
+  terracd_jobs = [
     {
       tag                      = "time-in-files"
       plan_interval_threshold  = 60
       apply_interval_threshold = 600
       unit                     = "minute"
-      alert_labels               = {
+      alert_labels             = {
         org = "ferlab"
       }
+    }
+  ]
+  kubernetes_cluster_jobs = [
+    {
+      tag = "local"
     }
   ]
 }

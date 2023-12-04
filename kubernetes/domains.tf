@@ -15,6 +15,10 @@ module "kubernetes_domain" {
       prefix = ""
       ip = lb.address
     }],
+    [for lb in netaddr_address_ipv4.k8_lb: {
+      prefix = "*"
+      ip = lb.address
+    }],
     [for master in netaddr_address_ipv4.k8_masters: {
       prefix = "masters"
       ip = master.address

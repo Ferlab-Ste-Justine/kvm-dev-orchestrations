@@ -73,3 +73,19 @@ scrape_configs:
       ca_file: /opt/automation-server-pushgateway/ca.crt
       cert_file: /opt/automation-server-pushgateway/client.crt
       key_file: /opt/automation-server-pushgateway/client.key
+%{ if kubernetes_cluster_federation ~}
+  - job_name: "kubernetes-cluster-federation"
+    honor_labels: true
+    metrics_path: /federate
+    params:
+      match[]:
+        - '{__name__=~"kube_pod_container_resource_.*"}'
+        - '{__name__="kube_pod_container_info"}'
+        - '{__name__="kube_pod_status_phase"}'
+        - '{__name__="container_cpu_usage_seconds_total"}'
+        - '{__name__="container_memory_working_set_bytes"}'
+    static_configs:
+      - targets: [prometheus.k8.ferlab.lan]
+        labels:
+          cluster: local
+%{ endif ~}

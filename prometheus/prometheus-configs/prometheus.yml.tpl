@@ -84,6 +84,7 @@ scrape_configs:
         - '{__name__="kube_pod_status_phase"}'
         - '{__name__="container_cpu_usage_seconds_total"}'
         - '{__name__="container_memory_working_set_bytes"}'
+        - '{__name__="container_start_time_seconds"}'
     static_configs:
       - targets: [prometheus.k8.ferlab.lan]
         labels:

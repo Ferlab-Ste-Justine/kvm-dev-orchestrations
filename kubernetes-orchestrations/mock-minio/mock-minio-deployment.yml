@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: mock-minio
+  name: mock-minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mock-minio
+  template:
+    metadata:
+      labels:
+        app: mock-minio
+    spec:
+      imagePullSecrets:
+        - name: images-registry-credentials
+      containers:
+        - image: minio/minio:RELEASE.2023-01-20T02-05-44Z.hotfix.e1dbac2c1
+          name: mock-minio
+          command:
+            - minio
+            - server
+            - /data
+            - --address
+            - ":9000"
+            - --console-address
+            - ":9001"

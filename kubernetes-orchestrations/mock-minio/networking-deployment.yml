@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: network-troubleshoot
+  name: network-troubleshoot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: network-troubleshoot
+  template:
+    metadata:
+      labels:
+        app: network-troubleshoot
+    spec:
+      imagePullSecrets:
+        - name: images-registry-credentials
+      containers:
+        - image: ubuntu:22.04
+          name: network-troubleshoot
+          command:
+            - sleep
+            - infinity

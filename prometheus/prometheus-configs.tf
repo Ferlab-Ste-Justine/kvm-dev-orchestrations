@@ -97,6 +97,17 @@ module "prometheus_confs" {
   kubernetes_cluster_jobs = [
     {
       tag = "local"
+      expected_services = [
+        /*{
+          name                 = "mock-minio"
+          namespace            = "default"
+          expected_min_count   = 2
+          expected_start_delay = 60
+          alert_labels         = {
+            org = "ferlab"
+          }
+        }*/
+      ]
     }
   ]
 }

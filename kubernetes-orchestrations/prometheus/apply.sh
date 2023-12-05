@@ -1,1 +1,1 @@
-kubectl apply -k . --server-side
+kubectl --kubeconfig="../../shared/kubeconfig" --context="kubernetes-admin-ferlab@ferlab" apply -k . --server-side

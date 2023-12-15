@@ -1,3 +1,34 @@
+locals {
+  sse = {
+    enabled = fileexists("${path.module}/../shared/minio-kes-approle-id")
+    server = {
+      tls          = {
+        client_cert = tls_locally_signed_cert.minio.cert_pem
+        client_key  = tls_private_key.minio.private_key_pem
+        server_cert = tls_locally_signed_cert.minio.cert_pem
+        server_key  = tls_private_key.minio.private_key_pem
+        ca_cert     = module.minio_ca.certificate
+      }
+      cache_expiry = "1m"
+      audit_logs   = true
+    }
+    vault          = {
+      endpoint       = "vault.ferlab.lan"
+      mount          = "minio-kes"
+      kv_version     = "v2"
+      prefix         = ""
+      approle        = {
+        mount          = "minio-kes"
+        id             = fileexists("${path.module}/../shared/minio-kes-approle-id") ? file("${path.module}/../shared/minio-kes-approle-id") : ""
+        secret         = fileexists("${path.module}/../shared/minio-kes-approle-secret") ? file("${path.module}/../shared/minio-kes-approle-secret") : ""
+        retry_interval = "10s"
+      }
+      ca_cert        = fileexists("${path.module}/../shared/vault-ca.crt") ? file("${path.module}/../shared/vault-ca.crt") : ""
+      ping_interval  = "10s"
+    }
+  }
+}
+
 resource "libvirt_volume" "minio_1" {
   name             = "ferlab-minio-1"
   pool             = "default"
@@ -13,21 +44,23 @@ module "minio_1" {
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.minio_1.id
-  data_volumes = [
+  data_disks = [
     {
-      id   = libvirt_volume.minio_1_1_data.id
-      device_name = "vdb"
-      mount_label = "minio_vol_a"
-      mount_path = "/opt/mnt/volume1"
+      volume_id    = libvirt_volume.minio_1_1_data.id
+      block_device = ""
+      device_name  = "vdb"
+      mount_label  = "minio_vol_a"
+      mount_path   = "/opt/mnt/volume1"
     },
     {
-      id   = libvirt_volume.minio_1_2_data.id
-      device_name = "vdc"
-      mount_label = "minio_vol_b"
-      mount_path = "/opt/mnt/volume2"
+      volume_id    = libvirt_volume.minio_1_2_data.id
+      block_device = ""
+      device_name  = "vdc"
+      mount_label  = "minio_vol_b"
+      mount_path   = "/opt/mnt/volume2"
     }
   ]
-  volume_pools = [{
+  server_pools = [{
     domain_template     = "server%s.minio.ferlab.lan"
     servers_count_begin = 1
     servers_count_end   = 4
@@ -46,6 +79,7 @@ module "minio_1" {
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }
+  sse = local.sse
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -61,6 +95,7 @@ module "minio_1" {
   fluentbit = {
     enabled = local.params.logs_forwarding
     minio_tag = "minio-server-1-minio"
+    kes_tag = "minio-server-1-kes"
     node_exporter_tag = "minio-server-1-node-exporter"
     metrics = {
       enabled = true
@@ -103,21 +138,23 @@ module "minio_2" {
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.minio_2.id
-  data_volumes = [
+  data_disks = [
     {
-      id   = libvirt_volume.minio_2_1_data.id
-      device_name = "vdb"
-      mount_label = "minio_vol_a"
-      mount_path = "/opt/mnt/volume1"
+      volume_id    = libvirt_volume.minio_2_1_data.id
+      block_device = ""
+      device_name  = "vdb"
+      mount_label  = "minio_vol_a"
+      mount_path   = "/opt/mnt/volume1"
     },
     {
-      id   = libvirt_volume.minio_2_2_data.id
-      device_name = "vdc"
-      mount_label = "minio_vol_b"
-      mount_path = "/opt/mnt/volume2"
+      volume_id    = libvirt_volume.minio_2_2_data.id
+      block_device = ""
+      device_name  = "vdc"
+      mount_label  = "minio_vol_b"
+      mount_path   = "/opt/mnt/volume2"
     }
   ]
-  volume_pools = [{
+  server_pools = [{
     domain_template     = "server%s.minio.ferlab.lan"
     servers_count_begin = 1
     servers_count_end   = 4
@@ -136,6 +173,7 @@ module "minio_2" {
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }
+  sse = local.sse
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -151,6 +189,7 @@ module "minio_2" {
   fluentbit = {
     enabled = local.params.logs_forwarding
     minio_tag = "minio-server-2-minio"
+    kes_tag = "minio-server-2-kes"
     node_exporter_tag = "minio-server-2-node-exporter"
     metrics = {
       enabled = true
@@ -193,21 +232,23 @@ module "minio_3" {
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.minio_3.id
-  data_volumes = [
+  data_disks = [
     {
-      id   = libvirt_volume.minio_3_1_data.id
-      device_name = "vdb"
-      mount_label = "minio_vol_a"
-      mount_path = "/opt/mnt/volume1"
+      volume_id    = libvirt_volume.minio_3_1_data.id
+      block_device = ""
+      device_name  = "vdb"
+      mount_label  = "minio_vol_a"
+      mount_path   = "/opt/mnt/volume1"
     },
     {
-      id   = libvirt_volume.minio_3_2_data.id
-      device_name = "vdc"
-      mount_label = "minio_vol_b"
-      mount_path = "/opt/mnt/volume2"
+      volume_id    = libvirt_volume.minio_3_2_data.id
+      block_device = ""
+      device_name  = "vdc"
+      mount_label  = "minio_vol_b"
+      mount_path   = "/opt/mnt/volume2"
     }
   ]
-  volume_pools = [{
+  server_pools = [{
     domain_template     = "server%s.minio.ferlab.lan"
     servers_count_begin = 1
     servers_count_end   = 4
@@ -226,6 +267,7 @@ module "minio_3" {
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }
+  sse = local.sse
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -241,6 +283,7 @@ module "minio_3" {
   fluentbit = {
     enabled = local.params.logs_forwarding
     minio_tag = "minio-server-3-minio"
+    kes_tag = "minio-server-3-kes"
     node_exporter_tag = "minio-server-3-node-exporter"
     metrics = {
       enabled = true
@@ -283,21 +326,23 @@ module "minio_4" {
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
   volume_id = libvirt_volume.minio_4.id
-  data_volumes = [
+  data_disks = [
     {
-      id   = libvirt_volume.minio_4_1_data.id
-      device_name = "vdb"
-      mount_label = "minio_vol_a"
-      mount_path = "/opt/mnt/volume1"
+      volume_id    = libvirt_volume.minio_4_1_data.id
+      block_device = ""
+      device_name  = "vdb"
+      mount_label  = "minio_vol_a"
+      mount_path   = "/opt/mnt/volume1"
     },
     {
-      id   = libvirt_volume.minio_4_2_data.id
-      device_name = "vdc"
-      mount_label = "minio_vol_b"
-      mount_path = "/opt/mnt/volume2"
+      volume_id    = libvirt_volume.minio_4_2_data.id
+      block_device = ""
+      device_name  = "vdc"
+      mount_label  = "minio_vol_b"
+      mount_path   = "/opt/mnt/volume2"
     }
   ]
-  volume_pools = [{
+  server_pools = [{
     domain_template     = "server%s.minio.ferlab.lan"
     servers_count_begin = 1
     servers_count_end   = 4
@@ -316,6 +361,7 @@ module "minio_4" {
     }
     load_balancer_url = "https://minio.ferlab.lan:9000"
   }
+  sse = local.sse
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -331,6 +377,7 @@ module "minio_4" {
   fluentbit = {
     enabled = local.params.logs_forwarding
     minio_tag = "minio-server-4-minio"
+    kes_tag = "minio-server-4-kes"
     node_exporter_tag = "minio-server-4-node-exporter"
     metrics = {
       enabled = true

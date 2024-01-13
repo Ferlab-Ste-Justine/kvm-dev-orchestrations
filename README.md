@@ -6,7 +6,7 @@ External dependencies are linked via git submodules with an **ssh** link for eas
 
 # Requirements
 
-A Linux machine with modern multi-core cpus and at least 64GB RAM is required. If you have less RAM, you can try to lower the `memory` and `count` values in **shared/params.json**. Like for 16GB RAM, a very minimal setup may work (see **shared/params_16gb-ram.json**), but continuous validation is done with greater amounts of RAM on our end.
+A Linux machine with modern multi-core cpus and at least 64GB RAM is strongly recommended.
 
 Additionally, you will need the following:
 - Terraform

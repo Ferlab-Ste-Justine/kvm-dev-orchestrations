@@ -17,6 +17,10 @@ mkdir -p $(pwd)/logs/minio/server-1
 mkdir -p $(pwd)/logs/minio/server-2
 mkdir -p $(pwd)/logs/minio/server-3
 mkdir -p $(pwd)/logs/minio/server-4
+mkdir -p $(pwd)/logs/minio/server-5
+mkdir -p $(pwd)/logs/minio/server-6
+mkdir -p $(pwd)/logs/minio/server-7
+mkdir -p $(pwd)/logs/minio/server-8
 mkdir -p $(pwd)/logs/alertmanager/server-1
 mkdir -p $(pwd)/logs/alertmanager/server-2
 

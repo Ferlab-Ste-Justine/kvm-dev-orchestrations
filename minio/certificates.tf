@@ -18,10 +18,7 @@ resource "tls_cert_request" "minio" {
     ], ["127.0.0.1"])
   dns_names = [
     "minio.ferlab.lan",
-    "server1.minio.ferlab.lan",
-    "server2.minio.ferlab.lan",
-    "server3.minio.ferlab.lan",
-    "server4.minio.ferlab.lan"
+    "*.minio.ferlab.lan"
   ]
   subject {
     common_name  = "minio"

@@ -20,13 +20,13 @@ data "netaddr_address_ipv4" "coredns" {
 }
 
 resource "netaddr_address_ipv4" "minio" {
-    count    = 4
+    count    = local.params.minio.ferio_expand_server_pools ? 8 : 4
     range_id = data.netaddr_range_ipv4.ip.id
     name     = "ferlab-minio-${count.index + 1}"
 }
 
 resource "netaddr_address_mac" "minio" {
-    count    = 4
+    count    = local.params.minio.ferio_expand_server_pools ? 8 : 4
     range_id = data.netaddr_range_mac.mac.id
     name     = "ferlab-minio-${count.index + 1}"
 }

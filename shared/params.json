@@ -57,7 +57,10 @@
       "vcpus": 1,
       "memory": 4096,
       "root_username": "minio",
-      "root_password": "testtest"
+      "root_password": "testtest",
+      "ferio_enabled": false,
+      "ferio_update_release": false,
+      "ferio_expand_server_pools": false
     },
     "etcd": {
       "vcpus": 1,

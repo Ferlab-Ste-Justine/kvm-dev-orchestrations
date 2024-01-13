@@ -1,69 +1,6 @@
-locals {
-  sse = {
-    enabled = fileexists("${path.module}/../shared/minio-kes-approle-id")
-    server = {
-      tls          = {
-        client_cert = tls_locally_signed_cert.minio.cert_pem
-        client_key  = tls_private_key.minio.private_key_pem
-        server_cert = tls_locally_signed_cert.minio.cert_pem
-        server_key  = tls_private_key.minio.private_key_pem
-        ca_cert     = module.minio_ca.certificate
-      }
-      cache_expiry = "1m"
-      audit_logs   = true
-    }
-    vault          = {
-      endpoint       = "vault.ferlab.lan"
-      mount          = "minio-kes"
-      kv_version     = "v2"
-      prefix         = ""
-      approle        = {
-        mount          = "minio-kes"
-        id             = fileexists("${path.module}/../shared/minio-kes-approle-id") ? file("${path.module}/../shared/minio-kes-approle-id") : ""
-        secret         = fileexists("${path.module}/../shared/minio-kes-approle-secret") ? file("${path.module}/../shared/minio-kes-approle-secret") : ""
-        retry_interval = "10s"
-      }
-      ca_cert        = fileexists("${path.module}/../shared/vault-ca.crt") ? file("${path.module}/../shared/vault-ca.crt") : ""
-      ping_interval  = "10s"
-    }
-  }
-  static_server_pools = [{
-    domain_template     = "server%s.minio.ferlab.lan"
-    servers_count_begin = 1
-    servers_count_end   = 4
-    mount_path_template = "/opt/mnt/volume%s"
-    mounts_count        = 2
-  }]
-  minio_server = {
-    tls = {
-      server_cert = tls_locally_signed_cert.minio.cert_pem
-      server_key  = tls_private_key.minio.private_key_pem
-      ca_cert     = module.minio_ca.certificate
-    }
-    auth = {
-      root_username = local.params.minio.root_username
-      root_password = local.params.minio.root_password
-    }
-    load_balancer_url = "https://minio.ferlab.lan:9000"
-  }
-  ferio = {
-    etcd = {
-      config_prefix      = "/ferlab/ferio/config/"
-      workspace_prefix   = "/ferlab/ferio/workspace/"
-      endpoints          = local.params.minio.ferio_enabled ? [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"] : []
-      auth               = {
-        ca_cert = file("${path.module}/../shared/etcd-ca.pem")
-        username = "root"
-        password = file("${path.module}/../shared/etcd-root_password")
-        client_cert = ""
-        client_key = ""
-      }
-    }
-  }
-}
-
-resource "libvirt_volume" "minio_1" {
-  name             = "ferlab-minio-1"
+resource "libvirt_volume" "minio_5" {
+  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  name             = "ferlab-minio-5"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
@@ -71,22 +8,23 @@ resource "libvirt_volume" "minio_1" {
   format = "qcow2"
 }
 
-module "minio_1" {
+module "minio_5" {
+  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
   source = "./terraform-libvirt-minio-server"
-  name = "ferlab-minio-1"
+  name = "ferlab-minio-5"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_1.id
+  volume_id = libvirt_volume.minio_5.0.id
   data_disks = [
     {
-      volume_id    = libvirt_volume.minio_1_1_data.id
+      volume_id    = libvirt_volume.minio_5_1_data.0.id
       block_device = ""
       device_name  = "vdb"
       mount_label  = "minio_vol_a"
       mount_path   = "/opt/mnt/volume1"
     },
     {
-      volume_id    = libvirt_volume.minio_1_2_data.id
+      volume_id    = libvirt_volume.minio_5_2_data.0.id
       block_device = ""
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
@@ -100,8 +38,8 @@ module "minio_1" {
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = netaddr_address_ipv4.minio.0.address
-    mac = netaddr_address_mac.minio.0.address
+    ip = netaddr_address_ipv4.minio.4.address
+    mac = netaddr_address_mac.minio.4.address
     gateway = local.params.network.gateway
     dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
     prefix_length = split("/", local.params.network.addresses).1
@@ -111,10 +49,10 @@ module "minio_1" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-1-minio"
-    kes_tag = "minio-server-1-kes"
-    ferio_tag = "minio-server-1-ferio"
-    node_exporter_tag = "minio-server-1-node-exporter"
+    minio_tag = "minio-server-5-minio"
+    kes_tag = "minio-server-5-kes"
+    ferio_tag = "minio-server-5-ferio"
+    node_exporter_tag = "minio-server-5-node-exporter"
     metrics = {
       enabled = true
       port    = 2020
@@ -122,7 +60,7 @@ module "minio_1" {
     forward = {
       domain = local.host_params.ip
       port = 4443
-      hostname = "minio-server-1"
+      hostname = "minio-server-5"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
@@ -141,8 +79,9 @@ module "minio_1" {
   }
 }
 
-resource "libvirt_volume" "minio_2" {
-  name             = "ferlab-minio-2"
+resource "libvirt_volume" "minio_6" {
+  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  name             = "ferlab-minio-6"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
@@ -150,22 +89,23 @@ resource "libvirt_volume" "minio_2" {
   format = "qcow2"
 }
 
-module "minio_2" {
+module "minio_6" {
+  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
   source = "./terraform-libvirt-minio-server"
-  name = "ferlab-minio-2"
+  name = "ferlab-minio-6"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_2.id
+  volume_id = libvirt_volume.minio_6.0.id
   data_disks = [
     {
-      volume_id    = libvirt_volume.minio_2_1_data.id
+      volume_id    = libvirt_volume.minio_6_1_data.0.id
       block_device = ""
       device_name  = "vdb"
       mount_label  = "minio_vol_a"
       mount_path   = "/opt/mnt/volume1"
     },
     {
-      volume_id    = libvirt_volume.minio_2_2_data.id
+      volume_id    = libvirt_volume.minio_6_2_data.0.id
       block_device = ""
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
@@ -179,8 +119,8 @@ module "minio_2" {
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = netaddr_address_ipv4.minio.1.address
-    mac = netaddr_address_mac.minio.1.address
+    ip = netaddr_address_ipv4.minio.5.address
+    mac = netaddr_address_mac.minio.5.address
     gateway = local.params.network.gateway
     dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
     prefix_length = split("/", local.params.network.addresses).1
@@ -190,10 +130,10 @@ module "minio_2" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-2-minio"
-    kes_tag = "minio-server-2-kes"
-    ferio_tag = "minio-server-2-ferio"
-    node_exporter_tag = "minio-server-2-node-exporter"
+    minio_tag = "minio-server-6-minio"
+    kes_tag = "minio-server-6-kes"
+    ferio_tag = "minio-server-6-ferio"
+    node_exporter_tag = "minio-server-6-node-exporter"
     metrics = {
       enabled = true
       port    = 2020
@@ -201,7 +141,7 @@ module "minio_2" {
     forward = {
       domain = local.host_params.ip
       port = 4443
-      hostname = "minio-server-2"
+      hostname = "minio-server-6"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
@@ -220,8 +160,9 @@ module "minio_2" {
   }
 }
 
-resource "libvirt_volume" "minio_3" {
-  name             = "ferlab-minio-3"
+resource "libvirt_volume" "minio_7" {
+  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  name             = "ferlab-minio-7"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
@@ -229,22 +170,23 @@ resource "libvirt_volume" "minio_3" {
   format = "qcow2"
 }
 
-module "minio_3" {
+module "minio_7" {
+  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
   source = "./terraform-libvirt-minio-server"
-  name = "ferlab-minio-3"
+  name = "ferlab-minio-7"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_3.id
+  volume_id = libvirt_volume.minio_7.0.id
   data_disks = [
     {
-      volume_id    = libvirt_volume.minio_3_1_data.id
+      volume_id    = libvirt_volume.minio_7_1_data.0.id
       block_device = ""
       device_name  = "vdb"
       mount_label  = "minio_vol_a"
       mount_path   = "/opt/mnt/volume1"
     },
     {
-      volume_id    = libvirt_volume.minio_3_2_data.id
+      volume_id    = libvirt_volume.minio_7_2_data.0.id
       block_device = ""
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
@@ -258,8 +200,8 @@ module "minio_3" {
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = netaddr_address_ipv4.minio.2.address
-    mac = netaddr_address_mac.minio.2.address
+    ip = netaddr_address_ipv4.minio.6.address
+    mac = netaddr_address_mac.minio.6.address
     gateway = local.params.network.gateway
     dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
     prefix_length = split("/", local.params.network.addresses).1
@@ -269,10 +211,10 @@ module "minio_3" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-3-minio"
-    kes_tag = "minio-server-3-kes"
-    ferio_tag = "minio-server-3-ferio"
-    node_exporter_tag = "minio-server-3-node-exporter"
+    minio_tag = "minio-server-7-minio"
+    kes_tag = "minio-server-7-kes"
+    ferio_tag = "minio-server-7-ferio"
+    node_exporter_tag = "minio-server-7-node-exporter"
     metrics = {
       enabled = true
       port    = 2020
@@ -280,7 +222,7 @@ module "minio_3" {
     forward = {
       domain = local.host_params.ip
       port = 4443
-      hostname = "minio-server-3"
+      hostname = "minio-server-7"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
@@ -299,8 +241,9 @@ module "minio_3" {
   }
 }
 
-resource "libvirt_volume" "minio_4" {
-  name             = "ferlab-minio-4"
+resource "libvirt_volume" "minio_8" {
+  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  name             = "ferlab-minio-8"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
@@ -308,22 +251,23 @@ resource "libvirt_volume" "minio_4" {
   format = "qcow2"
 }
 
-module "minio_4" {
+module "minio_8" {
+  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
   source = "./terraform-libvirt-minio-server"
-  name = "ferlab-minio-4"
+  name = "ferlab-minio-8"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_4.id
+  volume_id = libvirt_volume.minio_8.0.id
   data_disks = [
     {
-      volume_id    = libvirt_volume.minio_4_1_data.id
+      volume_id    = libvirt_volume.minio_8_1_data.0.id
       block_device = ""
       device_name  = "vdb"
       mount_label  = "minio_vol_a"
       mount_path   = "/opt/mnt/volume1"
     },
     {
-      volume_id    = libvirt_volume.minio_4_2_data.id
+      volume_id    = libvirt_volume.minio_8_2_data.0.id
       block_device = ""
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
@@ -337,8 +281,8 @@ module "minio_4" {
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
-    ip = netaddr_address_ipv4.minio.3.address
-    mac = netaddr_address_mac.minio.3.address
+    ip = netaddr_address_ipv4.minio.7.address
+    mac = netaddr_address_mac.minio.7.address
     gateway = local.params.network.gateway
     dns_servers = [data.netaddr_address_ipv4.coredns.0.address]
     prefix_length = split("/", local.params.network.addresses).1
@@ -348,10 +292,10 @@ module "minio_4" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-4-minio"
-    kes_tag = "minio-server-4-kes"
-    ferio_tag = "minio-server-4-ferio"
-    node_exporter_tag = "minio-server-4-node-exporter"
+    minio_tag = "minio-server-8-minio"
+    kes_tag = "minio-server-8-kes"
+    ferio_tag = "minio-server-8-ferio"
+    node_exporter_tag = "minio-server-8-node-exporter"
     metrics = {
       enabled = true
       port    = 2020
@@ -359,7 +303,7 @@ module "minio_4" {
     forward = {
       domain = local.host_params.ip
       port = 4443
-      hostname = "minio-server-4"
+      hostname = "minio-server-8"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }

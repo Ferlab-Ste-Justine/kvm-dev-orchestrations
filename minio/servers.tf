@@ -44,7 +44,8 @@ locals {
       root_username = local.params.minio.root_username
       root_password = local.params.minio.root_password
     }
-    load_balancer_url = "https://minio.ferlab.lan:9000"
+    api_url = "https://minio.ferlab.lan:9000"
+    console_url = "https://minio.ferlab.lan:9001"
   }
   ferio = {
     etcd = {

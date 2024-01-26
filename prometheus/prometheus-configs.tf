@@ -7,6 +7,7 @@ module "prometheus_confs" {
     {
       alertmanager_enabled          = fileexists("${path.module}/../shared/alertmanager_ca.crt")
       kubernetes_cluster_federation = local.params.prometheus.kubernetes_cluster_federation
+      minio_cluster_monitoring      = local.params.prometheus.minio_cluster_monitoring
     }
   )
   node_exporter_jobs   = [
@@ -108,6 +109,11 @@ module "prometheus_confs" {
           }
         }*/
       ]
+    }
+  ]
+  minio_cluster_jobs = [
+    {
+      tag = "local"
     }
   ]
 }

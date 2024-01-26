@@ -31,6 +31,12 @@ locals {
       content = file("${path.module}/../shared/automation_server_pushgateway.key")
     }
   ] : []
+  minio_secrets = fileexists("${path.module}/../shared/minio_ca.crt") ? [
+    {
+      path = "/opt/minio/ca.crt",
+      content = file("${path.module}/../shared/minio_ca.crt")
+    }
+  ] : []
 }
 
 resource "libvirt_volume" "prometheus" {
@@ -106,7 +112,8 @@ module "prometheus" {
 
   prometheus_secrets = concat(
     local.alertmanager_secrets,
-    local.automation_server_secrets
+    local.automation_server_secrets,
+    local.minio_secrets
   )
 
   install_dependencies = true

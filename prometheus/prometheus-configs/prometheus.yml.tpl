@@ -90,3 +90,14 @@ scrape_configs:
         labels:
           cluster: local
 %{ endif ~}
+%{ if minio_cluster_monitoring ~}
+  - job_name: "minio-cluster-monitoring"
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: https
+    tls_config:
+      ca_file: /opt/minio/ca.crt
+    static_configs:
+      - targets: [minio.ferlab.lan:9000]
+        labels:
+          cluster: local
+%{ endif ~}

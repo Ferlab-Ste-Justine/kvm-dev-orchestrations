@@ -35,6 +35,7 @@ module "minio_5" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -116,6 +117,7 @@ module "minio_6" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -197,6 +199,7 @@ module "minio_7" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -278,6 +281,7 @@ module "minio_8" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""

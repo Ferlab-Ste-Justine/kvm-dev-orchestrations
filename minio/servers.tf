@@ -61,6 +61,7 @@ locals {
       }
     }
   }
+  prometheus_auth_type = "public"
 }
 
 resource "libvirt_volume" "minio_1" {
@@ -98,6 +99,7 @@ module "minio_1" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -177,6 +179,7 @@ module "minio_2" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -256,6 +259,7 @@ module "minio_3" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -335,6 +339,7 @@ module "minio_4" {
   server_pools = local.static_server_pools
   minio_server = local.minio_server
   sse = local.sse
+  prometheus_auth_type = local.prometheus_auth_type
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""

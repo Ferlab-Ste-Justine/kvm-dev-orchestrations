@@ -165,7 +165,8 @@
       "vcpus": 1,
       "memory": 4096,
       "data_volumes": false,
-      "kubernetes_cluster_federation": false
+      "kubernetes_cluster_federation": false,
+      "minio_cluster_monitoring": false
     },
     "vault": {
       "servers": {

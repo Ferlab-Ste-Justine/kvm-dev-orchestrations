@@ -26,5 +26,5 @@ module "bastion" {
   admin_user_password = local.params.virsh_console_password
   ssh_internal_public_key = tls_private_key.admin_ssh.public_key_openssh
   ssh_internal_private_key = tls_private_key.admin_ssh.private_key_openssh
-  ssh_external_public_key = tls_private_key.admin_ssh.public_key_openssh
+  ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
 }

@@ -5,7 +5,7 @@ terraform {
       version = "= 0.7.1"
     }
     healthcheck = {
-      source = "ferlab/healthcheck"
+      source = "Ferlab-Ste-Justine/healthcheck"
       version = "= 0.2.0"
     }
   }

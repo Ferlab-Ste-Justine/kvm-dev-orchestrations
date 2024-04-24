@@ -4,6 +4,10 @@ terraform {
       source = "dmacvicar/libvirt"
       version = "= 0.7.1"
     }
+    healthcheck = {
+      source = "ferlab/healthcheck"
+      version = "= 0.2.0"
+    }
   }
   required_version = ">= 1.0.0"
 }

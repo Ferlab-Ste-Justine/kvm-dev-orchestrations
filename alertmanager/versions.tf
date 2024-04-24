@@ -12,6 +12,10 @@ terraform {
       source = "Ferlab-Ste-Justine/etcd"
       version = "= 0.7.0"
     }
+    healthcheck = {
+      source = "ferlab/healthcheck"
+      version = "= 0.2.0"
+    }
   }
   required_version = ">= 1.0.0"
 }

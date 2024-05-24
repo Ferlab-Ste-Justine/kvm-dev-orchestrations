@@ -1,12 +1,12 @@
 locals {
   minio_release = local.params.minio.ferio_update_release ? {
-    version = "2024-01-11"
-    url = "https://dl.min.io/server/minio/release/linux-amd64/archive/minio.RELEASE.2023-12-23T07-19-11Z"
-    checksum = "8a5d296b5ef251e4b7e52c71776f33a060e05b56322312bccabd4e2739e8a6a3"
+    version  = "2024-04-06"
+    url      = "https://dl.min.io/server/minio/release/linux-amd64/archive/minio.RELEASE.2024-04-06T05-26-02Z"
+    checksum = "71cc26f16787b7e54001327eaefa0227bff13e9f28c117aafa15dc23733c9584"
   } : {
-    version = "2024-01-03"
-    url = "https://dl.min.io/server/minio/release/linux-amd64/archive/minio.RELEASE.2023-09-23T03-47-50Z"
-    checksum = "cdb692133cec30d6b446a1f564c7e1932e572c157b39a7d2ea676275e6c5b883"
+    version  = "2023-12-23"
+    url      = "https://dl.min.io/server/minio/release/linux-amd64/archive/minio.RELEASE.2023-12-23T07-19-11Z"
+    checksum = "8a5d296b5ef251e4b7e52c71776f33a060e05b56322312bccabd4e2739e8a6a3"
   }
   server_pools = local.params.minio.ferio_expand_server_pools ? {
     version = "2024-01-11"

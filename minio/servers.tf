@@ -69,7 +69,7 @@ resource "libvirt_volume" "minio_1" {
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
-  base_volume_name = "ubuntu-jammy-2023-02-10"
+  base_volume_name = "ubuntu-jammy-2023-05-18"
   format = "qcow2"
 }
 
@@ -149,7 +149,7 @@ resource "libvirt_volume" "minio_2" {
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
-  base_volume_name = "ubuntu-jammy-2023-02-10"
+  base_volume_name = "ubuntu-jammy-2023-05-18"
   format = "qcow2"
 }
 
@@ -229,7 +229,7 @@ resource "libvirt_volume" "minio_3" {
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
-  base_volume_name = "ubuntu-jammy-2023-02-10"
+  base_volume_name = "ubuntu-jammy-2023-05-18"
   format = "qcow2"
 }
 
@@ -309,7 +309,7 @@ resource "libvirt_volume" "minio_4" {
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
   base_volume_pool = "default"
-  base_volume_name = "ubuntu-jammy-2023-02-10"
+  base_volume_name = "ubuntu-jammy-2023-05-18"
   format = "qcow2"
 }
 

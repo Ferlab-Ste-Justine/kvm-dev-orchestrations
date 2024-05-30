@@ -62,6 +62,7 @@ locals {
     }
   }
   prometheus_auth_type = "public"
+  godebug_settings     = "gcshrinkstackoff=1"  # to prevent crashes, see https://github.com/minio/minio/issues/18808#issuecomment-1895441463
 }
 
 resource "libvirt_volume" "minio_1" {
@@ -100,6 +101,7 @@ module "minio_1" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -180,6 +182,7 @@ module "minio_2" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -260,6 +263,7 @@ module "minio_3" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -340,6 +344,7 @@ module "minio_4" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""

@@ -36,6 +36,7 @@ module "minio_5" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -118,6 +119,7 @@ module "minio_6" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -200,6 +202,7 @@ module "minio_7" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""
@@ -282,6 +285,7 @@ module "minio_8" {
   minio_server = local.minio_server
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
+  godebug_settings = local.godebug_settings
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""

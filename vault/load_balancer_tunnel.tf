@@ -188,4 +188,21 @@ module "vault_lb_tunnel" {
     public             = local.params.vault.load_balancer.tunnel ? tls_private_key.vault_server_ssh.0.public_key_openssh : ""
     private            = local.params.vault.load_balancer.tunnel ? tls_private_key.vault_server_ssh.0.private_key_openssh : ""
   }
+  fluentbit = {
+    enabled = local.params.logs_forwarding
+    load_balancer_tag        = "vault-tunnel-load-balancer"
+    control_plane_tag        = "vault-tunnel-control-plane"
+    node_exporter_tag        = "vault-tunnel-node-exporter"
+    metrics = {
+      enabled = true
+      port    = 2020
+    }
+    forward = {
+      domain = local.host_params.ip
+      port = 4443
+      hostname = "vault-tunnel"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+  }
 }

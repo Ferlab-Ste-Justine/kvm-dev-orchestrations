@@ -23,5 +23,6 @@ mkdir -p $(pwd)/logs/minio/server-7
 mkdir -p $(pwd)/logs/minio/server-8
 mkdir -p $(pwd)/logs/alertmanager/server-1
 mkdir -p $(pwd)/logs/alertmanager/server-2
+mkdir -p $(pwd)/logs/vault/tunnel
 
 docker run -u $(id -u) -it --rm -e "SHARED_KEY=$(cat ../shared/logs_shared_key)" -v "$(pwd)/certs:/opt/certs" -v "$(pwd)/logs:/opt/logs" -v "$(pwd)/conf:/opt/conf" --network=host fluent/fluentd:v1.16-1 fluentd --config=/opt/conf/fluentd.conf

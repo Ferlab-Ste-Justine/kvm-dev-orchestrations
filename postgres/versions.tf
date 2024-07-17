@@ -4,6 +4,10 @@ terraform {
       source = "dmacvicar/libvirt"
       version = "= 0.7.1"
     }
+    healthcheck = {
+      source = "Ferlab-Ste-Justine/healthcheck"
+      version = "= 0.2.0"
+    }
     netaddr = {
       source = "Ferlab-Ste-Justine/netaddr"
       version = "= 0.4.0"

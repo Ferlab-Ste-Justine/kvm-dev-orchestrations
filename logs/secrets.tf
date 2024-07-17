@@ -60,7 +60,7 @@ resource "tls_locally_signed_cert" "fluentd_server" {
 }
 
 resource "local_file" "server_cert" {
-  content         = tls_locally_signed_cert.fluentd_server.cert_pem
+  content         = join("", [tls_locally_signed_cert.fluentd_server.cert_pem, module.fluentd_server_ca.certificate])
   file_permission = "0600"
   filename        = "${path.module}/certs/server.crt"
 }

@@ -67,3 +67,9 @@
 [submodule "kubernetes-orchestrations/prometheus/k8-generic-orchestrations"]
 	path = kubernetes-orchestrations/prometheus/k8-generic-orchestrations
 	url = git@github.com:Ferlab-Ste-Justine/k8-generic-orchestrations
+[submodule "opensearch/terraform-libvirt-opensearch-server"]
+	path = opensearch/terraform-libvirt-opensearch-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-opensearch-server.git
+[submodule "opensearch/terraform-tls-opensearch-certificates"]
+	path = opensearch/terraform-tls-opensearch-certificates
+	url = git@github.com:Ferlab-Ste-Justine/terraform-tls-opensearch-certificates.git

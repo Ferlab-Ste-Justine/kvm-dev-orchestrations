@@ -144,7 +144,7 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you c
 
 ## Minio
 
-To setup a distributed minio, go tothe **minio** directory and run `terraform init && terraform apply`.
+To setup a distributed minio, go to the **minio** directory and run `terraform init && terraform apply`.
 
 It will setup a minio cluster consisting of 4 servers 2 disks per server (8 disks total). 
 
@@ -164,6 +164,12 @@ In order to troubleshoot a pxe installation on a vm, you need to:
 3. Boot the dhcp/pxe server, by going to the **dhcp** directory and and run `terraform init && terraform apply`
 4. Run the **pxe_client_setup.sh** script to start a blank vm that will be setup with the pxe server. You can interact with the prompt to install ubuntu server on the vm from the libvirt network.
 5. Once you are done, you can run the **pxe_client_destroy.sh** script to cleanup the vm.
+
+## OpenSearch
+
+To setup an opensearch cluster, go to the **opensearch** directory and run `terraform init && terraform apply`.
+
+Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access opensearch REST API with this command: `curl --cacert ../shared/opensearch-ca.crt --cert ../shared/opensearch.crt --key ../shared/opensearch.key https://opensearch.ferlab.lan:9200`
 
 # Useful commands
 |Command|Description

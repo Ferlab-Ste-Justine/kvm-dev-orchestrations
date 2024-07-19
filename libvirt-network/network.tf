@@ -15,3 +15,9 @@ resource "libvirt_network" "ferlab" {
 
   autostart = true
 }
+
+resource "local_file" "ferlab_network_id" {
+  content         = libvirt_network.ferlab.id
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/network_id"
+}

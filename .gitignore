@@ -23,6 +23,7 @@ shared/host_params.json
 shared/vault-root-token
 shared/*-approle-id
 shared/*-approle-secret
+shared/network_id
 logs/certs/
 logs/logs/
 kubernetes-orchestrations/*/terraform.tfstate

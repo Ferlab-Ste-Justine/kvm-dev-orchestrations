@@ -31,7 +31,7 @@ kubernetes-orchestrations/*/terraform.tfstate.backup
 kubernetes-orchestrations/*/.terraform.tfstate.lock.info
 kubernetes-orchestrations/*/.terraform.lock.hcl
 kubernetes-orchestrations/*/.terraform/
-kubernetes-orchestrations/opensearch-dashboard/certificates/
+kubernetes-orchestrations/opensearch/certificates/
 dhcp-pxe-os-setup/bin/
 dhcp-pxe-os-setup/image/
 prometheus/prometheus-configs/prometheus.yml

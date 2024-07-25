@@ -171,7 +171,7 @@ To setup an opensearch cluster, go to the **opensearch** directory and run `terr
 
 Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access opensearch REST API with this command: `curl --cacert ../shared/opensearch-ca.crt --cert ../shared/opensearch.crt --key ../shared/opensearch.key https://opensearch.ferlab.lan:9200`
 
-If you're interested to have OpenSearch Dashboards installed in Kubernetes, you can look into the orchestration in the **kubernetes-orchestrations/opensearch-dashboard** directory. The UI can be accessed with the following link: http://opensearch-dashboard.k8.ferlab.lan
+If you're interested to have OpenSearch Dashboards and Fluentd Daemonset installed in Kubernetes, you can look into the orchestration in the **kubernetes-orchestrations/opensearch** directory. The OpenSearch Dashboards UI can be accessed with the following link: http://opensearch-dashboard.k8.ferlab.lan
 
 # Useful commands
 |Command|Description

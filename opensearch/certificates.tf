@@ -41,10 +41,10 @@ resource "local_file" "ca_certificate_shared" {
   filename        = "${path.module}/../shared/opensearch-ca.crt"
 }
 
-resource "local_file" "ca_certificate_dashboard" {
+resource "local_file" "ca_certificate_kubernetes" {
   content         = module.certificates.ca_certificate
   file_permission = "0600"
-  filename        = "${path.module}/../kubernetes-orchestrations/opensearch-dashboard/certificates/opensearch-ca.crt"
+  filename        = "${path.module}/../kubernetes-orchestrations/opensearch/certificates/opensearch-ca.crt"
 }
 
 resource "local_file" "admin_certificate_shared" {
@@ -53,10 +53,10 @@ resource "local_file" "admin_certificate_shared" {
   filename        = "${path.module}/../shared/opensearch.crt"
 }
 
-resource "local_file" "admin_certificate_dashboard" {
+resource "local_file" "admin_certificate_kubernetes" {
   content         = module.certificates.admin_certificate
   file_permission = "0600"
-  filename        = "${path.module}/../kubernetes-orchestrations/opensearch-dashboard/certificates/opensearch.crt"
+  filename        = "${path.module}/../kubernetes-orchestrations/opensearch/certificates/opensearch.crt"
 }
 
 resource "local_file" "admin_key_shared" {
@@ -65,8 +65,8 @@ resource "local_file" "admin_key_shared" {
   filename        = "${path.module}/../shared/opensearch.key"
 }
 
-resource "local_file" "admin_key_dashboard" {
+resource "local_file" "admin_key_kubernetes" {
   content         = tls_private_key.admin.private_key_pem
   file_permission = "0600"
-  filename        = "${path.module}/../kubernetes-orchestrations/opensearch-dashboard/certificates/opensearch.key"
+  filename        = "${path.module}/../kubernetes-orchestrations/opensearch/certificates/opensearch.key"
 }

@@ -3,7 +3,7 @@ resource "opensearch_user" "admin" {
   password = "test"
 }
 
-resource "opensearch_role_mapping" "cqdg_ops_admin" {
+resource "opensearch_role_mapping" "admin" {
   role  = "all_access"
   users = [opensearch_user.admin.id]
   hosts = ["*"]

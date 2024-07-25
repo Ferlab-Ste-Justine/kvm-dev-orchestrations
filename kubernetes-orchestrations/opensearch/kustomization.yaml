@@ -16,6 +16,8 @@ configMapGenerator:
       - certificates/opensearch-ca.crt
 
 resources:
-  - deployment.yml
-  - service.yml
-  - ingress.yml
+  - dashboard-deployment.yml
+  - dashboard-service.yml
+  - dashboard-ingress.yml
+  - fluentd-daemonset.yml
+  - fluentd-service-account.yml

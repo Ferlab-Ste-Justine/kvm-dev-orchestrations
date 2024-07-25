@@ -1,0 +1,91 @@
+#Adapted from: https://github.com/fluent/fluentd-kubernetes-daemonset/blob/master/fluentd-daemonset-opensearch.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-daemonset
+  labels:
+    k8s-app: fluentd-logging
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      k8s-app: fluentd-logging
+      version: v1
+  template:
+    metadata:
+      labels:
+        k8s-app: fluentd-logging
+        version: v1
+    spec:
+      serviceAccountName: fluentd-daemonset
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: fluentd-daemonset
+        image: ferlabcrsj/fluentd-kubernetes-daemonset:c302d031e744ff59191c202da08703b4a9600036-1665965303
+        env:
+          - name: K8S_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: FLUENT_OPENSEARCH_INDEX_NAME
+            value: "ferlab-kubernetes-logs"
+          - name:  FLUENT_OPENSEARCH_HOST
+            value: "opensearch.ferlab.lan"
+          - name:  FLUENT_OPENSEARCH_PORT
+            value: "9200"
+          - name: FLUENT_OPENSEARCH_SCHEME
+            value: "https"
+          - name: FLUENT_OPENSEARCH_SSL_VERIFY
+            value: "true"
+          - name: FLUENT_OPENSEARCH_SSL_VERSION
+            value: "TLSv1_2"
+          - name: FLUENT_OPENSEARCH_CA_PATH
+            value: "/opt/opensearch-credentials/opensearch-ca.crt"
+          - name: FLUENT_OPENSEARCH_CLIENT_CERT
+            value: "/opt/opensearch-credentials/opensearch.crt"
+          - name: FLUENT_OPENSEARCH_CLIENT_KEY
+            value: "/opt/opensearch-credentials/opensearch.key"
+          - name: FLUENT_CONTAINER_TAIL_PARSER_TYPE
+            value: "cri"
+          - name: FLUENT_CONTAINER_TAIL_PARSER_TIME_FORMAT
+            value: "%Y-%m-%dT%H:%M:%S.%NZ"
+          - name: FLUENT_OPENSEARCH_LOGSTASH_FORMAT
+            value: "true"
+          - name: FLUENT_OPENSEARCH_LOGSTASH_PREFIX
+            value: "ferlab-kubernetes-logs"
+          - name: FLUENT_OPENSEARCH_BUFFER_FLUSH_INTERVAL
+            value: "5s"
+          - name: FLUENT_OPENSEARCH_BUFFER_TOTAL_LIMIT_SIZE
+            value: "400M"
+          - name: FLUENT_OPENSEARCH_BUFFER_RETRY_TIMEOUT
+            value: "12h"
+        resources:
+          limits:
+            memory: 500Mi
+          requests:
+            cpu: 200m
+            memory: 500Mi
+        volumeMounts:
+          - name: opensearch-credentials
+            mountPath: /opt/opensearch-credentials
+          - name: varlog
+            mountPath: /var/log
+          - name: dockercontainerlogdirectory
+            mountPath: /var/lib/docker/containers
+            readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: opensearch-credentials
+          configMap:
+            name: opensearch-admin-credentials
+            defaultMode: 0555
+        - name: varlog
+          hostPath:
+            path: /var/log
+        - name: dockercontainerlogdirectory
+          hostPath:
+            path: /var/lib/docker/containers

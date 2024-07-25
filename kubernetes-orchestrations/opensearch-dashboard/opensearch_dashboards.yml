@@ -1,0 +1,11 @@
+server.port: 5601
+server.host: "0.0.0.0"
+server.name: "admin"
+opensearch.hosts: ["https://opensearch.ferlab.lan:9200"]
+opensearchDashboards.index: ".dashboard"
+server.ssl.enabled: false
+opensearch.ssl.certificate: /opt/certs/opensearch.crt
+opensearch.ssl.key: /opt/certs/opensearch.key
+opensearch.ssl.certificateAuthorities: [ "/opt/certs/opensearch-ca.crt" ]
+opensearch.ssl.verificationMode: full
+opensearch.requestHeadersAllowlist: [ authorization, securitytenant ]

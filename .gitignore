@@ -1,9 +1,9 @@
-*terraform.tfstate*
-*/.terraform
-*/terraform.tfstate
-*/terraform.tfstate.backup
-*/.terraform.tfstate.lock.info
-*/.terraform.lock.hcl
+**terraform.tfstate*
+**/.terraform
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/.terraform.tfstate.lock.info
+**/.terraform.lock.hcl
 shared/*.key
 shared/*.pem
 shared/*.crt
@@ -31,6 +31,7 @@ kubernetes-orchestrations/*/terraform.tfstate.backup
 kubernetes-orchestrations/*/.terraform.tfstate.lock.info
 kubernetes-orchestrations/*/.terraform.lock.hcl
 kubernetes-orchestrations/*/.terraform/
+kubernetes-orchestrations/opensearch-dashboard/certificates/
 dhcp-pxe-os-setup/bin/
 dhcp-pxe-os-setup/image/
 prometheus/prometheus-configs/prometheus.yml

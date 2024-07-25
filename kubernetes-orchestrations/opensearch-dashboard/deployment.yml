@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: opensearch-dashboard
+  name: opensearch-dashboard
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: opensearch-dashboard
+  template:
+    metadata:
+      labels:
+        app: opensearch-dashboard
+    spec:
+      containers:
+        - image: opensearchproject/opensearch-dashboards:2.2.1
+          name: opensearch-dashboard
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: '0.25'
+            limits:
+              memory: "256Mi"
+              cpu: '0.50'
+          volumeMounts:
+            - name: dashboard-config
+              mountPath: /usr/share/opensearch-dashboards/config
+              readOnly: true
+            - name: opensearch-admin-credentials
+              mountPath: /opt/certs
+              readOnly: true
+      volumes:
+        - name: dashboard-config
+          configMap:
+            name: opensearch-dashboard-config
+            defaultMode: 0555
+        - name: opensearch-admin-credentials
+          configMap:
+            name: opensearch-admin-credentials
+            defaultMode: 0555

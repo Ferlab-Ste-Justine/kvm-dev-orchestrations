@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+  - name: opensearch-dashboard-config
+    options:
+      disableNameSuffixHash: true
+    files:
+      - opensearch_dashboards.yml
+  - name: opensearch-admin-credentials
+    options:
+      disableNameSuffixHash: true
+    files:
+      - certificates/opensearch.crt
+      - certificates/opensearch.key
+      - certificates/opensearch-ca.crt
+
+resources:
+  - deployment.yml
+  - service.yml
+  - ingress.yml

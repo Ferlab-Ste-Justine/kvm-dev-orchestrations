@@ -60,6 +60,15 @@ scrape_configs:
         refresh_interval: 5s
         type: A
         port: 9100
+  - job_name: "ops-etcd-exporter"
+    static_configs:
+      - targets:
+%{ for address in etcd_addresses ~}
+          - "${address.ip}:2379"
+%{ endfor ~}
+    scheme: https
+    tls_config:
+      ca_file: /opt/etcd/ca.crt
   - job_name: "automation-server-pushgateway"
     dns_sd_configs:
       - names:

@@ -37,6 +37,12 @@ locals {
       content = file("${path.module}/../shared/minio_ca.crt")
     }
   ] : []
+  etcd_secrets = fileexists("${path.module}/../shared/etcd-ca.pem") ? [
+    {
+      path = "/opt/etcd/ca.crt",
+      content = file("${path.module}/../shared/etcd-ca.pem")
+    }
+  ] : []
 }
 
 resource "libvirt_volume" "prometheus" {
@@ -113,7 +119,8 @@ module "prometheus" {
   prometheus_secrets = concat(
     local.alertmanager_secrets,
     local.automation_server_secrets,
-    local.minio_secrets
+    local.minio_secrets,
+    local.etcd_secrets
   )
 
   install_dependencies = true

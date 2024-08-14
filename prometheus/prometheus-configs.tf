@@ -8,6 +8,7 @@ module "prometheus_confs" {
       alertmanager_enabled          = fileexists("${path.module}/../shared/alertmanager_ca.crt")
       kubernetes_cluster_federation = local.params.prometheus.kubernetes_cluster_federation
       minio_cluster_monitoring      = local.params.prometheus.minio_cluster_monitoring
+      etcd_addresses                = local.params.etcd.addresses
     }
   )
   node_exporter_jobs   = [
@@ -114,6 +115,17 @@ module "prometheus_confs" {
   minio_cluster_jobs = [
     {
       tag = "local"
+    }
+  ]
+  etcd_exporter_jobs   = [
+    {
+      tag = "ops"
+      members_count  = 3
+      max_learn_time = "15m"
+      max_db_size    = 8
+      alert_labels               = {
+        org = "ferlab"
+      }
     }
   ]
 }

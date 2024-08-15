@@ -3,7 +3,7 @@ data "etcd_prefix_range_end" "kubernetes_load_balancer" {
 }
 
 resource "etcd_role" "kubernetes_load_balancer" {
-  name = "coredns"
+  name = "kubernetes-load-balancer"
 
   permissions {
     permission = "readwrite"

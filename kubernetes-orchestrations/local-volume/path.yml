@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: local-volume
+spec:
+  template:
+    spec:
+      containers:
+        - image: busybox:1.36.1-uclibc  # smallest image that I could find
+          name: local-volume
+          volumeMounts:
+            - name: local-volume
+              mountPath: /data
+      volumes:
+        - name: local-volume
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate
+      nodeSelector:
+        kubernetes.io/hostname: node4
+      restartPolicy: OnFailure

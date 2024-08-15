@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: local-volume
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: local-volume
+  template:
+    metadata:
+      labels:
+        app: local-volume
+    spec:
+      volumes:
+        - name: local-volume
+          persistentVolumeClaim:
+            claimName: local-volume
+      containers:
+        - name: local-volume
+          image: ubuntu:22.04
+          command: ["sleep", "infinity"]
+          volumeMounts:
+            - name: local-volume
+              mountPath: "/opt/fs"

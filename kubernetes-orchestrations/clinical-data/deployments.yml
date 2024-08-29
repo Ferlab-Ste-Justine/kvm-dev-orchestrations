@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: clinical-data-test-postgres
+  name: clinical-data-test-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clinical-data-test-postgres
+  template:
+    metadata:
+      labels:
+        app: clinical-data-test-postgres
+    spec:
+      containers:
+      - image: postgres:14.13-bookworm
+        name: clinical-data-test-postgres
+        envFrom:
+        - configMapRef:
+            name:  clinical-data-test-postgres-configs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: clinical-data-test
+  name: clinical-data-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clinical-data-test
+  template:
+    metadata:
+      labels:
+        app: clinical-data-test
+    spec:
+      containers:
+      - image: index.docker.io/ferlabcrsj/cqdg-clinical-data-service:1.0.5
+        name: clinical-data-test
+        envFrom:
+        - configMapRef:
+            name: clinical-data-test-configs

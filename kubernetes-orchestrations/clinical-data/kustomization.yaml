@@ -1,0 +1,79 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ingress.yml
+  - deployments.yml
+  - services.yml
+
+configMapGenerator:
+  - name: clinical-data-test-postgres-configs
+    options:
+      disableNameSuffixHash: false
+    literals:
+      - POSTGRES_DB=clinical_data_service
+      - POSTGRES_USER=clinical_data_service
+      - POSTGRES_PASSWORD=clinical_data_service
+  - name: clinical-data-test-configs
+    options:
+      disableNameSuffixHash: false
+    literals:
+      - ES_HOSTS=TO_FILL
+      - AUTH_ENABLED=true
+      - AUTH_CLIENT_ID=TO_FILL
+      - AUTH_CLIENT_SECRET=TO_FILL
+      - AUTH_SERVER_URL=TO_FILL
+      - AUTH_REALM=TO_FILL
+      - LECTERN_USERNAME=TO_FILL
+      - LECTERN_PASSWORD=TO_FILL
+      - LECTERN_SERVER_URL=TO_FILL
+      - LECTERN_DICTIONARY_NAME=TO_FILL
+      - LECTERN_DEFAULT_LANGUAGE=en
+      - S3_ACCESS_KEY=TO_FILL
+      - S3_SECRET_KEY=TO_FILL
+      - S3_SERVICE_ENDPOINT=TO_FILL
+      - S3_SIGNIN_REGION=RegionOne
+      - S3_BUCKET_NAME=TO_FILL
+      - APP_HOST=clinical-data-test-api.k8.ferlab.lan
+      - APP_SCHEMA=http
+      - APP_ROUTE_PREFIX=/api
+      - APP_PORT=4000
+      - APP_BANNER=true
+      - FILE_UPLOAD_MAX_SIZE_MB=50
+      - FILE_UPLOAD_MAX_NB_OF_FILES=11
+      - FILE_UPLOAD_ALLOWED_MIMETYPES=text/tab-separated-values,text/csv
+      - CACHE_CERT_TTL_IN_SECONDS=300
+      - LOG_LEVEL=debug
+      - LOG_OUTPUT=combined
+      - PGHOST=clinical-data-test-postgres
+      - PGDATABASE=clinical_data_service
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=clinical-data-test-postgres
+      - TYPEORM_DATABASE=clinical_data_service
+      - TYPEORM_USERNAME=clinical_data_service
+      - TYPEORM_PASSWORD=clinical_data_service
+      - TYPEORM_MIGRATIONS=src/database/migrations/**/*.ts
+      - TYPEORM_MIGRATIONS_DIR=src/database/migrations
+      - TYPEORM_ENTITIES=src/api/models/**/*.ts
+      - TYPEORM_ENTITIES_DIR=src/api/models
+      - TYPEORM_SEEDING_FACTORIES=src/database/factories/**/*.ts
+      - TYPEORM_SEEDING_SEEDS=src/database/seeds/**/*.ts
+      - TYPEORM_SYNCHRONIZE=false
+      - TYPEORM_LOGGING=false
+      - TYPEORM_LOGGER=advanced-console
+      - CONTROLLERS=src/api/controllers/**/*Controller.ts
+      - MIDDLEWARES=src/api/middlewares/**/*Middleware.ts
+      - INTERCEPTORS=src/api/interceptors/**/*Interceptor.ts
+      - SUBSCRIBERS=src/api/subscribers/**/*Subscriber.ts
+      - RESOLVERS=src/api/resolvers/**/*Resolver.ts
+      - GRAPHQL_ENABLED=true
+      - GRAPHQL_ROUTE=/graphql
+      - GRAPHQL_EDITOR=true
+      - SWAGGER_ENABLED=true
+      - SWAGGER_ROUTE=/swagger
+      - MONITOR_USERNAME=monitor
+      - MONITOR_PASSWORD=monitor
+      - MONITOR_ENABLED=true
+      - MONITOR_ROUTE=/monitor
+      - RULES_LOCATION=rules
+      - ALLOWED_CPUS=1

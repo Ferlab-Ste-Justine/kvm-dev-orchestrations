@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: clinical-data-test-postgres
+  name: clinical-data-test-postgres
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: clinical-data-test-postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: clinical-data-test
+  name: clinical-data-test
+spec:
+  ports:
+  - port: 4000
+    protocol: TCP
+    targetPort: 4000
+  selector:
+    app: clinical-data-test

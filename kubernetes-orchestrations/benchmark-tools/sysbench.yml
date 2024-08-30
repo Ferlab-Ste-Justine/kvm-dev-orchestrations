@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sysbench
+spec:
+  template:
+    spec:
+      containers:
+      - image: zyclonite/sysbench:1.0.21
+        name: sysbench
+        command: ["/bin/sh", "-c"] 
+        args: ["sysbench memory --threads=8 --memory-total-size=7G --time=60 --memory-access-mode=rnd run"]
+      #nodeSelector:
+      #  kubernetes.io/hostname: node4
+      restartPolicy: OnFailure

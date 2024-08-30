@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: stress-ng
+spec:
+  template:
+    spec:
+      containers:
+      - image: colinianking/stress-ng:be42d072c0df72dc8136f52d3962e4ba264a100a
+        name: stress-ng
+        command: ["/bin/sh", "-c"] 
+        args: ["stress-ng --vm 8 --vm-bytes 7G --timeout 60s --metrics-brief"]
+      #nodeSelector:
+      #  kubernetes.io/hostname: node4
+      restartPolicy: OnFailure
+
+# https://medium.com/@wrightchen/stress-ng-cpu-benchmark-research-inaccurate-timing-issue-debug-c0c6e72a09e2

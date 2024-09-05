@@ -73,3 +73,6 @@
 [submodule "opensearch/terraform-tls-opensearch-certificates"]
 	path = opensearch/terraform-tls-opensearch-certificates
 	url = git@github.com:Ferlab-Ste-Justine/terraform-tls-opensearch-certificates.git
+[submodule "etcd-backup/backup/backup-docker-images"]
+	path = etcd-backup/backup/backup-docker-images
+	url = git@github.com:Ferlab-Ste-Justine/backup-docker-images.git

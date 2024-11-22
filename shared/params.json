@@ -192,5 +192,18 @@
         "vcpus": 1,
         "memory": 4096
       }
+    },
+    "starrocks": {
+      "fe_nodes": {
+        "count": 3,
+        "vcpus": 1,
+        "memory": 2048
+      },
+      "be_nodes": {
+        "count": 3,
+        "vcpus": 2,
+        "memory": 4096
+      },
+      "root_password": "testtest"
     }
 }

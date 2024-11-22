@@ -76,3 +76,6 @@
 [submodule "etcd-backup/backup/backup-docker-images"]
 	path = etcd-backup/backup/backup-docker-images
 	url = git@github.com:Ferlab-Ste-Justine/backup-docker-images.git
+[submodule "starrocks/terraform-libvirt-starrocks-server"]
+	path = starrocks/terraform-libvirt-starrocks-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-starrocks-server.git

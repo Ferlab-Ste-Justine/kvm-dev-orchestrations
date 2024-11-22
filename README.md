@@ -173,6 +173,12 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you c
 
 If you're interested to have OpenSearch Dashboards and Fluentd Daemonset installed in Kubernetes, you can look into the orchestration in the **kubernetes-orchestrations/opensearch** directory. The OpenSearch Dashboards UI can be accessed with the following link: http://opensearch-dashboard.k8.ferlab.lan
 
+## StarRocks
+
+To setup a StarRocks cluster, go to the **starrocks** directory and run `terraform init && terraform apply`.
+
+Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access StarRocks with a SQL client like using this command that will check the status of FE and BE nodes: `mysql -hstarrocks.ferlab.lan -P9030 -uroot -p -e"SHOW PROC '/frontends'\G; SHOW PROC '/backends'\G;"` (password in **shared/params.json**)
+
 # Useful commands
 |Command|Description
 |---|---

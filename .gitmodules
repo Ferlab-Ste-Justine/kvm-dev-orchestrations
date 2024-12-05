@@ -79,3 +79,6 @@
 [submodule "starrocks/terraform-libvirt-starrocks-server"]
 	path = starrocks/terraform-libvirt-starrocks-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-starrocks-server.git
+[submodule "custom/terraform-libvirt-custom-server"]
+	path = custom/terraform-libvirt-custom-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-custom-server.git

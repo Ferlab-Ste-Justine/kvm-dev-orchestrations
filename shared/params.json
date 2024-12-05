@@ -205,5 +205,9 @@
         "memory": 4096
       },
       "root_password": "testtest"
+    },
+    "custom": {
+      "vcpus": 1,
+      "memory": 4096
     }
 }

@@ -206,6 +206,10 @@
       },
       "root_password": "testtest"
     },
+    "smrtlink": {
+      "vcpus": 1,
+      "memory": 4096
+    },
     "custom": {
       "vcpus": 1,
       "memory": 4096

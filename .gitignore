@@ -39,3 +39,5 @@ prometheus/prometheus-configs/rules/*-node-exporter.yml
 prometheus/prometheus-configs/rules/*-terracd.yml
 prometheus/prometheus-configs/rules/*-kubernetes.yml
 prometheus/prometheus-configs/rules/*-minio.yml
+etcd-backup/setup/s3-conf.yml
+etcd-backup/work-env/

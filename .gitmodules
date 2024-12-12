@@ -82,3 +82,6 @@
 [submodule "custom/terraform-libvirt-custom-server"]
 	path = custom/terraform-libvirt-custom-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-custom-server.git
+[submodule "etcd-backup/etcd-backup"]
+	path = etcd-backup/etcd-backup
+	url = git@github.com:Ferlab-Ste-Justine/etcd-backup.git

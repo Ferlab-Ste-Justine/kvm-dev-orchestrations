@@ -65,3 +65,27 @@ resource "local_file" "etcd_root_password" {
   file_permission = "0600"
   filename        = "${path.module}/../shared/etcd-root_password"
 }
+
+resource "local_file" "etcd_creds_file" {
+  content         = "username: \"root\"\npassword: \"${random_password.etcd_root_password.result}\""
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/etcd-creds"
+}
+
+module "root_cert" {
+  source = "git::https://github.com/Ferlab-Ste-Justine/terraform-tls-client-certificate.git?ref=843bf71115fcc318575ed5fbdb8bcf31973324d4"
+  username = "root"
+  ca = module.etcd_ca
+}
+
+resource "local_file" "etcd_root_cert" {
+  content         = module.root_cert.certificate
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/etcd-root.crt"
+}
+
+resource "local_file" "etcd_root_key" {
+  content         = module.root_cert.key
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/etcd-root.key"
+}

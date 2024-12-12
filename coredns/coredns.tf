@@ -30,10 +30,10 @@ module "coredns_1" {
     endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
     ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
     client = {
-      certificate = ""
-      key = ""
-      username = "coredns"
-      password = random_password.coredns_etcd_password.result
+      certificate = local.params.etcd.cert_auth ? module.coredns_cert.certificate : ""
+      key = local.params.etcd.cert_auth ? module.coredns_cert.key : ""
+      username = !local.params.etcd.cert_auth ? "coredns" : ""
+      password = !local.params.etcd.cert_auth ? random_password.coredns_etcd_password.result : ""
     }
   }
   dns = {

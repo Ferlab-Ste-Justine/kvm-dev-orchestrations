@@ -1,0 +1,1 @@
+docker run -it --rm -v $(pwd):/opt -w /opt --network host ubuntu:24.04 sh

@@ -79,10 +79,10 @@ module "prometheus" {
     endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
     ca_certificate = file("${path.module}/../shared/etcd-ca.pem")
     client = {
-      certificate = ""
-      key = ""
-      username = "prometheus"
-      password = random_password.prometheus_etcd_password.result
+      certificate = local.params.etcd.cert_auth ? module.prometheus_cert.certificate : ""
+      key = local.params.etcd.cert_auth ? module.prometheus_cert.key : ""
+      username = !local.params.etcd.cert_auth ? "prometheus" : ""
+      password = !local.params.etcd.cert_auth ? random_password.prometheus_etcd_password.result : ""
     }
   }
 

@@ -62,7 +62,21 @@ module "etcd_1" {
     auto_compaction_retention  = "1000"
     space_quota                = 8*1024*1024*1024
     grpc_gateway_enabled       = true
-    client_cert_auth           = false
+    client_cert_auth           = local.params.etcd.cert_auth
+  }
+  restore = {
+    enabled = local.restore_enabled
+    s3 = {
+        endpoint      = local.restore_s3_conf.endpoint
+        bucket        = local.restore_s3_conf.bucket
+        object_prefix = "backup"
+        region        = local.restore_s3_conf.region
+        access_key    = local.restore_s3_conf.access_key
+        secret_key    = local.restore_s3_conf.secret_key
+        ca_cert       = local.restore_s3_conf.ca_cert != "" ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
+    }
+    encryption_key = local.restore_encryption_key
+    backup_timestamp = local.restore_backup_timestamp
   }
   fluentbit = {
     enabled = local.params.logs_forwarding
@@ -78,18 +92,6 @@ module "etcd_1" {
       hostname = "etcd-server-1"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
-    }
-    etcd = {
-      enabled = false
-      key_prefix = ""
-      endpoints = []
-      ca_certificate = ""
-      client = {
-        certificate = ""
-        key = ""
-        username = ""
-        password = ""
-      }
     }
   }
 }
@@ -150,7 +152,21 @@ module "etcd_2" {
     auto_compaction_retention  = "1000"
     space_quota                = 8*1024*1024*1024
     grpc_gateway_enabled       = true
-    client_cert_auth           = false
+    client_cert_auth           = local.params.etcd.cert_auth
+  }
+  restore = {
+    enabled = local.restore_enabled
+    s3 = {
+        endpoint      = local.restore_s3_conf.endpoint
+        bucket        = local.restore_s3_conf.bucket
+        object_prefix = "backup"
+        region        = local.restore_s3_conf.region
+        access_key    = local.restore_s3_conf.access_key
+        secret_key    = local.restore_s3_conf.secret_key
+        ca_cert       = local.restore_s3_conf.ca_cert != "" ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
+    }
+    encryption_key = local.restore_encryption_key
+    backup_timestamp = local.restore_backup_timestamp
   }
   fluentbit = {
     enabled = local.params.logs_forwarding
@@ -166,18 +182,6 @@ module "etcd_2" {
       hostname = "etcd-server-2"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
-    }
-    etcd = {
-      enabled = false
-      key_prefix = ""
-      endpoints = []
-      ca_certificate = ""
-      client = {
-        certificate = ""
-        key = ""
-        username = ""
-        password = ""
-      }
     }
   }
 }
@@ -238,7 +242,21 @@ module "etcd_3" {
     auto_compaction_retention  = "1000"
     space_quota                = 8*1024*1024*1024
     grpc_gateway_enabled       = true
-    client_cert_auth           = false
+    client_cert_auth           = local.params.etcd.cert_auth
+  }
+  restore = {
+    enabled = local.restore_enabled
+    s3 = {
+        endpoint      = local.restore_s3_conf.endpoint
+        bucket        = local.restore_s3_conf.bucket
+        object_prefix = "backup"
+        region        = local.restore_s3_conf.region
+        access_key    = local.restore_s3_conf.access_key
+        secret_key    = local.restore_s3_conf.secret_key
+        ca_cert       = local.restore_s3_conf.ca_cert != "" ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
+    }
+    encryption_key = local.restore_encryption_key
+    backup_timestamp = local.restore_backup_timestamp
   }
   fluentbit = {
     enabled = local.params.logs_forwarding
@@ -254,18 +272,6 @@ module "etcd_3" {
       hostname = "etcd-server-3"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
-    }
-    etcd = {
-      enabled = false
-      key_prefix = ""
-      endpoints = []
-      ca_certificate = ""
-      client = {
-        certificate = ""
-        key = ""
-        username = ""
-        password = ""
-      }
     }
   }
 }

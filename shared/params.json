@@ -66,6 +66,7 @@
       "vcpus": 1,
       "memory": 4096,
       "data_volumes": false,
+      "cert_auth": false,
       "addresses": [
         {
           "mac": "aa:00:00:00:00:00",

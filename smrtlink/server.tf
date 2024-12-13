@@ -37,9 +37,8 @@ module "smrtlink" {
   smrtlink               = {
     domain_name = "smrtlink.ferlab.lan"
     keycloak_user_passwords = {
-      admin        = local.params.smrtlink.admin_password
-      pbicsuser    = local.params.smrtlink.pbicsuser_password
-      pbinstrument = local.params.smrtlink.pbinstrument_password
+      admin     = local.params.smrtlink.admin_password
+      pbicsuser = local.params.smrtlink.pbicsuser_password
     }
   }
 }

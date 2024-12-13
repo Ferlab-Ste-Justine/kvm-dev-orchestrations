@@ -85,3 +85,6 @@
 [submodule "etcd-backup/etcd-backup"]
 	path = etcd-backup/etcd-backup
 	url = git@github.com:Ferlab-Ste-Justine/etcd-backup.git
+[submodule "smrtlink/terraform-libvirt-smrtlink-server"]
+	path = smrtlink/terraform-libvirt-smrtlink-server
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-smrtlink-server.git

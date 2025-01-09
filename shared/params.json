@@ -210,7 +210,7 @@
     "smrtlink": {
       "vcpus": 1,
       "memory": 4096,
-      "data_volume": false,
+      "data_volume": true,
       "admin_password": "test",
       "pbicsuser_password": "test"
     },

@@ -24,6 +24,7 @@ shared/vault-root-token
 shared/*-approle-id
 shared/*-approle-secret
 shared/network_id
+shared/etcd-creds
 logs/certs/
 logs/logs/
 kubernetes-orchestrations/*/terraform.tfstate

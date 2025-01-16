@@ -1,25 +1,14 @@
-provider "kubernetes" {
-  config_path  = "../../shared/kubeconfig"   # Path to your kubeconfig file
-  config_context = "kubernetes-admin-ferlab@ferlab" # Set your kubeconfig context
-}
-
 resource "kubernetes_endpoints" "minio_api" {
   metadata {
     name      = "minio-api"
   }
 
   subset {
-    address {
-      ip = "192.168.55.24"
-    }
-    address {
-      ip = "192.168.55.26"
-    }
-    address {
-      ip = "192.168.55.27"
-    }
-    address {
-      ip = "192.168.55.25"
+    dynamic "address" {
+      for_each = data.netaddr_address_ipv4.minio
+      content {
+        ip = address.value.address
+      }
     }
 
     port {
@@ -50,17 +39,11 @@ resource "kubernetes_endpoints" "minio_console" {
   }
 
   subset {
-    address {
-      ip = "192.168.55.24"
-    }
-    address {
-      ip = "192.168.55.26"
-    }
-    address {
-      ip = "192.168.55.27"
-    }
-    address {
-      ip = "192.168.55.25"
+    dynamic "address" {
+      for_each = data.netaddr_address_ipv4.minio
+      content {
+        ip = address.value.address
+      }
     }
 
     port {
@@ -91,8 +74,8 @@ resource "kubernetes_secret" "minio_ingress_tls" {
   }
 
   data = {
-    "tls.crt" = filebase64("../../shared/minio_tls.crt")
-    "tls.key" = filebase64("../../shared/minio_tls.key")
+    "tls.crt" = tls_locally_signed_cert.minio.cert_pem
+    "tls.key" = tls_private_key.minio.private_key_pem
   }
 
   type = "kubernetes.io/tls"

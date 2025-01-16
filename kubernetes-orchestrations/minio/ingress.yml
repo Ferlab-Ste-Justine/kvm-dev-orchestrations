@@ -8,7 +8,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  ingressClassName: nginx
   tls:
     - hosts:
         - minio-api.k8.ferlab.lan
@@ -35,7 +34,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
-  ingressClassName: nginx
   tls:
     - hosts:
         - minio-console.k8.ferlab.lan

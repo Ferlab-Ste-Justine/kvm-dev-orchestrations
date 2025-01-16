@@ -16,7 +16,7 @@ resource "tls_cert_request" "minio" {
     "*.minio.k8.ferlab.lan"
   ]
   ip_addresses = [
-    "192.168.55.15"
+    data.netaddr_address_ipv4.k8_lb.address
   ]
   subject {
     common_name  = "minio.k8.ferlab.lan"
@@ -41,7 +41,7 @@ resource "tls_locally_signed_cert" "minio" {
 # Output the files locally
 resource "local_file" "minio_tls_cert" {
   content  = tls_locally_signed_cert.minio.cert_pem
-  filename = "${path.module}/../shared/minio_tls.crt"
+  filename = "${path.module}/../../shared/minio_tls.crt"
 }
 
 resource "local_file" "minio_tls_key" {

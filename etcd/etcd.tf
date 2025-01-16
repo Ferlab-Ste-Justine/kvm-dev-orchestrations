@@ -73,7 +73,7 @@ module "etcd_1" {
         region        = local.restore_s3_conf.region
         access_key    = local.restore_s3_conf.access_key
         secret_key    = local.restore_s3_conf.secret_key
-        ca_cert       = local.restore_s3_conf.ca_cert != "" ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
+        ca_cert       = local.restore_s3_conf.ca_cert != "" && local.restore_enabled ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
     }
     encryption_key = local.restore_encryption_key
     backup_timestamp = local.restore_backup_timestamp
@@ -163,7 +163,7 @@ module "etcd_2" {
         region        = local.restore_s3_conf.region
         access_key    = local.restore_s3_conf.access_key
         secret_key    = local.restore_s3_conf.secret_key
-        ca_cert       = local.restore_s3_conf.ca_cert != "" ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
+        ca_cert       = local.restore_s3_conf.ca_cert != "" && local.restore_enabled ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
     }
     encryption_key = local.restore_encryption_key
     backup_timestamp = local.restore_backup_timestamp
@@ -253,7 +253,7 @@ module "etcd_3" {
         region        = local.restore_s3_conf.region
         access_key    = local.restore_s3_conf.access_key
         secret_key    = local.restore_s3_conf.secret_key
-        ca_cert       = local.restore_s3_conf.ca_cert != "" ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
+        ca_cert       = local.restore_s3_conf.ca_cert != "" && local.restore_enabled ? file(local.restore_s3_conf.ca_cert) : local.restore_s3_conf.ca_cert
     }
     encryption_key = local.restore_encryption_key
     backup_timestamp = local.restore_backup_timestamp

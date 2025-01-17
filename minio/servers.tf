@@ -44,8 +44,8 @@ locals {
       root_username = local.params.minio.root_username
       root_password = local.params.minio.root_password
     }
-    api_url = "https://minio.ferlab.lan:9000"
-    console_url = "https://minio.ferlab.lan:9001"
+    api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
+    console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
   }
   ferio = {
     etcd = {

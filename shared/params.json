@@ -60,7 +60,8 @@
       "root_password": "testtest",
       "ferio_enabled": true,
       "ferio_update_release": true,
-      "ferio_expand_server_pools": false
+      "ferio_expand_server_pools": false,
+      "k8_ingress_setup": false
     },
     "etcd": {
       "vcpus": 1,

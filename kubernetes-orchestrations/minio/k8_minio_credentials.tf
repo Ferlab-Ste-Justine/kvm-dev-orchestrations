@@ -41,15 +41,15 @@ resource "tls_locally_signed_cert" "minio" {
 # Output the files locally
 resource "local_file" "minio_tls_cert" {
   content  = tls_locally_signed_cert.minio.cert_pem
-  filename = "${path.module}/../../shared/minio_tls.crt"
+  filename = "${path.module}/../../shared/k8_ingress_minio_tls.crt"
 }
 
 resource "local_file" "minio_tls_key" {
   content  = tls_private_key.minio.private_key_pem
-  filename = "${path.module}/../../shared/minio_tls.key"
+  filename = "${path.module}/../../shared/k8_ingress_minio_tls.key"
 }
 
 resource "local_file" "minio_ca_cert" {
   content  = module.minio_ca.certificate
-  filename = "${path.module}/../../shared/minio_ca.crt"
+  filename = "${path.module}/../../shared/k8_ingress_minio_ca.crt"
 }

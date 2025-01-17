@@ -1,0 +1,1 @@
+kubectl --kubeconfig=kubeconfig --context="kubernetes-admin-ferlab@ferlab" "$@"

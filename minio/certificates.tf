@@ -18,7 +18,10 @@ resource "tls_cert_request" "minio" {
     ], ["127.0.0.1"])
   dns_names = [
     "minio.ferlab.lan",
-    "*.minio.ferlab.lan"
+    "*.minio.ferlab.lan",
+    "minio",
+    "minio-api",
+    "minio-console"
   ]
   subject {
     common_name  = "minio"
@@ -46,4 +49,10 @@ resource "local_file" "minio_ca_cert" {
   content         = module.minio_ca.certificate
   file_permission = "0600"
   filename        = "${path.module}/../shared/minio_ca.crt"
+}
+
+resource "local_file" "minio_ca_key" {
+  content         = module.minio_ca.key
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/minio_ca.key"
 }

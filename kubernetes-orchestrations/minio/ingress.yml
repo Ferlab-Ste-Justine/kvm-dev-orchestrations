@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: minio-api-ingress
   annotations:
+    nginx.ingress.kubernetes.io/proxy-ssl-name: "minio"
+    nginx.ingress.kubernetes.io/proxy-ssl-secret: default/minio-ingress-upstream-tls
+    nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
+    nginx.ingress.kubernetes.io/proxy-ssl-verify-depth: "1"
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
@@ -29,6 +33,10 @@ kind: Ingress
 metadata:
   name: minio-console-ingress
   annotations:
+    nginx.ingress.kubernetes.io/proxy-ssl-name: "minio"
+    nginx.ingress.kubernetes.io/proxy-ssl-secret: default/minio-ingress-upstream-tls
+    nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
+    nginx.ingress.kubernetes.io/proxy-ssl-verify-depth: "1"
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "300"

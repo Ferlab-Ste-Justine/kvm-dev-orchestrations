@@ -132,6 +132,26 @@ Before vault is operational, it needs to be initialized and each of it's server 
 - Connect to https://vault.ferlab.lan:
   - enter **Initial root token** value for **Token** then click **Sign In**
 
+## Vault Integration with Vault Agent
+
+If you want to enable the Vault Agent, ensure that:
+1. Vault is deployed and operational.
+2. A role ID and secret ID have been created for authentication in Vault with the required policies applied. Example:
+   - **Role ID**: Used to authenticate.
+   - **Secret ID**: Used to authenticate (ensure its lifecycle matches your needs).
+   - Policies: Define access to the paths and secrets Vault Agent will need.
+
+The Vault Agent configuration in this module allows for:
+- Automatic authentication using approle credentials (role ID and secret ID).
+- Management of certificates and secret files using templates.
+
+Vault Agent requires:
+- **Vault Address**: The address of the Vault server.
+- **Vault CA Certificate**: (Optional) The CA certificate content to trust the Vault server's identity.
+- **Role ID and Secret ID**: inline configuration for authentication.
+
+Templates can be specified to render secrets and restart services upon updates. Configuration details are provided in the `vault_agent` variable.
+
 ### Tunnel support
 
 By setting the tunnel to **true** in the load balancer parameters, a particuliar load balancer will be added and only be accessible via ssh tunneling.

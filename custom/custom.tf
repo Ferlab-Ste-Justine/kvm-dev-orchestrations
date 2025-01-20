@@ -22,6 +22,12 @@ module "custom" {
     dns_servers         = [data.netaddr_address_ipv4.coredns.0.address]
     prefix_length       = split("/", local.params.network.addresses).1
   }]
+  cloud_init_configurations = [
+    {
+      filename = "custom.cfg"
+      content = file("user_data.yml")
+    }
+  ]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password

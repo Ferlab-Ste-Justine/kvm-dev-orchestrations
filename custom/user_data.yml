@@ -1,0 +1,6 @@
+#cloud-config
+# Do not use cloud-init Groups directive to create groups as there is way yet to specify the gid of the group.
+# Groups should be manually created in script with explicit gid.
+# This is to ensure that user uid is the same as its gid
+runcmd:
+  - echo "Hello World" > /opt/hello_world.txt

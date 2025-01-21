@@ -56,3 +56,20 @@ resource "local_file" "minio_ca_key" {
   file_permission = "0600"
   filename        = "${path.module}/../shared/minio_ca.key"
 }
+
+module "minio_ingress_ca" {
+  source = "../ca"
+  common_name = "minio"
+}
+
+resource "local_file" "minio_ingress_ca_cert" {
+  content         = module.minio_ingress_ca.certificate
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/minio_ingress_ca.crt"
+}
+
+resource "local_file" "minio_ingress_ca_key" {
+  content         = module.minio_ingress_ca.key
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/minio_ingress_ca.key"
+}

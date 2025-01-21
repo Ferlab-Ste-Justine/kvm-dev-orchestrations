@@ -84,8 +84,8 @@ resource "kubernetes_secret" "minio_ingress_tls" {
 module "minio_throwaway_client" {
   source = "git::https://github.com/Ferlab-Ste-Justine/terraform-tls-client-certificate?ref=v0.1.0"
   ca = {
-    key         = file("${path.module}/../../shared/minio_ca.key")
-    certificate = file("${path.module}/../../shared/minio_ca.crt")
+    key         = file("${path.module}/../../shared/minio_ingress_ca.key")
+    certificate = file("${path.module}/../../shared/minio_ingress_ca.crt")
   }
   username = "throwaway"
 }

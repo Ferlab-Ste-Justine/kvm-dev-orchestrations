@@ -38,7 +38,10 @@ locals {
     tls = {
       server_cert = tls_locally_signed_cert.minio.cert_pem
       server_key  = tls_private_key.minio.private_key_pem
-      ca_cert     = module.minio_ca.certificate
+      ca_certs     = [
+        module.minio_ca.certificate,
+        module.minio_ingress_ca.certificate
+      ]
     }
     auth = {
       root_username = local.params.minio.root_username

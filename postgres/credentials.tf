@@ -25,3 +25,50 @@ resource "local_file" "postgres_root_password" {
   file_permission = "0600"
   filename        = "${path.module}/../shared/postgres_root_password"
 }
+
+resource "local_file" "postgres_root_auth" {
+  content         = "username: postgres\npassword: \"${random_password.postgres_root_password.result}\""
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/postgres_root_auth.yml"
+}
+
+//Patroni client cert
+resource "tls_private_key" "patroni_client_key" {
+  algorithm   = "RSA"
+  rsa_bits = 4096
+}
+
+resource "tls_cert_request" "patroni_client_request" {
+  private_key_pem = tls_private_key.patroni_client_key.private_key_pem
+
+  subject {
+    common_name  = "patroni-client"
+  }
+}
+
+resource "tls_locally_signed_cert" "patroni_client_certificate" {
+  cert_request_pem   = tls_cert_request.patroni_client_request.cert_request_pem
+  ca_private_key_pem = module.postgres_ca.key
+  ca_cert_pem        = module.postgres_ca.certificate
+
+  validity_period_hours = 2400
+  early_renewal_hours = 10
+
+  allowed_uses = [
+    "client_auth",
+  ]
+
+  is_ca_certificate = false
+}
+
+resource "local_file" "patroni_client_cert" {
+  content         = tls_locally_signed_cert.patroni_client_certificate.cert_pem
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/patroni_client.crt"
+}
+
+resource "local_file" "patroni_client_key" {
+  content         = tls_private_key.patroni_client_key.private_key_pem
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/patroni_client.key"
+}

@@ -1,0 +1,7 @@
+cluster:
+- name: postgres-1
+  up: true
+- name: postgres-2
+  up: true
+- name: postgres-3
+  up: true

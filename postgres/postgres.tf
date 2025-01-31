@@ -1,4 +1,5 @@
 resource "libvirt_volume" "postgres_1" {
+  count = local.cluster_state.cluster.0.up ? 1 : 0
   name             = "ferlab-postgres-1"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -8,11 +9,12 @@ resource "libvirt_volume" "postgres_1" {
 }
 
 module "postgres_1" {
+  count = local.cluster_state.cluster.0.up ? 1 : 0
   source = "./kvm-postgres-server"
   name = "ferlab-postgres-1"
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
-  volume_id = libvirt_volume.postgres_1.id
+  volume_id = libvirt_volume.postgres_1.0.id
   data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_1_data.0.id : ""
   libvirt_networks = [{
     network_name = "ferlab"
@@ -64,6 +66,7 @@ module "postgres_1" {
 }
 
 resource "libvirt_volume" "postgres_2" {
+  count = local.cluster_state.cluster.1.up ? 1 : 0
   name             = "ferlab-postgres-2"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -73,11 +76,12 @@ resource "libvirt_volume" "postgres_2" {
 }
 
 module "postgres_2" {
+  count = local.cluster_state.cluster.1.up ? 1 : 0
   source = "./kvm-postgres-server"
   name = "ferlab-postgres-2"
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
-  volume_id = libvirt_volume.postgres_2.id
+  volume_id = libvirt_volume.postgres_2.0.id
   data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_2_data.0.id : ""
   libvirt_networks = [{
     network_name = "ferlab"
@@ -129,6 +133,7 @@ module "postgres_2" {
 }
 
 resource "libvirt_volume" "postgres_3" {
+  count = local.cluster_state.cluster.2.up ? 1 : 0
   name             = "ferlab-postgres-3"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -138,11 +143,12 @@ resource "libvirt_volume" "postgres_3" {
 }
 
 module "postgres_3" {
+  count = local.cluster_state.cluster.2.up ? 1 : 0
   source = "./kvm-postgres-server"
   name = "ferlab-postgres-3"
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
-  volume_id = libvirt_volume.postgres_3.id
+  volume_id = libvirt_volume.postgres_3.0.id
   data_volume_id = local.params.postgres.servers.data_volumes ? libvirt_volume.postgres_3_data.0.id : ""
   libvirt_networks = [{
     network_name = "ferlab"

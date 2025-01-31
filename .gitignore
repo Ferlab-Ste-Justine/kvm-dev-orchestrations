@@ -25,6 +25,7 @@ shared/*-approle-id
 shared/*-approle-secret
 shared/network_id
 shared/etcd-creds
+shared/postgres_root_auth.yml
 logs/certs/
 logs/logs/
 kubernetes-orchestrations/*/terraform.tfstate

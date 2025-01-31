@@ -88,3 +88,6 @@
 [submodule "smrtlink/terraform-libvirt-smrtlink-server"]
 	path = smrtlink/terraform-libvirt-smrtlink-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-smrtlink-server.git
+[submodule "postgres-chaos-analyst"]
+	path = postgres-chaos-analyst/postgres-chaos-analyst
+	url = git@github.com:Ferlab-Ste-Justine/postgres-chaos-analyst.git

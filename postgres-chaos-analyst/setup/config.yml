@@ -1,0 +1,29 @@
+postgres_client:
+  endpoint: "load-balancer.postgres.ferlab.lan:5432"
+  auth:
+    ca_cert: "../../shared/postgres_ca.crt"
+    password_auth: "../../shared/postgres_root_auth.yml"
+    username: test
+    password: test
+  database: test
+  connection_timeout: "1m"
+  query_timeout: "1m"
+terraform:
+  directory: ../../postgres
+  cluster_file: cluster_state.yml
+patroni_client:
+  endpoint: "load-balancer.postgres.ferlab.lan:4443"
+  auth:
+    ca_cert: "../../shared/postgres_ca.crt"
+    client_cert: "../../shared/patroni_client.crt"
+    client_key: "../../shared/patroni_client.key"
+  request_timeout: "1m"
+tests:
+  insert_delete: true
+  update: true
+  switchovers: 5
+  leader_crashes: 5
+  sync_standby_crashes: 5
+  validation_interval: "10s"
+  change_recover_timeout: "3m"
+  crash_recover_timeout: "6m"

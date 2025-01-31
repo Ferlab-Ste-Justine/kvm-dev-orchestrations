@@ -6,8 +6,8 @@ postgres_client:
     username: test
     password: test
   database: test
-  connection_timeout: "1m"
-  query_timeout: "1m"
+  connection_timeout: "5s"
+  query_timeout: "5s"
 terraform:
   directory: ../../postgres
   cluster_file: cluster_state.yml
@@ -17,13 +17,12 @@ patroni_client:
     ca_cert: "../../shared/postgres_ca.crt"
     client_cert: "../../shared/patroni_client.crt"
     client_key: "../../shared/patroni_client.key"
-  request_timeout: "1m"
+  request_timeout: "5s"
 tests:
-  insert_delete: true
-  update: true
   switchovers: 5
   leader_crashes: 5
   sync_standby_crashes: 5
   validation_interval: "10s"
   change_recover_timeout: "3m"
   crash_recover_timeout: "6m"
+  crash_rebuild_pause: "1m"

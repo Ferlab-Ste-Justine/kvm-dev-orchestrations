@@ -119,11 +119,24 @@ module "prometheus_confs" {
   ]
   etcd_exporter_jobs   = [
     {
-      tag = "ops"
+      tag            = "ops"
       members_count  = 3
       max_learn_time = "15m"
       max_db_size    = 8
-      alert_labels               = {
+      alert_labels   = {
+        org = "ferlab"
+      }
+    }
+  ]
+  patroni_exporter_jobs   = [
+    {
+      tag                     = "ops"
+      members_count           = 3
+      synchronous_replication = true
+      patroni_version         = "4.0.4"
+      postgres_version        = "14.0.15"
+      max_wal_divergence      = 1
+      alert_labels            = {
         org = "ferlab"
       }
     }

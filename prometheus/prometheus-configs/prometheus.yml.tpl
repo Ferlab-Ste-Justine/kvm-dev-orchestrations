@@ -82,6 +82,19 @@ scrape_configs:
       ca_file: /opt/automation-server-pushgateway/ca.crt
       cert_file: /opt/automation-server-pushgateway/client.crt
       key_file: /opt/automation-server-pushgateway/client.key
+  - job_name: "ops-patroni-exporter"
+    dns_sd_configs:
+      - names:
+          - server.postgres.ferlab.lan
+        refresh_interval: 5s
+        type: A
+        port: 4443
+    honor_labels: true
+    scheme: https
+    tls_config:
+      ca_file: /opt/patroni/ca.crt
+      cert_file: /opt/patroni/client.crt
+      key_file: /opt/patroni/client.key
 %{ if kubernetes_cluster_federation ~}
   - job_name: "kubernetes-cluster-federation"
     honor_labels: true

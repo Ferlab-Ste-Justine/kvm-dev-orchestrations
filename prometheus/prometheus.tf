@@ -43,6 +43,20 @@ locals {
       content = file("${path.module}/../shared/etcd-ca.pem")
     }
   ] : []
+  patroni_secrets = fileexists("${path.module}/../shared/postgres_ca.crt") ? [
+    {
+      path = "/opt/patroni/ca.crt",
+      content = file("${path.module}/../shared/postgres_ca.crt")
+    },
+    {
+      path = "/opt/patroni/client.crt",
+      content = file("${path.module}/../shared/patroni_client.crt")
+    },
+    {
+      path = "/opt/patroni/client.key",
+      content = file("${path.module}/../shared/patroni_client.key")
+    }
+  ] : []
 }
 
 resource "libvirt_volume" "prometheus" {
@@ -120,7 +134,8 @@ module "prometheus" {
     local.alertmanager_secrets,
     local.automation_server_secrets,
     local.minio_secrets,
-    local.etcd_secrets
+    local.etcd_secrets,
+    local.patroni_secrets
   )
 
   install_dependencies = true

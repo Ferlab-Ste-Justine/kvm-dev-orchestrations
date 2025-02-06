@@ -1,3 +1,7 @@
+locals {
+  is_synchronous = true
+}
+
 resource "libvirt_volume" "postgres_1" {
   count = local.cluster_state.cluster.0.up ? 1 : 0
   name             = "ferlab-postgres-1"
@@ -32,15 +36,9 @@ module "postgres_1" {
     params = local.params.postgres.servers.params
     replicator_password = random_password.postgres_root_password.result
     superuser_password = random_password.postgres_root_password.result
-    ca = module.postgres_ca
-    certificate = {
-      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", netaddr_address_ipv4.postgres_lb.0.address]
-      extra_ips = [netaddr_address_ipv4.postgres_lb.0.address]
-      organization = "Ferlab"
-      validity_period = 100*365*24
-      early_renewal_period = 365*24
-      key_length = 4096
-    }
+    ca_certificate = module.postgres_ca.certificate
+    server_certificate = tls_locally_signed_cert.postgres_server_certificate.cert_pem
+    server_key = tls_private_key.postgres_server_key.private_key_pem
   }
   etcd = {
     endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
@@ -58,7 +56,9 @@ module "postgres_1" {
     master_start_timeout = 300
     master_stop_timeout = 300
     watchdog_safety_margin = -1
-    synchronous_node_count = 1
+    is_synchronous = local.is_synchronous
+    client_certificate = tls_locally_signed_cert.patroni_client_certificate.cert_pem
+    client_key = tls_private_key.patroni_client_key.private_key_pem
   }
   depends_on = [
     etcd_range_scoped_state.patroni
@@ -99,15 +99,9 @@ module "postgres_2" {
     params = local.params.postgres.servers.params
     replicator_password = random_password.postgres_root_password.result
     superuser_password = random_password.postgres_root_password.result
-    ca = module.postgres_ca
-    certificate = {
-      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", netaddr_address_ipv4.postgres_lb.0.address]
-      extra_ips = [netaddr_address_ipv4.postgres_lb.0.address]
-      organization = "Ferlab"
-      validity_period = 100*365*24
-      early_renewal_period = 365*24
-      key_length = 4096
-    }
+    ca_certificate = module.postgres_ca.certificate
+    server_certificate = tls_locally_signed_cert.postgres_server_certificate.cert_pem
+    server_key = tls_private_key.postgres_server_key.private_key_pem
   }
   etcd = {
     endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
@@ -125,7 +119,9 @@ module "postgres_2" {
     master_start_timeout = 300
     master_stop_timeout = 300
     watchdog_safety_margin = -1
-    synchronous_node_count = 1
+    is_synchronous = local.is_synchronous
+    client_certificate = tls_locally_signed_cert.patroni_client_certificate.cert_pem
+    client_key = tls_private_key.patroni_client_key.private_key_pem
   }
   depends_on = [
     etcd_range_scoped_state.patroni
@@ -166,15 +162,9 @@ module "postgres_3" {
     params = local.params.postgres.servers.params
     replicator_password = random_password.postgres_root_password.result
     superuser_password = random_password.postgres_root_password.result
-    ca = module.postgres_ca
-    certificate = {
-      domains = ["postgres.ferlab.lan", "load-balancer.postgres.ferlab.lan", "server.postgres.ferlab.lan", netaddr_address_ipv4.postgres_lb.0.address]
-      extra_ips = [netaddr_address_ipv4.postgres_lb.0.address]
-      organization = "Ferlab"
-      validity_period = 100*365*24
-      early_renewal_period = 365*24
-      key_length = 4096
-    }
+    ca_certificate = module.postgres_ca.certificate
+    server_certificate = tls_locally_signed_cert.postgres_server_certificate.cert_pem
+    server_key = tls_private_key.postgres_server_key.private_key_pem
   }
   etcd = {
     endpoints = [for etcd in local.params.etcd.addresses: "${etcd.ip}:2379"]
@@ -192,7 +182,9 @@ module "postgres_3" {
     master_start_timeout = 300
     master_stop_timeout = 300
     watchdog_safety_margin = -1
-    synchronous_node_count = 1
+    is_synchronous = local.is_synchronous
+    client_certificate = tls_locally_signed_cert.patroni_client_certificate.cert_pem
+    client_key = tls_private_key.patroni_client_key.private_key_pem
   }
   depends_on = [
     etcd_range_scoped_state.patroni

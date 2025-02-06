@@ -37,7 +37,7 @@ module "postgres_1" {
     replicator_password = random_password.postgres_root_password.result
     superuser_password = random_password.postgres_root_password.result
     ca_certificate = module.postgres_ca.certificate
-    server_certificate = tls_locally_signed_cert.postgres_server_certificate.cert_pem
+    server_certificate = module.postgres_certificates.server_certificate
     server_key = tls_private_key.postgres_server_key.private_key_pem
   }
   etcd = {
@@ -57,7 +57,7 @@ module "postgres_1" {
     master_stop_timeout = 300
     watchdog_safety_margin = -1
     is_synchronous = local.is_synchronous
-    client_certificate = tls_locally_signed_cert.patroni_client_certificate.cert_pem
+    client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
   depends_on = [
@@ -100,7 +100,7 @@ module "postgres_2" {
     replicator_password = random_password.postgres_root_password.result
     superuser_password = random_password.postgres_root_password.result
     ca_certificate = module.postgres_ca.certificate
-    server_certificate = tls_locally_signed_cert.postgres_server_certificate.cert_pem
+    server_certificate = module.postgres_certificates.server_certificate
     server_key = tls_private_key.postgres_server_key.private_key_pem
   }
   etcd = {
@@ -120,7 +120,7 @@ module "postgres_2" {
     master_stop_timeout = 300
     watchdog_safety_margin = -1
     is_synchronous = local.is_synchronous
-    client_certificate = tls_locally_signed_cert.patroni_client_certificate.cert_pem
+    client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
   depends_on = [
@@ -163,7 +163,7 @@ module "postgres_3" {
     replicator_password = random_password.postgres_root_password.result
     superuser_password = random_password.postgres_root_password.result
     ca_certificate = module.postgres_ca.certificate
-    server_certificate = tls_locally_signed_cert.postgres_server_certificate.cert_pem
+    server_certificate = module.postgres_certificates.server_certificate
     server_key = tls_private_key.postgres_server_key.private_key_pem
   }
   etcd = {
@@ -183,7 +183,7 @@ module "postgres_3" {
     master_stop_timeout = 300
     watchdog_safety_margin = -1
     is_synchronous = local.is_synchronous
-    client_certificate = tls_locally_signed_cert.patroni_client_certificate.cert_pem
+    client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
   depends_on = [

@@ -91,3 +91,6 @@
 [submodule "postgres-chaos-analyst"]
 	path = postgres-chaos-analyst/postgres-chaos-analyst
 	url = git@github.com:Ferlab-Ste-Justine/postgres-chaos-analyst.git
+[submodule "postgres/terraform-tls-patroni-certificates"]
+	path = postgres/terraform-tls-patroni-certificates
+	url = git@github.com:Ferlab-Ste-Justine/terraform-tls-patroni-certificates.git

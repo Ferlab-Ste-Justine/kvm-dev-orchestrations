@@ -1,5 +1,9 @@
 locals {
   is_synchronous = true
+  synchronous_settings = {
+    strict = true
+    synchronous_node_count = 1
+  }
 }
 
 resource "libvirt_volume" "postgres_1" {
@@ -57,6 +61,7 @@ module "postgres_1" {
     master_stop_timeout = 300
     watchdog_safety_margin = -1
     is_synchronous = local.is_synchronous
+    synchronous_settings = local.synchronous_settings
     client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }

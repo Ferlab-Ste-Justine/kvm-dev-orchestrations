@@ -183,7 +183,7 @@ Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you c
 
 To setup a SMRT Link server, go to the **smrtlink** directory and run `terraform init && terraform apply`.
 
-Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access SMRT Link UI using the **admin** user with the following link: https://smrtlink.ferlab.lan:8243 (password in shared/params.json)
+Assuming that you added the **coredns** to your **/etc/resolv.conf** file, you can access SMRT Link UI using the **admin** user with the following link: https://smrtlink.ferlab.lan:8243 (password in **shared/params.json**)
 
 # Useful commands
 |Command|Description

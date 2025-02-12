@@ -211,9 +211,11 @@
     "smrtlink": {
       "vcpus": 1,
       "memory": 4096,
-      "data_volume": true,
+      "data_volume": false,
       "admin_password": "test",
-      "pbicsuser_password": "test"
+      "pbicsuser_password": "test",
+      "db_backups": false,
+      "s3_backups": false
     },
     "custom": {
       "vcpus": 1,

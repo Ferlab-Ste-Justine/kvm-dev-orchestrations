@@ -40,5 +40,23 @@ module "smrtlink" {
       admin     = local.params.smrtlink.admin_password
       pbicsuser = local.params.smrtlink.pbicsuser_password
     }
+    db_backups = {
+      enabled         = local.params.smrtlink.db_backups
+      cron_expression = "*/10 * * * *"  # every 10 minutes
+      retention_days  = 1
+    }
+  }
+  s3_backups = {
+    enabled                = local.params.smrtlink.s3_backups
+    restore                = false
+    url                    = "https://minio.ferlab.lan:9000"
+    region                 = "us-east-1"
+    access_key             = local.params.minio.root_username
+    secret_key             = local.params.minio.root_password
+    server_side_encryption = ""
+    calendar               = "*:0/10"  # every 10 minutes
+    bucket                 = "smrtlink-backup"
+    ca_cert                = file("../shared/minio_ca.crt")
+    symlinks               = "skip"
   }
 }

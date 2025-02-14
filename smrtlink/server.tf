@@ -56,7 +56,7 @@ module "smrtlink" {
     server_side_encryption = ""
     calendar               = "*:0/10"  # every 10 minutes
     bucket                 = "smrtlink-backup"
-    ca_cert                = file("../shared/minio_ca.crt")
+    ca_cert                = fileexists("../shared/minio_ca.crt") ? file("../shared/minio_ca.crt") : ""
     symlinks               = "skip"
   }
 }

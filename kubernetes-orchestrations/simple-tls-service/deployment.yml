@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-service-app
+  labels:
+    app: simple-service-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simple-service-app
+  template:
+    metadata:
+      labels:
+        app: simple-service-app
+    spec:
+      containers:
+        - name: simple-service-app
+          image: nginx:latest
+          ports:
+            - containerPort: 80

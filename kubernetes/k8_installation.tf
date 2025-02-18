@@ -2,6 +2,7 @@ module "kubernetes_installation" {
   source = "./terraform-null-kubernetes-installation"
   k8_cluster_name = "ferlab"
   ingress_arguments = ["--enable-ssl-passthrough"]
+  //ingress_version = "v1.10.6"
   master_ips = [for elem in netaddr_address_ipv4.k8_masters: elem.address]
   worker_ips = [for elem in netaddr_address_ipv4.k8_workers: elem.address]
   bastion_external_ip = netaddr_address_ipv4.k8_bastion.0.address

@@ -94,3 +94,12 @@
 [submodule "postgres/terraform-tls-patroni-certificates"]
 	path = postgres/terraform-tls-patroni-certificates
 	url = git@github.com:Ferlab-Ste-Justine/terraform-tls-patroni-certificates.git
+[submodule "transport-load-balancer/terraform-libvirt-transport-load-balancer"]
+	path = transport-load-balancer/terraform-libvirt-transport-load-balancer
+	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-transport-load-balancer.git
+[submodule "transport-load-balancer/terraform-etcd-envoy-transport-configuration"]
+	path = transport-load-balancer/terraform-etcd-envoy-transport-configuration
+	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git
+[submodule "envoy-transport-control-plane/envoy-transport-control-plane"]
+	path = envoy-transport-control-plane/envoy-transport-control-plane
+	url = git@github.com:Ferlab-Ste-Justine/envoy-transport-control-plane.git

@@ -34,3 +34,9 @@ resource "tls_locally_signed_cert" "simple_service" {
     "server_auth",
   ]
 }
+
+resource "local_file" "ca_cert" {
+  content         = module.simple_service_ca.certificate
+  file_permission = "0600"
+  filename        = "${path.module}/../../shared/simple_service_ca.crt"
+}

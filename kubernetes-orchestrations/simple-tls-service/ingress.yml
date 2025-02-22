@@ -8,9 +8,20 @@ spec:
   tls:
     - hosts:
         - simple-service.k8.ferlab.lan
+        - simple-service.ferlab.lan
       secretName: simple-service-ingress-tls
   rules:
     - host: simple-service.k8.ferlab.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-service-app
+                port:
+                  number: 80
+    - host: simple-service.ferlab.lan
       http:
         paths:
           - path: /

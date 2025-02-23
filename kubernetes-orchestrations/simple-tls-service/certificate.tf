@@ -12,7 +12,6 @@ resource "tls_cert_request" "simple_service" {
   private_key_pem = tls_private_key.simple_service.private_key_pem
   dns_names = [
     "simple-service.k8.ferlab.lan",
-    "simple-service.ferlab.lan"
   ]
   ip_addresses = [
     data.netaddr_address_ipv4.k8_lb.address

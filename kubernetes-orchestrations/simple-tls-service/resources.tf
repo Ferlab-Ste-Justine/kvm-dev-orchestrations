@@ -5,7 +5,7 @@ resource "kubernetes_secret" "simple_service_ingress_tls" {
   }
 
   data = {
-    "tls.crt" = "${tls_locally_signed_cert.simple_service.cert_pem}\n${module.simple_service_ca.certificate}"
+    "tls.crt" = tls_locally_signed_cert.simple_service.cert_pem
     "tls.key" = tls_private_key.simple_service.private_key_pem
   }
 

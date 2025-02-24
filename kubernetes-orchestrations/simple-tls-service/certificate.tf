@@ -1,11 +1,11 @@
 module "simple_service_ca" {
-  source = "../../ca"
+  source = "../../ca-ecdsa-p256"
   common_name = "simple-service"
 }
 
 resource "tls_private_key" "simple_service" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+  algorithm   = "ECDSA"
+  ecdsa_curve = "P256"
 }
 
 resource "tls_cert_request" "simple_service" {
@@ -41,9 +41,16 @@ resource "local_file" "ca_cert" {
   filename        = "${path.module}/../../shared/simple_service_ca.crt"
 }
 
+resource "local_file" "server_cert" {
+  content         = tls_locally_signed_cert.simple_service.cert_pem
+  file_permission = "0600"
+  filename        = "${path.module}/../../shared/simple_service.crt"
+}
+
+
 resource "tls_private_key" "simple_service_client" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+  algorithm   = "ECDSA"
+  ecdsa_curve = "P256"
 }
 
 resource "tls_cert_request" "simple_service_client" {

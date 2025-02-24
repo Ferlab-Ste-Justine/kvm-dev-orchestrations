@@ -1,11 +1,11 @@
 module "envoy_ca" {
-  source = "../../ca"
+  source = "../../ca-ecdsa-p256"
   common_name = "envoy"
 }
 
 resource "tls_private_key" "envoy" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+  algorithm   = "ECDSA"
+  ecdsa_curve = "P256"
 }
 
 resource "tls_cert_request" "envoy" {

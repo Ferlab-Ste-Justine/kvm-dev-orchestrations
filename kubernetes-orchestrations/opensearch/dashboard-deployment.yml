@@ -17,13 +17,6 @@ spec:
       containers:
         - image: opensearchproject/opensearch-dashboards:2.2.1
           name: opensearch-dashboard
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: '0.25'
-            limits:
-              memory: "256Mi"
-              cpu: '0.50'
           volumeMounts:
             - name: dashboard-config
               mountPath: /usr/share/opensearch-dashboards/config

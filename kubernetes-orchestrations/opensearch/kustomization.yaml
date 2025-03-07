@@ -20,4 +20,5 @@ resources:
   - dashboard-service.yml
   - dashboard-ingress.yml
   - fluentd-daemonset.yml
+  - fluentd-daemonset-2.yml
   - fluentd-service-account.yml

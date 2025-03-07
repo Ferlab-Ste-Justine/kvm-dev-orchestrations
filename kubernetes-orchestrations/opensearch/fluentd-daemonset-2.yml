@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: fluentd-daemonset
+  name: fluentd-daemonset-2
   labels:
-    k8s-app: fluentd-logging
+    k8s-app: fluentd-logging-2
     version: v1
 spec:
   selector:
     matchLabels:
-      k8s-app: fluentd-logging
+      k8s-app: fluentd-logging-2
       version: v1
   template:
     metadata:
       labels:
-        k8s-app: fluentd-logging
+        k8s-app: fluentd-logging-2
         version: v1
     spec:
       serviceAccountName: fluentd-daemonset
@@ -24,7 +24,7 @@ spec:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
       containers:
-      - name: fluentd-daemonset
+      - name: fluentd-daemonset-2
         image: ferlabcrsj/fluentd-kubernetes-daemonset:c302d031e744ff59191c202da08703b4a9600036-1665965303
         env:
           - name: K8S_NODE_NAME
@@ -32,7 +32,7 @@ spec:
               fieldRef:
                 fieldPath: spec.nodeName
           - name: FLUENT_OPENSEARCH_INDEX_NAME
-            value: "ferlab-kubernetes-logs"
+            value: "test-kubernetes-logs"
           - name:  FLUENT_OPENSEARCH_HOST
             value: "opensearch.ferlab.lan"
           - name:  FLUENT_OPENSEARCH_PORT
@@ -56,7 +56,7 @@ spec:
           - name: FLUENT_OPENSEARCH_LOGSTASH_FORMAT
             value: "true"
           - name: FLUENT_OPENSEARCH_LOGSTASH_PREFIX
-            value: "ferlab-kubernetes-logs"
+            value: "test-kubernetes-logs"
           - name: FLUENT_OPENSEARCH_BUFFER_FLUSH_INTERVAL
             value: "5s"
           - name: FLUENT_OPENSEARCH_BUFFER_TOTAL_LIMIT_SIZE

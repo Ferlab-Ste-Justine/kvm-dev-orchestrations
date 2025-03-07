@@ -9,3 +9,4 @@ opensearch.ssl.key: /opt/certs/opensearch.key
 opensearch.ssl.certificateAuthorities: [ "/opt/certs/opensearch-ca.crt" ]
 opensearch.ssl.verificationMode: full
 opensearch.requestHeadersAllowlist: [ authorization, securitytenant ]
+opensearch_security.readonly_mode.roles: ["ui_dashboards_only"]

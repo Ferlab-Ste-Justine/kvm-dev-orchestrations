@@ -9,17 +9,21 @@ resource "libvirt_volume" "workers" {
 }
 
 module "workers" {
-  count           = local.params.opensearch.workers.count
-  source          = "./terraform-libvirt-opensearch-server"
-  name            = "ferlab-opensearch-worker-${count.index + 1}"
-  vcpus           = local.params.opensearch.workers.vcpus
-  memory          = local.params.opensearch.workers.memory
-  volume_id       = libvirt_volume.workers[count.index].id
-  libvirt_network = {
-    network_id         = file("${path.module}/../shared/network_id")
-    ip                 = element(netaddr_address_ipv4.workers.*.address, count.index)
-    mac                = element(netaddr_address_mac.workers.*.address, count.index)
-  }
+  count            = local.params.opensearch.workers.count
+  source           = "./terraform-libvirt-opensearch-server"
+  name             = "ferlab-opensearch-worker-${count.index + 1}"
+  vcpus            = local.params.opensearch.workers.vcpus
+  memory           = local.params.opensearch.workers.memory
+  volume_id        = libvirt_volume.workers[count.index].id
+  libvirt_networks = [{
+    network_name  = "ferlab"
+    network_id    = ""
+    ip            = element(netaddr_address_ipv4.workers.*.address, count.index)
+    mac           = element(netaddr_address_mac.workers.*.address, count.index)
+    gateway       = local.params.network.gateway
+    dns_servers   = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password

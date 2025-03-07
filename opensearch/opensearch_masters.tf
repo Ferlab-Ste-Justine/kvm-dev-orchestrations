@@ -9,16 +9,20 @@ resource "libvirt_volume" "masters" {
 }
 
 module "first_master" {
-  source          = "./terraform-libvirt-opensearch-server"
-  name            = "ferlab-opensearch-master-1"
-  vcpus           = local.params.opensearch.masters.vcpus
-  memory          = local.params.opensearch.masters.memory
-  volume_id       = libvirt_volume.masters[0].id
-  libvirt_network = {
-    network_id         = file("${path.module}/../shared/network_id")
-    ip                 = element(netaddr_address_ipv4.masters.*.address, 0)
-    mac                = element(netaddr_address_mac.masters.*.address, 0)
-  }
+  source           = "./terraform-libvirt-opensearch-server"
+  name             = "ferlab-opensearch-master-1"
+  vcpus            = local.params.opensearch.masters.vcpus
+  memory           = local.params.opensearch.masters.memory
+  volume_id        = libvirt_volume.masters[0].id
+  libvirt_networks = [{
+    network_name  = "ferlab"
+    network_id    = ""
+    ip            = element(netaddr_address_ipv4.masters.*.address, 0)
+    mac           = element(netaddr_address_mac.masters.*.address, 0)
+    gateway       = local.params.network.gateway
+    dns_servers   = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password
@@ -50,17 +54,21 @@ module "first_master" {
 }
 
 module "other_masters" {
-  count           = "${local.params.opensearch.masters.count - 1}"
-  source          = "./terraform-libvirt-opensearch-server"
-  name            = "ferlab-opensearch-master-${count.index + 2}"
-  vcpus           = local.params.opensearch.masters.vcpus
-  memory          = local.params.opensearch.masters.memory
-  volume_id       = libvirt_volume.masters[count.index + 1].id
-  libvirt_network = {
-    network_id         = file("${path.module}/../shared/network_id")
-    ip                 = element(netaddr_address_ipv4.masters.*.address, count.index + 1)
-    mac                = element(netaddr_address_mac.masters.*.address, count.index + 1)
-  }
+  count            = "${local.params.opensearch.masters.count - 1}"
+  source           = "./terraform-libvirt-opensearch-server"
+  name             = "ferlab-opensearch-master-${count.index + 2}"
+  vcpus            = local.params.opensearch.masters.vcpus
+  memory           = local.params.opensearch.masters.memory
+  volume_id        = libvirt_volume.masters[count.index + 1].id
+  libvirt_networks = [{
+    network_name  = "ferlab"
+    network_id    = ""
+    ip            = element(netaddr_address_ipv4.masters.*.address, count.index + 1)
+    mac           = element(netaddr_address_mac.masters.*.address, count.index + 1)
+    gateway       = local.params.network.gateway
+    dns_servers   = [data.netaddr_address_ipv4.coredns.0.address]
+    prefix_length = split("/", local.params.network.addresses).1
+  }]
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password

@@ -15,3 +15,21 @@ resource "opensearch_dashboard_object" "ferlab_kubernetes_logs" {
 ]
 EOF
 }
+
+resource "opensearch_dashboard_object" "test_kubernetes_logs" {
+  index = ".dashboard"
+  body  = <<EOF
+[
+  {
+    "_id": "index-pattern:test-kubernetes-logs",
+    "_source": {
+      "type": "index-pattern",
+      "index-pattern": {
+        "title": "test-kubernetes*",
+        "timeFieldName": "@timestamp"
+      }
+    }
+  }
+]
+EOF
+}

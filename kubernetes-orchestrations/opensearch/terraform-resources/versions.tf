@@ -2,7 +2,7 @@ terraform {
   required_providers {
     opensearch = {
       source  = "opensearch-project/opensearch"
-      version = "= 2.2.1"
+      version = "= 2.3.1"
     }
     opensearch-ferlab = {
       source  = "Ferlab-Ste-Justine/opensearch"

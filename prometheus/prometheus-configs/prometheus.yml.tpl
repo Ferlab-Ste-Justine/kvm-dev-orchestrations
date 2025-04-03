@@ -17,6 +17,12 @@ alerting:
 %{ endif ~}
 
 scrape_configs:
+%{ if host_ip != "" ~}
+  - job_name: "physical-host-libvirt-exporter"
+    static_configs:
+      - targets:
+          - "${host_ip}:9000"
+%{ endif ~}
   - job_name: "prometheus"
     static_configs:
       - targets:

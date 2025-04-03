@@ -9,6 +9,7 @@ module "prometheus_confs" {
       kubernetes_cluster_federation = local.params.prometheus.kubernetes_cluster_federation
       minio_cluster_monitoring      = local.params.prometheus.minio_cluster_monitoring
       etcd_addresses                = local.params.etcd.addresses
+      host_ip                       = local.host_params.ip
     }
   )
   node_exporter_jobs   = [

@@ -41,3 +41,9 @@ resource "local_file" "kubeconfig" {
   file_permission = "0600"
   filename        = "${path.module}/../shared/kubeconfig"
 }
+
+resource "local_file" "k8_ca_cert" {
+  content         = module.k8_certificates.ca_certificate
+  file_permission = "0600"
+  filename        = "${path.module}/../shared/k8_ca.crt"
+}

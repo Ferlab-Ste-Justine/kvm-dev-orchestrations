@@ -27,13 +27,24 @@ module "fe_nodes" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password
-  starrocks              = {
-    release_version   = "3.3.6"
-    node_type         = "fe"
-    is_fe_leader      = count.index == 0 ? true : false
-    fe_leader_node    = local.fe_leader_node
-    fe_follower_nodes = local.fe_follower_nodes
-    be_nodes          = local.be_nodes
-    root_password     = local.params.starrocks.root_password
+
+  starrocks = {
+    release_version = "3.4.1"
+    node_type       = "fe"
+    fe_config       = {
+      is_leader_at_start = count.index == 0 ? true : false
+      ssl                = {
+        enabled              = true
+        keystore_base64      = data.local_file.starrocks_pkcs12_from_pem.content_base64
+        keystore_password    = local.params.starrocks.ssl_keystore_password
+        key_password         = local.params.starrocks.ssl_key_password
+      }
+      root_password = local.params.starrocks.root_password
+    }
+    network_info = {
+      fe_leader_node    = local.fe_leader_node
+      fe_follower_nodes = local.fe_follower_nodes
+      be_nodes          = local.be_nodes
+    }
   }
 }

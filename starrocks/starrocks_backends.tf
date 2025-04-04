@@ -27,13 +27,14 @@ module "be_nodes" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password
-  starrocks              = {
-    release_version   = "3.3.6"
-    node_type         = "be"
-    is_fe_leader      = false
-    fe_leader_node    = local.fe_leader_node
-    fe_follower_nodes = local.fe_follower_nodes
-    be_nodes          = local.be_nodes
-    root_password     = local.params.starrocks.root_password
+
+  starrocks = {
+    release_version = "3.4.1"
+    node_type       = "be"
+    network_info    = {
+      fe_leader_node    = local.fe_leader_node
+      fe_follower_nodes = local.fe_follower_nodes
+      be_nodes          = local.be_nodes
+    }
   }
 }

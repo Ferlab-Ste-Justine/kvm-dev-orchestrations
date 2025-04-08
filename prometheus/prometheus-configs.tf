@@ -1,7 +1,6 @@
 module "prometheus_confs" {
   source               = "./terraform-etcd-prometheus-configuration"
   etcd_key_prefix      = "/ferlab/prometheus/"
-  fs_path              = "${path.module}/prometheus-configs"
   config               = templatefile(
     "${path.module}/prometheus-configs/prometheus.yml.tpl",
     {

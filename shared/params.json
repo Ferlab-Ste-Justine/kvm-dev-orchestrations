@@ -99,7 +99,7 @@
       },
       "masters": {
         "count": 3,
-        "vcpus": 1,
+        "vcpus": 2,
         "memory": 4096
       },
       "workers": {

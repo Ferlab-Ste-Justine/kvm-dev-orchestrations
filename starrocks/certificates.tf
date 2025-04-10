@@ -45,39 +45,3 @@ resource "tls_locally_signed_cert" "starrocks_certificate" {
 
   is_ca_certificate = false
 }
-
-resource "local_file" "starrocks_cert" {
-  content         = tls_locally_signed_cert.starrocks_certificate.cert_pem
-  file_permission = "0600"
-  filename        = "${path.module}/../shared/starrocks.crt"
-}
-
-resource "local_file" "starrocks_key" {
-  content         = tls_private_key.starrocks_key.private_key_pem
-  file_permission = "0600"
-  filename        = "${path.module}/../shared/starrocks.key"
-}
-
-resource "null_resource" "starrocks_pkcs12_from_pem" {
-  triggers = {
-    cert    = sensitive(sha256(local_file.starrocks_cert.content))
-    key     = sensitive(sha256(local_file.starrocks_key.content))
-    passout = sensitive(local.params.starrocks.ssl_keystore_password)
-    passin  = sensitive(local.params.starrocks.ssl_key_password)
-  }
-
-  provisioner "local-exec" {
-    command = "openssl pkcs12 -export -in ${local_file.starrocks_cert.filename} -inkey ${local_file.starrocks_key.filename} -out ${path.module}/../shared/starrocks.p12 -passout pass:${local.params.starrocks.ssl_keystore_password} -passin pass:${local.params.starrocks.ssl_key_password}"
-  }
-
-  provisioner "local-exec" {
-    when    = destroy
-    command = "rm ${path.module}/../shared/starrocks.p12"
-  }
-}
-
-data "local_file" "starrocks_pkcs12_from_pem" {
-  filename = "${path.module}/../shared/starrocks.p12"
-
-  depends_on = [null_resource.starrocks_pkcs12_from_pem]
-}

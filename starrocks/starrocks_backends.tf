@@ -9,9 +9,13 @@ resource "libvirt_volume" "be_nodes" {
 }
 
 module "be_nodes" {
-  count            = local.params.starrocks.be_nodes.count
-  source           = "./terraform-libvirt-starrocks-server"
-  name             = "ferlab-starrocks-be-${count.index + 1}"
+  count    = local.params.starrocks.be_nodes.count
+  source   = "./terraform-libvirt-starrocks-server"
+  name     = "ferlab-starrocks-be-${count.index + 1}"
+  hostname = {
+    hostname   = "starrocks-server-be-${count.index + 1}.ferlab.lan"
+    is_fqdn    = true
+  }
   vcpus            = local.params.starrocks.be_nodes.vcpus
   memory           = local.params.starrocks.be_nodes.memory
   volume_id        = libvirt_volume.be_nodes[count.index].id
@@ -29,12 +33,6 @@ module "be_nodes" {
   admin_user_password    = local.params.virsh_console_password
 
   starrocks = {
-    release_version = "3.4.1"
-    node_type       = "be"
-    network_info    = {
-      fe_leader_node    = local.fe_leader_node
-      fe_follower_nodes = local.fe_follower_nodes
-      be_nodes          = local.be_nodes
-    }
+    node_type   = "be"
   }
 }

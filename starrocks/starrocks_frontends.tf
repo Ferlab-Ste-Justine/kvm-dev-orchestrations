@@ -37,13 +37,13 @@ module "fe_nodes" {
     fe_config   = {
       initial_leader = {
         enabled           = count.index == 0 ? true : false
-        fe_follower_nodes = local.fe_follower_nodes
-        be_nodes          = local.be_nodes
+        fe_follower_fqdns = local.fe_follower_fqdns
+        be_fqdns          = local.be_fqdns
         root_password     = local.params.starrocks.root_password
       }
       initial_follower = {
         enabled            = count.index != 0 ? true : false
-        fe_leader_node     = local.fe_leader_node
+        fe_leader_fqdn     = local.fe_leader_fqdn
       }
       ssl = {
         enabled             = true

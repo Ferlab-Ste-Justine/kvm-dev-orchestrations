@@ -61,9 +61,9 @@ resource "local_file" "vault_key" {
 
 resource "null_resource" "vault_pkcs12_from_pem" {
   triggers = {
-    cert = sha256(local_file.vault_cert.content)
-    key  = sha256(local_file.vault_key.content)
-    pass = local.params.vault.pkcs12_password
+    cert = sensitive(sha256(local_file.vault_cert.content))
+    key  = sensitive(sha256(local_file.vault_key.content))
+    pass = sensitive(local.params.vault.pkcs12_password)
   }
 
   provisioner "local-exec" {

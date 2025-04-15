@@ -48,6 +48,9 @@ module "kubernetes_lb_configs" {
         tls_termination = {
           listener_certificate = ""
           listener_key = ""
+          cluster_client_certificate = ""
+          cluster_client_key = ""
+          cluster_ca_certificate = ""
         }
       },
       {
@@ -68,6 +71,9 @@ module "kubernetes_lb_configs" {
         tls_termination = {
           listener_certificate = ""
           listener_key = ""
+          cluster_client_certificate = ""
+          cluster_client_key = ""
+          cluster_ca_certificate = ""
         }
       },
       {
@@ -88,6 +94,9 @@ module "kubernetes_lb_configs" {
         tls_termination = {
           listener_certificate = ""
           listener_key = ""
+          cluster_client_certificate = ""
+          cluster_client_key = ""
+          cluster_ca_certificate = ""
         }
       }
     ]

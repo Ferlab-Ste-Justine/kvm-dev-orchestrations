@@ -1,5 +1,5 @@
 module "lb_configs" {
-  source = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git?ref=feature/cluster-ca-certificate"
+  source = "git::https://github.com/Ferlab-Ste-Justine/terraform-etcd-envoy-transport-configuration.git?ref=v0.6.0"
   etcd_prefix = data.etcd_prefix_range_end.envoy_transport_control_plane.key
   node_id = "envoy"
   load_balancer = {

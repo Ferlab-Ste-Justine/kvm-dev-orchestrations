@@ -46,11 +46,10 @@ module "fe_nodes" {
         fe_leader_fqdn     = local.fe_leader_fqdn
       }
       ssl = {
-        enabled             = true
-        cert                = tls_locally_signed_cert.starrocks_certificate.cert_pem
-        key                 = tls_private_key.starrocks_key.private_key_pem
-        keystore_password   = local.params.starrocks.ssl_keystore_password
-        key_password        = local.params.starrocks.ssl_key_password
+        enabled           = true
+        cert              = tls_locally_signed_cert.starrocks_certificate.cert_pem
+        key               = tls_private_key.starrocks_key.private_key_pem
+        keystore_password = local.params.starrocks.ssl_keystore_password
       }
     }
   }

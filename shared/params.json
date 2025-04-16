@@ -207,8 +207,7 @@
         "memory": 4096
       },
       "root_password": "testtest",
-      "ssl_keystore_password": "testtest",
-      "ssl_key_password": "testtest"
+      "ssl_keystore_password": "test"
     },
     "smrtlink": {
       "vcpus": 1,

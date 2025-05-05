@@ -23,6 +23,17 @@ scrape_configs:
       - targets:
           - "${host_ip}:9000"
 %{ endif ~}
+%{ if host_ip != "" ~}
+  - job_name: "physical-host-pushgateway"
+    static_configs:
+      - targets:
+          - "${host_ip}:9091"
+    scheme: https
+    tls_config:
+      ca_file: /opt/physical-host-pushgateway/ca.crt
+      cert_file: /opt/physical-host-pushgateway/client.crt
+      key_file: /opt/physical-host-pushgateway/client.key
+%{ endif ~}
   - job_name: "prometheus"
     static_configs:
       - targets:

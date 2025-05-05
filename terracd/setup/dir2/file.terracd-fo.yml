@@ -1,0 +1,3 @@
+forbidden_operations:
+  - resource_address: "module.filemon.local_file.file"
+    operations: ["delete"]

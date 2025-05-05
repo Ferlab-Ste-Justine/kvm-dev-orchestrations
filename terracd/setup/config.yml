@@ -1,0 +1,39 @@
+terraform_path: __TERRAFORM_PATH__
+command: apply
+working_directory: workdir
+timeouts:
+  terraform_init: "2h"
+  terraform_plan: "2h"
+  terraform_apply: "2h"
+  wait: "2m"
+sources:
+  - dir: "dir2"
+  - dir: "dir1"
+recurrence:
+  min_interval: "10s"
+state_store:
+  fs:
+    enabled: true
+cache:
+  versions_file: "version.tf"
+termination_hooks:
+  success:
+    command:
+      command: echo
+      args:
+        - "success"
+  failure:
+    command:
+      command: echo
+      args:
+        - "failure"
+metrics:
+  job_name: terracd-test
+  include_providers: true
+  pushgateway:
+    url: https://127.0.0.1:9091
+    auth:
+      ca_cert: ../pushgateway/certs/local_ca.crt
+      client_cert: ../pushgateway/certs/local_client.crt
+      client_key: ../pushgateway/certs/local_client.key
+  

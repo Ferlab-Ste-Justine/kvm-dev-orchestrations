@@ -103,3 +103,6 @@
 [submodule "envoy-transport-control-plane/envoy-transport-control-plane"]
 	path = envoy-transport-control-plane/envoy-transport-control-plane
 	url = git@github.com:Ferlab-Ste-Justine/envoy-transport-control-plane.git
+[submodule "terracd/terracd"]
+	path = terracd/terracd
+	url = git@github.com:Ferlab-Ste-Justine/terracd.git

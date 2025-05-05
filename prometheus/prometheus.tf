@@ -57,6 +57,20 @@ locals {
       content = file("${path.module}/../shared/patroni_client.key")
     }
   ] : []
+  pushgateway_secrets = fileexists("${path.module}/../terracd/pushgateway/certs/local_ca.crt") ? [
+    {
+      path = "/opt/physical-host-pushgateway/ca.crt",
+      content = file("${path.module}/../terracd/pushgateway/certs/local_ca.crt")
+    },
+    {
+      path = "/opt/physical-host-pushgateway/client.crt",
+      content = file("${path.module}/../terracd/pushgateway/certs/local_client.crt")
+    },
+    {
+      path = "/opt/physical-host-pushgateway/client.key",
+      content = file("${path.module}/../terracd/pushgateway/certs/local_client.key")
+    }
+  ] : []
 }
 
 resource "libvirt_volume" "prometheus" {
@@ -135,7 +149,8 @@ module "prometheus" {
     local.automation_server_secrets,
     local.minio_secrets,
     local.etcd_secrets,
-    local.patroni_secrets
+    local.patroni_secrets,
+    local.pushgateway_secrets
   )
 
   install_dependencies = true

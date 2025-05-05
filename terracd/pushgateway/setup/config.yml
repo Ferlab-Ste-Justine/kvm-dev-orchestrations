@@ -1,0 +1,5 @@
+tls_server_config:
+  cert_file: ../certs/local_server.crt
+  key_file: ../certs/local_server.key
+  client_ca_file: ../certs/local_ca.crt
+  client_auth_type: RequireAndVerifyClientCert

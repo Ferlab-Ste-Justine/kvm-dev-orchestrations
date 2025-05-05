@@ -40,3 +40,6 @@ prometheus/prometheus-configs/rules/
 etcd-backup/setup/s3-conf.yml
 etcd-backup/work-env/
 envoy-transport-control-plane/work-env/
+terracd/pushgateway/certs/
+terracd/pushgateway/confs/
+terracd/work-env/

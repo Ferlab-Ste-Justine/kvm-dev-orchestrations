@@ -25,6 +25,7 @@ scrape_configs:
 %{ endif ~}
 %{ if host_ip != "" ~}
   - job_name: "physical-host-pushgateway"
+    honor_labels: true
     static_configs:
       - targets:
           - "${host_ip}:9091"

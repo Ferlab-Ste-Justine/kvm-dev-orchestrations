@@ -86,10 +86,21 @@ module "prometheus_confs" {
     }
   ]
   terracd_jobs = [
-    {
+    /*{
       tag                      = "time-in-files"
       plan_interval_threshold  = 60
       apply_interval_threshold = 600
+      unit                     = "minute"
+      alert_labels             = {
+        org = "ferlab"
+      }
+    },*/
+    {
+      tag                      = "terracd-test"
+      run_interval_threshold   = 60
+      apply_interval_threshold = 600
+      failure_time_frame       = 30
+      provider_use_time_frame  = 60
       unit                     = "minute"
       alert_labels             = {
         org = "ferlab"

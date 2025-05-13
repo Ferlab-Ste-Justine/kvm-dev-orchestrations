@@ -24,5 +24,13 @@ mkdir -p $(pwd)/logs/minio/server-8
 mkdir -p $(pwd)/logs/alertmanager/server-1
 mkdir -p $(pwd)/logs/alertmanager/server-2
 mkdir -p $(pwd)/logs/vault/tunnel
+mkdir -p $(pwd)/logs/starrocks/fe-1
+mkdir -p $(pwd)/logs/starrocks/fe-2
+mkdir -p $(pwd)/logs/starrocks/fe-3
+mkdir -p $(pwd)/logs/starrocks/be-1
+mkdir -p $(pwd)/logs/starrocks/be-2
+mkdir -p $(pwd)/logs/starrocks/be-3
+
+terraform init && terraform apply -auto-approve
 
 docker run -u $(id -u) -it --rm -e "SHARED_KEY=$(cat ../shared/logs_shared_key)" -v "$(pwd)/certs:/opt/certs" -v "$(pwd)/logs:/opt/logs" -v "$(pwd)/conf:/opt/conf" --network=host fluent/fluentd:v1.16-1 fluentd --config=/opt/conf/fluentd.conf

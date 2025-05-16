@@ -33,10 +33,9 @@ module "fe_nodes" {
   admin_user_password    = local.params.virsh_console_password
 
   fluentbit = {
-    enabled                           = local.params.logs_forwarding
-    starrocks_systemd_service_tag     = "starrocks-fe-${count.index + 1}-starrocks-service"
-    node_exporter_systemd_service_tag = "starrocks-fe-${count.index + 1}-node-exporter-service"
-    starrocks_log_file_tag            = "starrocks-fe-${count.index + 1}-starrocks-file"
+    enabled           = local.params.logs_forwarding
+    starrocks_tag     = "starrocks-fe-${count.index + 1}-starrocks"
+    node_exporter_tag = "starrocks-fe-${count.index + 1}-node-exporter"
     metrics = {
       enabled   = true
       port      = 2020

@@ -32,6 +32,23 @@ module "fe_nodes" {
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password
 
+  fluentbit = {
+    enabled           = local.params.logs_forwarding
+    starrocks_tag     = "starrocks-fe-${count.index + 1}-starrocks"
+    node_exporter_tag = "starrocks-fe-${count.index + 1}-node-exporter"
+    metrics = {
+      enabled   = true
+      port      = 2020
+    }
+    forward = {
+      domain     = local.host_params.ip
+      port       = 4443
+      hostname   = "starrocks-fe-${count.index + 1}"
+      shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
+      ca_cert    = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
+    }
+  }
+
   starrocks = {
     node_type   = "fe"
     fe_config   = {

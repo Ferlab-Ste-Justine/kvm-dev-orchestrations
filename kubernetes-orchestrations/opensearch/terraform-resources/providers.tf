@@ -1,13 +1,13 @@
 provider "opensearch" {
-  url              = "https://opensearch.ferlab.lan:9200"
-  cacert_file      = "../certificates/opensearch-ca.crt"
-  client_cert_path = "../certificates/opensearch.crt"
-  client_key_path  = "../certificates/opensearch.key"
+  url              = local.opensearch_url
+  cacert_file      = local.opensearch_cacert_file
+  client_cert_path = local.opensearch_client_cert_path
+  client_key_path  = local.opensearch_client_key_path
 }
 
 provider "opensearch-ferlab" {
-  endpoints   = "https://opensearch.ferlab.lan:9200"
-  ca_cert     = "../certificates/opensearch-ca.crt"
-  client_cert = "../certificates/opensearch.crt"
-  client_key  = "../certificates/opensearch.key"
+  endpoints   = local.opensearch_url
+  ca_cert     = local.opensearch_cacert_file
+  client_cert = local.opensearch_client_cert_path
+  client_key  = local.opensearch_client_key_path
 }

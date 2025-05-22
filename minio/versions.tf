@@ -12,10 +12,6 @@ terraform {
       source = "Ferlab-Ste-Justine/etcd"
       version = "= 0.9.0"
     }
-    minio = {
-      source  = "Ferlab-Ste-Justine/minio"
-      version = "= 0.2.0"
-    }
   }
   required_version = ">= 1.0.0"
 }

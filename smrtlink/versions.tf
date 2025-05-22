@@ -12,6 +12,10 @@ terraform {
       source  = "hashicorp/local"
       version = "= 2.5.2"
     }
+    minio = {
+      source  = "Ferlab-Ste-Justine/minio"
+      version = "= 0.2.0"
+    }
     netaddr = {
       source  = "Ferlab-Ste-Justine/netaddr"
       version = "= 0.4.0"

@@ -65,6 +65,7 @@ module "postgres_1" {
     client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
+  patroni_version = "4.0.5"
   depends_on = [
     etcd_range_scoped_state.patroni
   ]
@@ -128,6 +129,7 @@ module "postgres_2" {
     client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
+  patroni_version = "4.0.5"
   depends_on = [
     etcd_range_scoped_state.patroni
   ]
@@ -191,6 +193,7 @@ module "postgres_3" {
     client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
+  patroni_version = "4.0.5"
   depends_on = [
     etcd_range_scoped_state.patroni
   ]

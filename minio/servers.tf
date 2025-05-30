@@ -51,6 +51,7 @@ locals {
     console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
   }
   ferio = {
+    enabled = local.params.minio.ferio_enabled
     etcd = {
       config_prefix      = "/ferlab/ferio/config/"
       workspace_prefix   = "/ferlab/ferio/workspace/"

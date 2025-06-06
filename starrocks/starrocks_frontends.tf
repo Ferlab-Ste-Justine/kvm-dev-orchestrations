@@ -1,6 +1,10 @@
+locals {
+  fe_nodes = ["1", "2", "3"]
+}
+
 resource "libvirt_volume" "fe_nodes" {
-  count            = local.params.starrocks.fe_nodes.count
-  name             = "ferlab-starrocks-fe-${count.index + 1}"
+  for_each         = toset(local.fe_nodes)
+  name             = "ferlab-starrocks-fe-${each.key}"
   pool             = "default"
   size             = 30 * 1024 * 1024 * 1024
   base_volume_pool = "default"
@@ -9,21 +13,21 @@ resource "libvirt_volume" "fe_nodes" {
 }
 
 module "fe_nodes" {
-  count    = local.params.starrocks.fe_nodes.count
+  for_each = toset(local.fe_nodes)
   source   = "./terraform-libvirt-starrocks-server"
-  name     = "ferlab-starrocks-fe-${count.index + 1}"
+  name     = "ferlab-starrocks-fe-${each.key}"
   hostname = {
-    hostname   = "starrocks-server-fe-${count.index + 1}.ferlab.lan"
+    hostname   = "starrocks-server-fe-${each.key}.ferlab.lan"
     is_fqdn    = true
   }
   vcpus            = local.params.starrocks.fe_nodes.vcpus
   memory           = local.params.starrocks.fe_nodes.memory
-  volume_id        = libvirt_volume.fe_nodes[count.index].id
+  volume_id        = libvirt_volume.fe_nodes[each.key].id
   libvirt_networks = [{
     network_name  = "ferlab"
     network_id    = ""
-    ip            = element(netaddr_address_ipv4.fe_nodes.*.address, count.index)
-    mac           = element(netaddr_address_mac.fe_nodes.*.address, count.index)
+    ip            = element(netaddr_address_ipv4.fe_nodes.*.address, each.key - 1)
+    mac           = element(netaddr_address_mac.fe_nodes.*.address, each.key - 1)
     gateway       = local.params.network.gateway
     dns_servers   = [data.netaddr_address_ipv4.coredns.0.address]
     prefix_length = split("/", local.params.network.addresses).1
@@ -34,8 +38,8 @@ module "fe_nodes" {
 
   fluentbit = {
     enabled           = local.params.logs_forwarding
-    starrocks_tag     = "starrocks-fe-${count.index + 1}-starrocks"
-    node_exporter_tag = "starrocks-fe-${count.index + 1}-node-exporter"
+    starrocks_tag     = "starrocks-fe-${each.key}-starrocks"
+    node_exporter_tag = "starrocks-fe-${each.key}-node-exporter"
     metrics = {
       enabled   = true
       port      = 2020
@@ -43,7 +47,7 @@ module "fe_nodes" {
     forward = {
       domain     = local.host_params.ip
       port       = 4443
-      hostname   = "starrocks-fe-${count.index + 1}"
+      hostname   = "starrocks-fe-${each.key}"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert    = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
@@ -53,13 +57,13 @@ module "fe_nodes" {
     node_type   = "fe"
     fe_config   = {
       initial_leader = {
-        enabled           = count.index == 0 ? true : false
+        enabled           = each.key == "1" ? true : false
         fe_follower_fqdns = local.fe_follower_fqdns
         be_fqdns          = local.be_fqdns
         root_password     = local.params.starrocks.root_password
       }
       initial_follower = {
-        enabled            = count.index != 0 ? true : false
+        enabled            = each.key != "1" ? true : false
         fe_leader_fqdn     = local.fe_leader_fqdn
       }
       ssl = {

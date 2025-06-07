@@ -1,10 +1,44 @@
 locals {
+  sse_server_clients = [
+    #No tenants
+    [{
+    tls = {
+      client_cert = tls_locally_signed_cert.minio.cert_pem
+      client_key  = tls_private_key.minio.private_key_pem
+    }
+    key = "minio"
+    }],
+    #One tenant
+    [{
+    tls = {
+      client_cert = tls_locally_signed_cert.minio.cert_pem
+      client_key  = tls_private_key.minio.private_key_pem
+    }
+    key = "ferlab"
+    }],
+    #Two tenants
+    [
+      {
+        tls = {
+          client_cert = tls_locally_signed_cert.ferlab_tenant_client_sse.cert_pem
+          client_key  = tls_private_key.minio.private_key_pem
+        }
+        key = "ferlab"
+      },
+      {
+        tls = {
+          client_cert = tls_locally_signed_cert.ferlab2_tenant_client_sse.cert_pem
+          client_key  = tls_private_key.minio.private_key_pem
+        }
+        key = "ferlab2"
+      }
+    ],
+  ]
   sse = {
     enabled = fileexists("${path.module}/../shared/minio-kes-approle-id")
     server = {
+      clients = element(local.sse_server_clients, local.params.minio.tenants)
       tls          = {
-        client_cert = tls_locally_signed_cert.minio.cert_pem
-        client_key  = tls_private_key.minio.private_key_pem
         server_cert = tls_locally_signed_cert.minio.cert_pem
         server_key  = tls_private_key.minio.private_key_pem
         ca_cert     = module.minio_ca.certificate
@@ -34,22 +68,83 @@ locals {
     mount_path_template = "/opt/mnt/volume%s"
     mounts_count        = 2
   }]
-  minio_server = {
-    tls = {
-      server_cert = tls_locally_signed_cert.minio.cert_pem
-      server_key  = tls_private_key.minio.private_key_pem
-      ca_certs     = [
-        module.minio_ca.certificate,
-        module.minio_ingress_ca.certificate
-      ]
-    }
-    auth = {
-      root_username = local.params.minio.root_username
-      root_password = local.params.minio.root_password
-    }
-    api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
-    console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
-  }
+  minio_servers = [
+    #No tenants
+    [{
+      tenant_name = ""
+      tls = {
+        server_cert = tls_locally_signed_cert.minio.cert_pem
+        server_key  = tls_private_key.minio.private_key_pem
+        ca_certs     = [
+          module.minio_ca.certificate,
+          module.minio_ingress_ca.certificate
+        ]
+      }
+      auth = {
+        root_username = local.params.minio.root_username
+        root_password = local.params.minio.root_password
+      }
+      api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
+      console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
+    }],
+    #One tenant
+    [{
+      tenant_name = "ferlab"
+      tls = {
+        server_cert = tls_locally_signed_cert.minio.cert_pem
+        server_key  = tls_private_key.minio.private_key_pem
+        ca_certs     = [
+          module.minio_ca.certificate,
+          module.minio_ingress_ca.certificate
+        ]
+      }
+      auth = {
+        root_username = local.params.minio.root_username
+        root_password = local.params.minio.root_password
+      }
+      api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
+      console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
+    }],
+    #two tenant
+    [
+      {
+        tenant_name = "ferlab"
+        tls = {
+          server_cert = tls_locally_signed_cert.minio.cert_pem
+          server_key  = tls_private_key.minio.private_key_pem
+          ca_certs     = [
+            module.minio_ca.certificate,
+            module.minio_ingress_ca.certificate
+          ]
+        }
+        auth = {
+          root_username = local.params.minio.root_username
+          root_password = local.params.minio.root_password
+        }
+        api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
+        console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
+      },
+      {
+        tenant_name = "ferlab2"
+        tls = {
+          server_cert = tls_locally_signed_cert.minio.cert_pem
+          server_key  = tls_private_key.minio.private_key_pem
+          ca_certs     = [
+            module.minio_ca.certificate,
+            module.minio_ingress_ca.certificate
+          ]
+        }
+        auth = {
+          root_username = local.params.minio.root_username
+          root_password = local.params.minio.root_password
+        }
+        api_port = 9002
+        console_port = 9003
+        api_url = "https://minio.ferlab.lan:9002"
+        console_url = "https://minio.ferlab.lan:9003"
+      }
+    ]
+  ]
   ferio = {
     enabled = local.params.minio.ferio_enabled
     etcd = {
@@ -102,7 +197,7 @@ module "minio_1" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings
@@ -183,7 +278,7 @@ module "minio_2" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings
@@ -264,7 +359,7 @@ module "minio_3" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings
@@ -345,7 +440,7 @@ module "minio_4" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings

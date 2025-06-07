@@ -33,7 +33,7 @@ module "minio_5" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings
@@ -116,7 +116,7 @@ module "minio_6" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings
@@ -199,7 +199,7 @@ module "minio_7" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings
@@ -282,7 +282,7 @@ module "minio_8" {
   ]
   ferio = local.ferio
   server_pools = local.static_server_pools
-  minio_server = local.minio_server
+  minio_servers = element(local.minio_servers, local.params.minio.tenants)
   sse = local.sse
   prometheus_auth_type = local.prometheus_auth_type
   godebug_settings = local.godebug_settings

@@ -1,5 +1,5 @@
 resource "libvirt_volume" "minio_5" {
-  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count            = local.params.minio.extra_server_pool ? 1 : 0
   name             = "ferlab-minio-5"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -9,7 +9,7 @@ resource "libvirt_volume" "minio_5" {
 }
 
 module "minio_5" {
-  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count = local.params.minio.extra_server_pool ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-5"
   vcpus = local.params.etcd.vcpus
@@ -82,7 +82,7 @@ module "minio_5" {
 }
 
 resource "libvirt_volume" "minio_6" {
-  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count            = local.params.minio.extra_server_pool ? 1 : 0
   name             = "ferlab-minio-6"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -92,7 +92,7 @@ resource "libvirt_volume" "minio_6" {
 }
 
 module "minio_6" {
-  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count = local.params.minio.extra_server_pool ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-6"
   vcpus = local.params.etcd.vcpus
@@ -165,7 +165,7 @@ module "minio_6" {
 }
 
 resource "libvirt_volume" "minio_7" {
-  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count            = local.params.minio.extra_server_pool ? 1 : 0
   name             = "ferlab-minio-7"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -175,7 +175,7 @@ resource "libvirt_volume" "minio_7" {
 }
 
 module "minio_7" {
-  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count = local.params.minio.extra_server_pool ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-7"
   vcpus = local.params.etcd.vcpus
@@ -248,7 +248,7 @@ module "minio_7" {
 }
 
 resource "libvirt_volume" "minio_8" {
-  count            = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count            = local.params.minio.extra_server_pool ? 1 : 0
   name             = "ferlab-minio-8"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -258,7 +258,7 @@ resource "libvirt_volume" "minio_8" {
 }
 
 module "minio_8" {
-  count = local.params.minio.ferio_expand_server_pools ? 1 : 0
+  count = local.params.minio.extra_server_pool ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-8"
   vcpus = local.params.etcd.vcpus

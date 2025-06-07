@@ -57,11 +57,12 @@
       "vcpus": 1,
       "memory": 4096,
       "tenants": 2,
+      "extra_server_pool": true,
+      "data_disk_capacity": 2,
       "root_username": "minio",
       "root_password": "testtest",
       "ferio_enabled": false,
       "ferio_update_release": true,
-      "ferio_expand_server_pools": false,
       "k8_ingress_setup": false
     },
     "etcd": {

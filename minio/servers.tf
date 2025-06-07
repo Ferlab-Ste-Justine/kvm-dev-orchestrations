@@ -61,7 +61,22 @@ locals {
       ping_interval  = "10s"
     }
   }
-  static_server_pools = [{
+  static_server_pools = local.params.minio.extra_server_pool ? [
+      {
+        domain_template     = "server%s.minio.ferlab.lan"
+        servers_count_begin  = 1
+        servers_count_end    = 4
+        mount_path_template = "/opt/mnt/volume%s"
+        mounts_count         = 2
+      },
+      {
+        domain_template     = "server%s.minio.ferlab.lan"
+        servers_count_begin  = 5
+        servers_count_end    = 8
+        mount_path_template = "/opt/mnt/volume%s"
+        mounts_count         = 2
+      }
+  ] : [{
     domain_template     = "server%s.minio.ferlab.lan"
     servers_count_begin = 1
     servers_count_end   = 4

@@ -8,7 +8,7 @@ locals {
     url      = "https://dl.min.io/server/minio/release/linux-amd64/archive/minio.RELEASE.2023-12-23T07-19-11Z"
     checksum = "8a5d296b5ef251e4b7e52c71776f33a060e05b56322312bccabd4e2739e8a6a3"
   }
-  server_pools = local.params.minio.ferio_expand_server_pools ? {
+  server_pools = local.params.minio.extra_server_pool ? {
     version = "2024-01-11"
     pools = [
       {

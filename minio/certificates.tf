@@ -99,8 +99,13 @@ resource "tls_locally_signed_cert" "ferlab_tenant_client_sse" {
 }
 
 #Second tenant
+resource "tls_private_key" "ferlab2_tenant_client_sse" {
+  algorithm   = "RSA"
+  rsa_bits    = 4096
+}
+
 resource "tls_cert_request" "ferlab2_tenant_client_sse" {
-  private_key_pem = tls_private_key.minio.private_key_pem
+  private_key_pem = tls_private_key.ferlab2_tenant_client_sse.private_key_pem
   subject {
     common_name  = "ferlab2"
     organization = "Ferlab"

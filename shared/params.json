@@ -54,11 +54,13 @@
       "data_volumes": false
     },
     "minio": {
-      "vcpus": 1,
-      "memory": 4096,
-      "tenants": 2,
+      "vcpus": 2,
+      "memory": 8192,
+      "tenants": 0,
+      "migrate_to_tenants": false,
+      "cluster_on": true,
       "extra_server_pool": true,
-      "data_disk_capacity": 2,
+      "data_disk_capacity": 100,
       "root_username": "minio",
       "root_password": "testtest",
       "ferio_enabled": false,
@@ -183,7 +185,8 @@
         "memory": 1024,
         "tunnel": false
       },
-      "pkcs12_password": "test"
+      "pkcs12_password": "test",
+      "clear_data": true
     },
     "opensearch": {
       "masters": {

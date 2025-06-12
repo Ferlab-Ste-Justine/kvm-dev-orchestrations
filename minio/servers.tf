@@ -3,15 +3,15 @@ locals {
     #No tenants
     [{
     tls = {
-      client_cert = tls_locally_signed_cert.minio.cert_pem
+      client_cert = tls_locally_signed_cert.ferlab_tenant_client_sse.cert_pem
       client_key  = tls_private_key.minio.private_key_pem
     }
-    key = "minio"
+    key = "ferlab"
     }],
     #One tenant
     [{
     tls = {
-      client_cert = tls_locally_signed_cert.minio.cert_pem
+      client_cert = tls_locally_signed_cert.ferlab_tenant_client_sse.cert_pem
       client_key  = tls_private_key.minio.private_key_pem
     }
     key = "ferlab"
@@ -28,7 +28,7 @@ locals {
       {
         tls = {
           client_cert = tls_locally_signed_cert.ferlab2_tenant_client_sse.cert_pem
-          client_key  = tls_private_key.minio.private_key_pem
+          client_key  = tls_private_key.ferlab2_tenant_client_sse.private_key_pem
         }
         key = "ferlab2"
       }
@@ -105,6 +105,7 @@ locals {
     #One tenant
     [{
       tenant_name = "ferlab"
+      migrate_to = local.params.minio.migrate_to_tenants
       tls = {
         server_cert = tls_locally_signed_cert.minio.cert_pem
         server_key  = tls_private_key.minio.private_key_pem
@@ -124,6 +125,7 @@ locals {
     [
       {
         tenant_name = "ferlab"
+        migrate_to = local.params.minio.migrate_to_tenants
         tls = {
           server_cert = tls_locally_signed_cert.minio.cert_pem
           server_key  = tls_private_key.minio.private_key_pem
@@ -180,6 +182,7 @@ locals {
 }
 
 resource "libvirt_volume" "minio_1" {
+  count = local.params.minio.cluster_on ? 1 : 0
   name             = "ferlab-minio-1"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -189,11 +192,12 @@ resource "libvirt_volume" "minio_1" {
 }
 
 module "minio_1" {
+  count = local.params.minio.cluster_on ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-1"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_1.id
+  volume_id = libvirt_volume.minio_1.0.id
   data_disks = [
     {
       volume_id    = libvirt_volume.minio_1_1_data.id
@@ -261,6 +265,7 @@ module "minio_1" {
 }
 
 resource "libvirt_volume" "minio_2" {
+  count = local.params.minio.cluster_on ? 1 : 0
   name             = "ferlab-minio-2"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -270,11 +275,12 @@ resource "libvirt_volume" "minio_2" {
 }
 
 module "minio_2" {
+  count = local.params.minio.cluster_on ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-2"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_2.id
+  volume_id = libvirt_volume.minio_2.0.id
   data_disks = [
     {
       volume_id    = libvirt_volume.minio_2_1_data.id
@@ -342,6 +348,7 @@ module "minio_2" {
 }
 
 resource "libvirt_volume" "minio_3" {
+  count = local.params.minio.cluster_on ? 1 : 0
   name             = "ferlab-minio-3"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -351,11 +358,12 @@ resource "libvirt_volume" "minio_3" {
 }
 
 module "minio_3" {
+  count = local.params.minio.cluster_on ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-3"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_3.id
+  volume_id = libvirt_volume.minio_3.0.id
   data_disks = [
     {
       volume_id    = libvirt_volume.minio_3_1_data.id
@@ -423,6 +431,7 @@ module "minio_3" {
 }
 
 resource "libvirt_volume" "minio_4" {
+  count = local.params.minio.cluster_on ? 1 : 0
   name             = "ferlab-minio-4"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -432,11 +441,12 @@ resource "libvirt_volume" "minio_4" {
 }
 
 module "minio_4" {
+  count = local.params.minio.cluster_on ? 1 : 0
   source = "./terraform-libvirt-minio-server"
   name = "ferlab-minio-4"
   vcpus = local.params.etcd.vcpus
   memory = local.params.etcd.memory
-  volume_id = libvirt_volume.minio_4.id
+  volume_id = libvirt_volume.minio_4.0.id
   data_disks = [
     {
       volume_id    = libvirt_volume.minio_4_1_data.id

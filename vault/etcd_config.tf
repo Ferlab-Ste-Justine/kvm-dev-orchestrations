@@ -38,6 +38,14 @@ data "etcd_prefix_range_end" "vault" {
   key = "/ferlab/vault/"
 }
 
+resource "etcd_range_scoped_state" "vault" {
+  count = local.params.vault.clear_data ? 1 : 0
+  key = data.etcd_prefix_range_end.vault.key
+  range_end = data.etcd_prefix_range_end.vault.range_end
+  clear_on_creation = true
+  clear_on_deletion = true
+}
+
 resource "etcd_role" "vault" {
   name = "vault"
 
@@ -58,3 +66,4 @@ resource "etcd_user" "vault" {
   password = random_password.vault_etcd_password.result
   roles    = [etcd_role.vault.name]
 }
+

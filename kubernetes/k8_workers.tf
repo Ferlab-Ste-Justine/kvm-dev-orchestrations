@@ -101,4 +101,35 @@ module "kubernetes_workers" {
       }
     }
   }
+  vault_agent = {
+    enabled             = true
+    install_dependencies = true
+    auth_method         = {
+      type   = "approle"
+      config = {
+        role_id   = "add_role_id"
+        secret_id = "add_secret_id"
+      }
+    }
+    vault_address       = "https://vault.ferlab.lan:"
+    vault_ca_cert       = ""
+    templates           = [
+      {
+        source_path      = "/etc/vault/template.ctmpl"
+        destination_path = "/tmp/vault/secrets"
+        service_name     = "vault-agent"
+        secret_path      = "kv-v2/qa/airflow/admin-password"
+        secret_key       = "password"
+      },
+      {
+        source_path      = "/etc/vault/template1.ctmpl"
+        destination_path = "/tmp/vault/secrets"
+        service_name     = "vault-agent"
+        secret_path      = "kv-v2/qa/airflow/admin-password"
+        secret_key       = "password"
+      }
+    ]
+    agent_config        = ""
+    release_version     = "1.17.2"
+  }
 }

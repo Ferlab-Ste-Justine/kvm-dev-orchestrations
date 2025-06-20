@@ -14,7 +14,6 @@ module "prometheus_confs" {
   node_exporter_jobs   = [
     {
       tag                        = "etcd"
-      expected_count             = 3
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       expected_disks_count       = -1
@@ -26,7 +25,6 @@ module "prometheus_confs" {
     },
     {
       tag                        = "coredns"
-      expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       expected_disks_count       = 1
@@ -38,7 +36,6 @@ module "prometheus_confs" {
     },
     {
       tag                        = "prometheus"
-      expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       expected_disks_count       = -1
@@ -50,7 +47,6 @@ module "prometheus_confs" {
     },
     {
       tag                        = "alertmanager"
-      expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       expected_disks_count       = -1
@@ -62,7 +58,6 @@ module "prometheus_confs" {
     },
     {
       tag                        = "automation-server"
-      expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       expected_disks_count       = -1
@@ -74,7 +69,6 @@ module "prometheus_confs" {
     },
     {
       tag                        = "dhcp"
-      expected_count             = 1
       memory_usage_threshold     = 90
       cpu_usage_threshold        = 90
       expected_disks_count       = -1

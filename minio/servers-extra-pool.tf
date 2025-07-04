@@ -51,7 +51,7 @@ module "minio_5" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-5-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 4)
     kes_tag = "minio-server-5-kes"
     ferio_tag = "minio-server-5-ferio"
     node_exporter_tag = "minio-server-5-node-exporter"
@@ -134,7 +134,7 @@ module "minio_6" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-6-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 5)
     kes_tag = "minio-server-6-kes"
     ferio_tag = "minio-server-6-ferio"
     node_exporter_tag = "minio-server-6-node-exporter"
@@ -217,7 +217,7 @@ module "minio_7" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-7-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 6)
     kes_tag = "minio-server-7-kes"
     ferio_tag = "minio-server-7-ferio"
     node_exporter_tag = "minio-server-7-node-exporter"
@@ -300,7 +300,7 @@ module "minio_8" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-8-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 7)
     kes_tag = "minio-server-8-kes"
     ferio_tag = "minio-server-8-ferio"
     node_exporter_tag = "minio-server-8-node-exporter"

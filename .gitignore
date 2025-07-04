@@ -26,6 +26,7 @@ shared/*-approle-secret
 shared/etcd-creds
 shared/postgres_root_auth.yml
 shared/minio_rclone.conf
+shared/.mc
 logs/certs/
 logs/logs/
 kubernetes-orchestrations/*/terraform.tfstate

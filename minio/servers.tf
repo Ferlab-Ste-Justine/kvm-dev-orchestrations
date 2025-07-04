@@ -6,7 +6,10 @@ locals {
       client_cert = tls_locally_signed_cert.ferlab_tenant_client_sse.cert_pem
       client_key  = tls_private_key.minio.private_key_pem
     }
-    key = "ferlab"
+    keys = {
+      default = "ferlab"
+      access_list = ["ferlab", "ferlab1*"]
+    }
     }],
     #One tenant
     [{
@@ -14,7 +17,10 @@ locals {
       client_cert = tls_locally_signed_cert.ferlab_tenant_client_sse.cert_pem
       client_key  = tls_private_key.minio.private_key_pem
     }
-    key = "ferlab"
+    keys = {
+      default = "ferlab"
+      access_list = ["ferlab", "ferlab1*"]
+    }
     }],
     #Two tenants
     [
@@ -23,14 +29,20 @@ locals {
           client_cert = tls_locally_signed_cert.ferlab_tenant_client_sse.cert_pem
           client_key  = tls_private_key.minio.private_key_pem
         }
-        key = "ferlab"
+        keys = {
+          default = "ferlab"
+          access_list = ["ferlab", "ferlab1*"]
+        }
       },
       {
         tls = {
           client_cert = tls_locally_signed_cert.ferlab2_tenant_client_sse.cert_pem
           client_key  = tls_private_key.ferlab2_tenant_client_sse.private_key_pem
         }
-        key = "ferlab2"
+        keys = {
+          default = "ferlab2"
+          access_list = ["ferlab2*"]
+        }
       }
     ],
   ]
@@ -162,6 +174,35 @@ locals {
       }
     ]
   ]
+  fluentbit_minio_tags_to_format = [
+  #No tenants
+  [{
+    tenant_name = ""
+    tag = "minio-server-%d-minio"
+  }],
+  #One tenant
+  [{
+    tenant_name = "ferlab"
+    tag = "minio-server-%d-minio-ferlab"
+  }],
+  #Two tenants
+  [
+    {
+      tenant_name = "ferlab"
+      tag = "minio-server-%d-minio-ferlab"
+    },
+    {
+      tenant_name = "ferlab2"
+      tag = "minio-server-%d-minio-ferlab2"
+    },
+  ],
+  ]
+  fluentbit_minio_tags = [for server_no in [1, 2, 3, 4, 5, 6, 7, 8]: [
+    for tenant in element(local.fluentbit_minio_tags_to_format, local.params.minio.tenants): {
+      tenant_name = tenant.tenant_name
+      tag = format(tenant.tag, server_no)
+    }
+  ]]
   ferio = {
     enabled = local.params.minio.ferio_enabled
     etcd = {
@@ -234,7 +275,7 @@ module "minio_1" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-1-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 0)
     kes_tag = "minio-server-1-kes"
     ferio_tag = "minio-server-1-ferio"
     node_exporter_tag = "minio-server-1-node-exporter"
@@ -317,7 +358,7 @@ module "minio_2" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-2-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 1)
     kes_tag = "minio-server-2-kes"
     ferio_tag = "minio-server-2-ferio"
     node_exporter_tag = "minio-server-2-node-exporter"
@@ -400,7 +441,7 @@ module "minio_3" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-3-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 2)
     kes_tag = "minio-server-3-kes"
     ferio_tag = "minio-server-3-ferio"
     node_exporter_tag = "minio-server-3-node-exporter"
@@ -483,7 +524,7 @@ module "minio_4" {
   admin_user_password = local.params.virsh_console_password
   fluentbit = {
     enabled = local.params.logs_forwarding
-    minio_tag = "minio-server-4-minio"
+    minio_tags = element(local.fluentbit_minio_tags, 3)
     kes_tag = "minio-server-4-kes"
     ferio_tag = "minio-server-4-ferio"
     node_exporter_tag = "minio-server-4-node-exporter"

@@ -63,7 +63,7 @@
       "data_disk_capacity": 100,
       "root_username": "minio",
       "root_password": "testtest",
-      "ferio_enabled": false,
+      "ferio_enabled": true,
       "ferio_update_release": true,
       "k8_ingress_setup": false
     },

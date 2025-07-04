@@ -106,3 +106,6 @@
 [submodule "terracd/terracd"]
 	path = terracd/terracd
 	url = git@github.com:Ferlab-Ste-Justine/terracd.git
+[submodule "minio/terraform-etcd-ferio-configuration"]
+	path = minio/terraform-etcd-ferio-configuration
+	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-ferio-configuration.git

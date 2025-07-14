@@ -2,7 +2,7 @@ terraform {
   required_providers {
     etcd = {
       source  = "Ferlab-Ste-Justine/etcd"
-      version = "= 0.9.0"
+      version = "= 0.11.0"
     }
     libvirt = {
       source  = "dmacvicar/libvirt"
@@ -14,7 +14,7 @@ terraform {
     }
     netaddr = {
       source  = "Ferlab-Ste-Justine/netaddr"
-      version = "= 0.4.0"
+      version = "= 0.5.1"
     }
     null = {
       source  = "hashicorp/null"

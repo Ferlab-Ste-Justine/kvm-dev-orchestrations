@@ -10,7 +10,7 @@ terraform {
     }
     etcd = {
       source = "Ferlab-Ste-Justine/etcd"
-      version = "= 0.10.0"
+      version = "= 0.11.0"
     }
   }
   required_version = ">= 1.3.0"

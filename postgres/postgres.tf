@@ -7,7 +7,7 @@ locals {
 }
 
 resource "libvirt_volume" "postgres_1" {
-  count = local.cluster_state.cluster.0.up ? 1 : 0
+  count = local.cluster_state.cluster.0.exists ? 1 : 0
   name             = "ferlab-postgres-1"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -17,8 +17,9 @@ resource "libvirt_volume" "postgres_1" {
 }
 
 module "postgres_1" {
-  count = local.cluster_state.cluster.0.up ? 1 : 0
+  count = local.cluster_state.cluster.0.exists ? 1 : 0
   source = "./kvm-postgres-server"
+  running = local.cluster_state.cluster.0.running
   name = "ferlab-postgres-1"
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
@@ -62,6 +63,7 @@ module "postgres_1" {
     watchdog_safety_margin = -1
     is_synchronous = local.is_synchronous
     synchronous_settings = local.synchronous_settings
+    use_pg_rewind = local.params.postgres.servers.pg_rewind
     client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
@@ -71,7 +73,7 @@ module "postgres_1" {
 }
 
 resource "libvirt_volume" "postgres_2" {
-  count = local.cluster_state.cluster.1.up ? 1 : 0
+  count = local.cluster_state.cluster.1.exists ? 1 : 0
   name             = "ferlab-postgres-2"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -81,8 +83,9 @@ resource "libvirt_volume" "postgres_2" {
 }
 
 module "postgres_2" {
-  count = local.cluster_state.cluster.1.up ? 1 : 0
+  count = local.cluster_state.cluster.1.exists ? 1 : 0
   source = "./kvm-postgres-server"
+  running = local.cluster_state.cluster.1.running
   name = "ferlab-postgres-2"
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
@@ -125,6 +128,7 @@ module "postgres_2" {
     master_stop_timeout = 300
     watchdog_safety_margin = -1
     is_synchronous = local.is_synchronous
+    use_pg_rewind = local.params.postgres.servers.pg_rewind
     client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }
@@ -134,7 +138,7 @@ module "postgres_2" {
 }
 
 resource "libvirt_volume" "postgres_3" {
-  count = local.cluster_state.cluster.2.up ? 1 : 0
+  count = local.cluster_state.cluster.2.exists ? 1 : 0
   name             = "ferlab-postgres-3"
   pool             = "default"
   size             = 10 * 1024 * 1024 * 1024
@@ -144,8 +148,9 @@ resource "libvirt_volume" "postgres_3" {
 }
 
 module "postgres_3" {
-  count = local.cluster_state.cluster.2.up ? 1 : 0
+  count = local.cluster_state.cluster.2.exists ? 1 : 0
   source = "./kvm-postgres-server"
+  running = local.cluster_state.cluster.2.running
   name = "ferlab-postgres-3"
   vcpus = local.params.postgres.servers.vcpus
   memory = local.params.postgres.servers.memory
@@ -188,6 +193,7 @@ module "postgres_3" {
     master_stop_timeout = 300
     watchdog_safety_margin = -1
     is_synchronous = local.is_synchronous
+    use_pg_rewind = local.params.postgres.servers.pg_rewind
     client_certificate = module.postgres_certificates.client_certificate
     client_key = tls_private_key.patroni_client_key.private_key_pem
   }

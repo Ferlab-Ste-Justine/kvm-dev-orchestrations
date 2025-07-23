@@ -123,6 +123,7 @@
         "vcpus": 1,
         "memory": 4096,
         "data_volumes": false,
+        "pg_rewind": true,
         "params": [
           {
             "key": "max_connections",

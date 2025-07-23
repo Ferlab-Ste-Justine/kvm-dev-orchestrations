@@ -20,9 +20,14 @@ patroni_client:
   request_timeout: "5s"
 tests:
   switchovers: 5
-  leader_crashes: 5
-  sync_standby_crashes: 5
+  leader_losses: 5
+  sync_standby_losses: 5
+  leader_reboots: 5
+  sync_standby_reboots: 5
+  cluster_reboots: 5
   validation_interval: "10s"
   change_recover_timeout: "3m"
-  crash_recover_timeout: "6m"
-  crash_rebuild_pause: "1m"
+  loss_recover_timeout: "6m"
+  reboot_recover_timeout: "3m"
+  rebuild_pause: "1m"
+  restart_pause: "1m"

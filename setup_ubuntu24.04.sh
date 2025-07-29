@@ -19,8 +19,8 @@ if [ -f "shared/default_pool_path" ]; then
 
 profile LIBVIRT_TEMPLATE flags=(attach_disconnected) {
   #include <abstractions/libvirt-qemu>
-  $POOL_PATH r,
-  $POOL_PATH rwk, 
+  $POOL_PATH/ r,
+  $POOL_PATH/** rwk, 
 }
 EndOfMessage
 )

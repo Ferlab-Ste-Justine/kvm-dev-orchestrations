@@ -6,6 +6,8 @@ External dependencies are linked via git submodules with an **ssh** link for eas
 
 # Requirements
 
+## Manual Setup
+
 A Linux machine with modern multi-core cpus and at least 64GB RAM is strongly recommended.
 
 Additionally, you will need the following:
@@ -14,20 +16,32 @@ Additionally, you will need the following:
   - qemu-kvm
   - libvirt-clients
   - libvirt-daemon-system
-  - virtinst
   - xsltproc
+  - mkisofs
 
 In addition, the **libvirtd** service should be enabled and started and your user should belong to the group **libvirt**.
 
-# Setup
+If the default pool does not exists, you should also create its directory (not in your home path) and add it to the permitted directory in libvirt's apparmor template located at **/etc/apparmor.d/libvirt/TEMPLATE.qemu**.
 
-The setup was tested successfully with Ubuntu 20.04/22.04.
+## Automated Setup
+
+If you are running Ubuntu 24.04 and want a shortcut:
+- Make sure you have downloaded the terraform binary and that its containing directory in your PATH environment variable.
+- Create the **shared/default_pool_path** file and put the desired default pool directory path in it
+- Execute the **setup_ubuntu24.04.sh** script with elevated privileges which will execute the rest of the steps described in the manual setup.
+
+## Validated Environments
+
+The setup was tested successfully with Ubuntu 22.04/24.04. Your mileage may vary with other distros.
+
+# Setup
 
 ## General
 
 In all cases, you will want to perform the following steps:
 - Check the default configurations
 - Fetch the git submodules
+- Setup the default volume pool if missing
 - Setup a base os image
 - Setup a ferlab libvirt network
 - Setup an etcd cluster
@@ -37,16 +51,13 @@ This translates into the following steps:
 
 1. Inspect the **shared/params.json** file and change it if needed
 2. Run `git submodule update --init` to fetch the submodules
-3. Go to the **image** directory and run `terraform init && terraform apply`
-    1. If you get `Error: failed to dial libvirt`, you can try to restart your computer (even if your user was added to the group **libvirt**, it might not be in effect yet).
-    2. If you get `Error: can't find storage pool 'default'`, you will need to create a pool 'default' manually (normally created automatically when KVM is installed, but on some distributions it doesn't).
-        1. To create, run this command `virsh pool-define-as default dir --target /var/lib/virt/pools/default && virsh pool-build default && virsh pool-start default && virsh pool-autostart default` (change the path as desired)
-        2. To configure AppArmor for appropriate permissions, add the following under the profile in **/etc/apparmor.d/libvirt/TEMPLATE.qemu**: `"/var/lib/virt/pools/default/*" rwk,` (change the path as desired)
+3. If the default volume pool is missing (run **virsh pool-list** to check), make sure the **shared/default_pool_path** file exists and contains the path you want for the default volume pool, then go to the **default-pool** directory and run `terraform init && terraform apply`
+4. Go to the **image** directory and run `terraform init && terraform apply`
 4. Go to the **libvirt-network** directory and run: `terraform init && terraform apply`
 5. Go to the **etcd** directory and run `terraform init && terraform apply`
 6. Go to the **netaddr** directory and run `terraform init && terraform apply`
 
-### Assigned Ips
+## Assigned Ips
 
 Whenever you run **terraform apply** in the **netaddr** directory, the **shared/ips.md** file will be updated with all currently assigned ips (minus the hardcoded ones for the etcd cluster and automation server).
 
@@ -54,7 +65,7 @@ This provides basic visualization of the assigned ips so far.
 
 ### Centralised Logs
 
-We are in the process of integrating centralised logs validation for our vms in the development environment. To enable it, you need to follow the steps below:
+We integrated centralised logs validation for our vms in the development environment. To enable it, you need to follow the steps below:
 1. Create a **host_params.json** file in the **shared** directory with the following two properties:
   - **ip**: The ip of your local machine
   - **dns**: The ip of a dns server your local machine uses

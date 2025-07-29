@@ -26,8 +26,3 @@ EndOfMessage
 )
   echo "$TEMPLATE" > /etc/apparmor.d/libvirt/TEMPLATE.qemu
 fi
-
-
-
-#sudo setfacl -R --modify="u:libvirt-qemu:rwx" /home/eric/extra-disk/kvm-default-pool
-#sudo setfacl --modify="u:libvirt-qemu:rx" /media/magnitus/

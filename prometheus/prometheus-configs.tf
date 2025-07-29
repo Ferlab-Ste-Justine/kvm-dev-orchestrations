@@ -7,6 +7,7 @@ module "prometheus_confs" {
       alertmanager_enabled          = fileexists("${path.module}/../shared/alertmanager_ca.crt")
       kubernetes_cluster_federation = local.params.prometheus.kubernetes_cluster_federation
       minio_cluster_monitoring      = local.params.prometheus.minio_cluster_monitoring
+      starrocks_cluster_monitoring  = local.params.prometheus.starrocks_cluster_monitoring
       etcd_addresses                = local.params.etcd.addresses
       host_ip                       = local.host_params.ip
     }

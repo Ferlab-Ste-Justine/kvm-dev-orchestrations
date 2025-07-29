@@ -141,3 +141,27 @@ scrape_configs:
         labels:
           cluster: local
 %{ endif ~}
+%{ if starrocks_cluster_monitoring ~}
+  - job_name: "starrocks-cluster-monitoring"
+    metrics_path: /metrics
+    dns_sd_configs:
+      - names:
+          - frontends.starrocks.ferlab.lan
+        refresh_interval: 5s
+        type: A
+        port: 8030
+      - names:
+          - backends.starrocks.ferlab.lan
+        refresh_interval: 5s
+        type: A
+        port: 8040
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: .*:8030$
+        target_label: group
+        replacement: fe
+      - source_labels: [__address__]
+        regex: .*:8040$
+        target_label: group
+        replacement: be
+%{ endif ~}

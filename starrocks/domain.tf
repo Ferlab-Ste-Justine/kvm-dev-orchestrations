@@ -7,6 +7,14 @@ module "starrocks_domain" {
     [for node in netaddr_address_ipv4.fe_nodes: {
       prefix = ""
       ip     = node.address
+    }],
+    [for node in netaddr_address_ipv4.fe_nodes: {
+      prefix = "frontends"
+      ip     = node.address
+    }],
+    [for node in netaddr_address_ipv4.be_nodes: {
+      prefix = "backends"
+      ip     = node.address
     }]
   )
 }

@@ -46,3 +46,4 @@ envoy-transport-control-plane/work-env/
 terracd/pushgateway/certs/
 terracd/pushgateway/confs/
 terracd/work-env/
+patroni-conf/provider.tf

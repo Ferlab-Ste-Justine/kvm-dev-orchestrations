@@ -1,5 +1,6 @@
 resource "patroni_dynamic_config" "config" {
   failsafe_mode = false
+  loop_wait = 5
   max_timelines_history = 1000
   maximum_lag_on_failover = 10 * 1024 * 1024
   maximum_lag_on_syncnode = 10 * 1024 * 1024

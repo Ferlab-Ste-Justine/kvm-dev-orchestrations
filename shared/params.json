@@ -221,7 +221,7 @@
       "memory": 4096,
       "data_volume": false,
       "admin_password": "test",
-      "pbicsuser_password": "test",
+      "pbinstrument_password": "test",
       "db_backups": false,
       "s3_backups": false
     },

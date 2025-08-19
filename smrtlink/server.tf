@@ -37,8 +37,8 @@ module "smrtlink" {
   smrtlink               = {
     domain_name = "smrtlink.ferlab.lan"
     keycloak_user_passwords = {
-      admin     = local.params.smrtlink.admin_password
-      pbicsuser = local.params.smrtlink.pbicsuser_password
+      admin        = local.params.smrtlink.admin_password
+      pbinstrument = local.params.smrtlink.pbinstrument_password
     }
     db_backups = {
       enabled         = local.params.smrtlink.db_backups
@@ -57,6 +57,5 @@ module "smrtlink" {
     calendar               = "*:0/10"  # every 10 minutes
     bucket                 = "smrtlink-backup"
     ca_cert                = fileexists("../shared/minio_ca.crt") ? file("../shared/minio_ca.crt") : ""
-    symlinks               = "skip"
   }
 }

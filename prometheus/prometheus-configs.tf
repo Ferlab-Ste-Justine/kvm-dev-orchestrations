@@ -12,6 +12,13 @@ module "prometheus_confs" {
       host_ip                       = local.host_params.ip
     }
   )
+  heartbeat = {
+    hour         = 12
+    minute       = 00
+    alert_labels = {
+      org = "ferlab"
+    }
+  }
   node_exporter_jobs   = [
     {
       tag                        = "etcd"

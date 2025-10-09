@@ -28,6 +28,9 @@ module "kubernetes_masters" {
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
   docker_registry_auth = local.docker_registry_auth
+  audit = {
+    enabled          = true
+  }
   fluentbit = {
     enabled = local.params.logs_forwarding
     nfs_tunnel_client_tag = ""
@@ -45,18 +48,6 @@ module "kubernetes_masters" {
       hostname = "kubernetes-master-${count.index + 1}"
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
-    }
-    etcd = {
-      enabled = false
-      key_prefix = ""
-      endpoints = []
-      ca_certificate = ""
-      client = {
-        certificate = ""
-        key = ""
-        username = ""
-        password = ""
-      }
     }
   }
 }

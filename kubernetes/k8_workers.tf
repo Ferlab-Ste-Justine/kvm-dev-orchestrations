@@ -88,17 +88,5 @@ module "kubernetes_workers" {
       shared_key = local.params.logs_forwarding ? file("${path.module}/../shared/logs_shared_key") : ""
       ca_cert = local.params.logs_forwarding ? file("${path.module}/../shared/logs_ca.crt") : ""
     }
-    etcd = {
-      enabled = false
-      key_prefix = ""
-      endpoints = []
-      ca_certificate = ""
-      client = {
-        certificate = ""
-        key = ""
-        username = ""
-        password = ""
-      }
-    }
   }
 }

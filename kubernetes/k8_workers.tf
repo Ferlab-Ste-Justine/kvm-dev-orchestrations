@@ -33,7 +33,7 @@ resource "libvirt_volume" "kubernetes_workers" {
   count            = local.params.kubernetes.workers.count
   name             = "ferlab-kubernetes-worker-${count.index + 1}"
   pool             = "default"
-  size             = 20 * 1024 * 1024 * 1024
+  size             = 30 * 1024 * 1024 * 1024
   base_volume_pool = "default"
   base_volume_name = "ubuntu-jammy-2023-02-10"
   format = "qcow2"

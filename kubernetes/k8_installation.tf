@@ -25,7 +25,6 @@ module "kubernetes_installation" {
   etcd_ca_private_key = tls_private_key.k8_etcd_ca.private_key_pem
   front_proxy_ca_certificate = module.k8_certificates.front_proxy_ca_certificate
   front_proxy_ca_private_key = tls_private_key.k8_front_proxy_ca.private_key_pem
-  container_registry_credentials = local.registry_credentials.credentials
   depends_on = [
     module.kubernetes_masters,
     module.kubernetes_workers,

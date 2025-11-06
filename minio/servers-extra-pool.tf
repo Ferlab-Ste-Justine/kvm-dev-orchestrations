@@ -29,6 +29,13 @@ module "minio_5" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_5_queue.0.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio
@@ -112,6 +119,13 @@ module "minio_6" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_6_queue.0.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio
@@ -195,6 +209,13 @@ module "minio_7" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_7_queue.0.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio
@@ -278,6 +299,13 @@ module "minio_8" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_8_queue.0.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio

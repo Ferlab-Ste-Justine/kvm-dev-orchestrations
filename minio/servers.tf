@@ -1,4 +1,9 @@
 locals {
+  audit_base = {
+    enable     = true
+    endpoint   = "https://${local.host_params.ip}:9880/minio_audit"
+    queue_size = "200000"
+  }
   sse_server_clients = [
     #No tenants
     [{
@@ -113,13 +118,10 @@ locals {
       }
       api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
       console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
-      audit = {
-        enable      = true
-        endpoint    = "https://${local.host_params.ip}:9880/minio_audit"
-        audit_id    = "fb"
-        queue_dir   = "/opt/mnt/minio-queue"
-        queue_size  = "200000"
-      }
+      audit = merge(local.audit_base, {
+        queue_dir = "/opt/mnt/minio-queue"
+        audit_id  = "minio"
+      })
     }],
     #One tenant
     [{
@@ -139,12 +141,10 @@ locals {
       }
       api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
       console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
-      audit = {
-        enable      = true
-        endpoint    = "https://${local.host_params.ip}:9880/minio_audit"
-        queue_dir   = "/opt/mnt/minio-queue"
-        queue_size  = "200000"
-      }
+      audit = merge(local.audit_base, {
+        queue_dir = "/opt/mnt/minio-queue/ferlab"
+        audit_id  = "ferlab"
+      })
     }],
     #two tenant
     [
@@ -165,12 +165,10 @@ locals {
         }
         api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
         console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
-        audit = {
-          enable      = true
-          endpoint    = "https://${local.host_params.ip}:9880/minio_audit"
-          queue_dir   = "/opt/mnt/minio-queue"
-          queue_size  = "200000"
-        }
+        audit = merge(local.audit_base, {
+          queue_dir = "/opt/mnt/minio-queue/ferlab"
+          audit_id  = "ferlab"
+        })
       },
       {
         tenant_name = "ferlab2"
@@ -190,12 +188,10 @@ locals {
         console_port = 9003
         api_url = "https://minio.ferlab.lan:9002"
         console_url = "https://minio.ferlab.lan:9003"
-        audit = {
-          enable      = true
-          endpoint    = "https://${local.host_params.ip}:9880/minio_audit"
-          queue_dir   = "/opt/mnt/minio-queue"
-          queue_size  = "200000"
-        }
+        audit = merge(local.audit_base, {
+          queue_dir = "/opt/mnt/minio-queue/ferlab2"
+          audit_id  = "ferlab2"
+        })
       }
     ]
   ]

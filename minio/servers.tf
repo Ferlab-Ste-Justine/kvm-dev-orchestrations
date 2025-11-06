@@ -113,6 +113,13 @@ locals {
       }
       api_url = local.params.minio.k8_ingress_setup ? "https://minio-api.k8.ferlab.lan" : "https://minio.ferlab.lan:9000"
       console_url = local.params.minio.k8_ingress_setup ? "https://minio-console.k8.ferlab.lan" : "https://minio.ferlab.lan:9001"
+      audit = {
+        enable      = true
+        endpoint    = "https://${local.host_params.ip}:9880/minio_audit"
+        audit_id    = "fb"
+        queue_dir   = "/opt/mnt/minio-queue"
+        queue_size  = "200000"
+      }
     }],
     #One tenant
     [{
@@ -253,6 +260,13 @@ module "minio_1" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_1_queue.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio
@@ -336,6 +350,13 @@ module "minio_2" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_2_queue.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio
@@ -419,6 +440,13 @@ module "minio_3" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_3_queue.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio
@@ -502,6 +530,13 @@ module "minio_4" {
       device_name  = "vdc"
       mount_label  = "minio_vol_b"
       mount_path   = "/opt/mnt/volume2"
+    },
+    {
+      volume_id    = libvirt_volume.minio_4_queue.id
+      block_device = ""             
+      device_name  = "vdd"              
+      mount_label  = "minio_queue"
+      mount_path   = "/opt/mnt/minio-queue"
     }
   ]
   ferio = local.ferio

@@ -59,7 +59,7 @@
       "tenants": 0,
       "migrate_to_tenants": false,
       "cluster_on": true,
-      "extra_server_pool": true,
+      "extra_server_pool": false,
       "data_disk_capacity": 100,
       "root_username": "minio",
       "root_password": "testtest",

@@ -57,27 +57,27 @@ resource "libvirt_volume" "minio_4_2_data" {
 resource "libvirt_volume" "minio_1_queue" {
   name             = "ferlab-minio-1-queue"
   pool             = "default"
-  size             = 2 * 1024 * 1024 * 1024  # 2 GiB
+  size             = local.params.minio.queue_disk_capacity * 1024 * 1024 * 1024
   format           = "qcow2"
 }
 
 resource "libvirt_volume" "minio_2_queue" {
   name             = "ferlab-minio-2-queue"
   pool             = "default"
-  size             = 2 * 1024 * 1024 * 1024  # 2 GiB
+  size             = local.params.minio.queue_disk_capacity * 1024 * 1024 * 1024
   format           = "qcow2"
 }
 
 resource "libvirt_volume" "minio_3_queue" {
   name             = "ferlab-minio-3-queue"
   pool             = "default"
-  size             = 2 * 1024 * 1024 * 1024  # 2 GiB
+  size             = local.params.minio.queue_disk_capacity * 1024 * 1024 * 1024
   format           = "qcow2"
 }
 
 resource "libvirt_volume" "minio_4_queue" {
   name             = "ferlab-minio-4-queue"
   pool             = "default"
-  size             = 2 * 1024 * 1024 * 1024  # 2 GiB
+  size             = local.params.minio.queue_disk_capacity * 1024 * 1024 * 1024
   format           = "qcow2"
 }

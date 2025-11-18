@@ -21,7 +21,16 @@ module "certificates" {
   ca_key            = tls_private_key.ca.private_key_pem
   server_key        = tls_private_key.server.private_key_pem
   admin_key         = tls_private_key.admin.private_key_pem
-  cluster_ips       = [for server in concat(netaddr_address_ipv4.masters, netaddr_address_ipv4.workers) : server.address]
+
+  cluster_ips = [
+    for server in concat(
+      netaddr_address_ipv4.masters,
+      netaddr_address_ipv4.workers,
+      netaddr_address_ipv4.audit_masters,
+      netaddr_address_ipv4.audit_workers
+    ) : server.address
+  ]
+
   cluster_domains = [
     "opensearch",
     "opensearch-masters",
@@ -31,7 +40,17 @@ module "certificates" {
     "workers.${local.domain}",
     "${local.resources_namespace}-opensearch",
     "${local.resources_namespace}-opensearch-masters",
-    "${local.resources_namespace}-opensearch-workers"
+    "${local.resources_namespace}-opensearch-workers",
+
+    "audit-opensearch",
+    "audit-opensearch-masters",
+    "audit-opensearch-workers",
+    local.audit_domain,
+    "masters.${local.audit_domain}",
+    "workers.${local.audit_domain}",
+    "${local.resources_namespace}-opensearch-audit",
+    "${local.resources_namespace}-opensearch-audit-masters",
+    "${local.resources_namespace}-opensearch-audit-workers"
   ]
 }
 

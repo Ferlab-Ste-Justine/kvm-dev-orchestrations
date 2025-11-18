@@ -31,6 +31,7 @@ module "workers" {
     cluster_name             = "${local.resources_namespace}-opensearch"
     manager                  = false
     seed_hosts               = [for master in netaddr_address_ipv4.masters : master.address]
+    initial_manager_nodes    = local.master_hostnames
     initial_cluster          = true
     bootstrap_security       = false
     auth_dn_fields           = {
@@ -50,6 +51,20 @@ module "workers" {
         key         = tls_private_key.admin.private_key_pem
         certificate = module.certificates.admin_certificate
       }
+    }
+    audit = {
+      enabled      = true
+      storage_type = local.audit_storage_type
+      index        = "security-auditlog"
+
+      ignore_users = []
+
+      external = local.audit_enabled ? {
+        http_endpoints       = ["${local.audit_domain}:9200"]
+        enable_ssl           = true
+        verify_hostnames     = true
+        use_client_cert_auth = true
+      } : null
     }
   }
 }

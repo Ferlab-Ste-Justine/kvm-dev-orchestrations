@@ -57,7 +57,6 @@ module "audit_first_master" {
       }
     }
 
-    # ➜ le cluster d’audit logge en interne
     audit = {
       enabled      = true
       storage_type = "internal_opensearch"

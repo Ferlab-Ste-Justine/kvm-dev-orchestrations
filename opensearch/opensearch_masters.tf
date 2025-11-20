@@ -9,11 +9,11 @@ resource "libvirt_volume" "masters" {
 }
 
 module "first_master" {
-  source           = "./terraform-libvirt-opensearch-server"
-  name             = "ferlab-opensearch-master-1"
-  vcpus            = local.params.opensearch.masters.vcpus
-  memory           = local.params.opensearch.masters.memory
-  volume_id        = libvirt_volume.masters[0].id
+  source    = "./terraform-libvirt-opensearch-server"
+  name      = "ferlab-opensearch-master-1"
+  vcpus     = local.params.opensearch.masters.vcpus
+  memory    = local.params.opensearch.masters.memory
+  volume_id = libvirt_volume.masters[0].id
   libvirt_networks = [{
     network_name  = "ferlab"
     network_id    = ""
@@ -26,17 +26,17 @@ module "first_master" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password
-  opensearch             = {
-    cluster_name             = "${local.resources_namespace}-opensearch"
-    manager                  = true
-    seed_hosts               = [for master in netaddr_address_ipv4.masters : master.address]
-    initial_manager_nodes    = local.master_hostnames
-    initial_cluster          = true
-    bootstrap_security       = true
-    auth_dn_fields           = {
-      admin_common_name          = "admin"
-      node_common_name           = local.domain
-      organization               = "ferlab"
+  opensearch = {
+    cluster_name                  = "${local.resources_namespace}-opensearch"
+    cluster_manager               = true
+    seed_hosts                    = [for master in netaddr_address_ipv4.masters : master.address]
+    initial_cluster_manager_nodes = local.master_hostnames
+    initial_cluster               = true
+    bootstrap_security            = true
+    auth_dn_fields = {
+      admin_common_name = "admin"
+      node_common_name  = local.domain
+      organization      = "ferlab"
     }
     verify_domains     = true
     basic_auth_enabled = true
@@ -53,28 +53,27 @@ module "first_master" {
     }
     audit = {
       enabled      = true
-      storage_type = local.audit_storage_type
       index        = "security-auditlog"
-
       ignore_users = []
-
       external = local.audit_enabled ? {
-        http_endpoints       = ["${local.audit_domain}:9200"]
-        enable_ssl           = true
-        verify_hostnames     = true
-        use_client_cert_auth = true
+        http_endpoints = ["${local.audit_domain}:9200"]
+        auth = {
+          ca_cert     = module.certificates.ca_certificate
+          client_cert = module.certificates.admin_certificate
+          client_key  = tls_private_key.admin.private_key_pem
+        }
       } : null
     }
   }
 }
 
 module "other_masters" {
-  count            = "${local.params.opensearch.masters.count - 1}"
-  source           = "./terraform-libvirt-opensearch-server"
-  name             = "ferlab-opensearch-master-${count.index + 2}"
-  vcpus            = local.params.opensearch.masters.vcpus
-  memory           = local.params.opensearch.masters.memory
-  volume_id        = libvirt_volume.masters[count.index + 1].id
+  count     = local.params.opensearch.masters.count - 1
+  source    = "./terraform-libvirt-opensearch-server"
+  name      = "ferlab-opensearch-master-${count.index + 2}"
+  vcpus     = local.params.opensearch.masters.vcpus
+  memory    = local.params.opensearch.masters.memory
+  volume_id = libvirt_volume.masters[count.index + 1].id
   libvirt_networks = [{
     network_name  = "ferlab"
     network_id    = ""
@@ -87,17 +86,17 @@ module "other_masters" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key   = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password    = local.params.virsh_console_password
-  opensearch             = {
-    cluster_name             = "${local.resources_namespace}-opensearch"
-    manager                  = true
-    seed_hosts               = [for master in netaddr_address_ipv4.masters : master.address]
-    initial_manager_nodes    = local.master_hostnames
-    initial_cluster          = true
-    bootstrap_security       = false
-    auth_dn_fields           = {
-      admin_common_name          = "admin"
-      node_common_name           = local.domain
-      organization               = "ferlab"
+  opensearch = {
+    cluster_name                  = "${local.resources_namespace}-opensearch"
+    cluster_manager               = true
+    seed_hosts                    = [for master in netaddr_address_ipv4.masters : master.address]
+    initial_cluster_manager_nodes = local.master_hostnames
+    initial_cluster               = true
+    bootstrap_security            = false
+    auth_dn_fields = {
+      admin_common_name = "admin"
+      node_common_name  = local.domain
+      organization      = "ferlab"
     }
     verify_domains     = true
     basic_auth_enabled = true
@@ -114,16 +113,15 @@ module "other_masters" {
     }
     audit = {
       enabled      = true
-      storage_type = local.audit_storage_type
       index        = "security-auditlog"
-
       ignore_users = []
-
       external = local.audit_enabled ? {
-        http_endpoints       = ["${local.audit_domain}:9200"]
-        enable_ssl           = true
-        verify_hostnames     = true
-        use_client_cert_auth = true
+        http_endpoints = ["${local.audit_domain}:9200"]
+        auth = {
+          ca_cert     = module.certificates.ca_certificate
+          client_cert = module.certificates.admin_certificate
+          client_key  = tls_private_key.admin.private_key_pem
+        }
       } : null
     }
   }

@@ -9,12 +9,12 @@ resource "libvirt_volume" "audit_masters" {
 }
 
 module "audit_first_master" {
-  count            = local.audit_enabled ? 1 : 0
-  source           = "./terraform-libvirt-opensearch-server"
-  name             = "ferlab-opensearch-audit-master-1"
-  vcpus            = local.params.opensearch.audit.masters.vcpus
-  memory           = local.params.opensearch.audit.masters.memory
-  volume_id        = libvirt_volume.audit_masters[0].id
+  count     = local.audit_enabled ? 1 : 0
+  source    = "./terraform-libvirt-opensearch-server"
+  name      = "ferlab-opensearch-audit-master-1"
+  vcpus     = local.params.opensearch.audit.masters.vcpus
+  memory    = local.params.opensearch.audit.masters.memory
+  volume_id = libvirt_volume.audit_masters[0].id
   libvirt_networks = [{
     network_name  = "ferlab"
     network_id    = ""
@@ -29,12 +29,12 @@ module "audit_first_master" {
   admin_user_password    = local.params.virsh_console_password
 
   opensearch = {
-    cluster_name       = local.audit_cluster_name
-    manager            = true
-    seed_hosts         = [for master in netaddr_address_ipv4.audit_masters : master.address]
-    initial_manager_nodes = local.audit_master_hostnames
-    initial_cluster    = true
-    bootstrap_security = true
+    cluster_name                  = local.audit_cluster_name
+    cluster_manager               = true
+    seed_hosts                    = [for master in netaddr_address_ipv4.audit_masters : master.address]
+    initial_cluster_manager_nodes = local.audit_master_hostnames
+    initial_cluster               = true
+    bootstrap_security            = true
 
     auth_dn_fields = {
       admin_common_name = "admin"
@@ -59,7 +59,6 @@ module "audit_first_master" {
 
     audit = {
       enabled      = true
-      storage_type = "internal_opensearch"
       index        = "security-auditlog"
       ignore_users = []
     }
@@ -67,12 +66,12 @@ module "audit_first_master" {
 }
 
 module "audit_other_masters" {
-  count            = local.audit_enabled ? (local.params.opensearch.audit.masters.count - 1) : 0
-  source           = "./terraform-libvirt-opensearch-server"
-  name             = "ferlab-opensearch-audit-master-${count.index + 2}"
-  vcpus            = local.params.opensearch.audit.masters.vcpus
-  memory           = local.params.opensearch.audit.masters.memory
-  volume_id        = libvirt_volume.audit_masters[count.index + 1].id
+  count     = local.audit_enabled ? (local.params.opensearch.audit.masters.count - 1) : 0
+  source    = "./terraform-libvirt-opensearch-server"
+  name      = "ferlab-opensearch-audit-master-${count.index + 2}"
+  vcpus     = local.params.opensearch.audit.masters.vcpus
+  memory    = local.params.opensearch.audit.masters.memory
+  volume_id = libvirt_volume.audit_masters[count.index + 1].id
   libvirt_networks = [{
     network_name  = "ferlab"
     network_id    = ""
@@ -87,12 +86,12 @@ module "audit_other_masters" {
   admin_user_password    = local.params.virsh_console_password
 
   opensearch = {
-    cluster_name       = local.audit_cluster_name
-    manager            = true
-    seed_hosts         = [for master in netaddr_address_ipv4.audit_masters : master.address]
-    initial_manager_nodes = local.audit_master_hostnames
-    initial_cluster    = true
-    bootstrap_security = false
+    cluster_name                  = local.audit_cluster_name
+    cluster_manager               = true
+    seed_hosts                    = [for master in netaddr_address_ipv4.audit_masters : master.address]
+    initial_cluster_manager_nodes = local.audit_master_hostnames
+    initial_cluster               = true
+    bootstrap_security            = false
 
     auth_dn_fields = {
       admin_common_name = "admin"
@@ -117,7 +116,6 @@ module "audit_other_masters" {
 
     audit = {
       enabled      = true
-      storage_type = "internal_opensearch"
       index        = "security-auditlog"
       ignore_users = []
     }

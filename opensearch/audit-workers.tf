@@ -46,14 +46,14 @@ module "audit_workers" {
     basic_auth_enabled = true
 
     tls = {
-      ca_certificate = module.certificates.ca_certificate
+      ca_certificate = module.audit_certificates.ca_certificate
       server = {
-        key         = tls_private_key.server.private_key_pem
-        certificate = module.certificates.server_certificate
+        key         = tls_private_key.audit_server.private_key_pem
+        certificate = module.audit_certificates.server_certificate
       }
       admin_client = {
-        key         = tls_private_key.admin.private_key_pem
-        certificate = module.certificates.admin_certificate
+        key         = tls_private_key.audit_admin.private_key_pem
+        certificate = module.audit_certificates.admin_certificate
       }
     }
 

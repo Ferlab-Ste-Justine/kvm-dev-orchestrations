@@ -58,9 +58,9 @@ module "first_master" {
       external = local.audit_enabled ? {
         http_endpoints = ["${local.audit_domain}:9200"]
         auth = {
-          ca_cert     = module.certificates.ca_certificate
-          client_cert = module.certificates.admin_certificate
-          client_key  = tls_private_key.admin.private_key_pem
+          ca_cert     = module.audit_certificates.ca_certificate
+          client_cert = module.audit_certificates.admin_certificate
+          client_key  = tls_private_key.audit_admin.private_key_pem
         }
       } : null
     }
@@ -118,9 +118,9 @@ module "other_masters" {
       external = local.audit_enabled ? {
         http_endpoints = ["${local.audit_domain}:9200"]
         auth = {
-          ca_cert     = module.certificates.ca_certificate
-          client_cert = module.certificates.admin_certificate
-          client_key  = tls_private_key.admin.private_key_pem
+          ca_cert     = module.audit_certificates.ca_certificate
+          client_cert = module.audit_certificates.admin_certificate
+          client_key  = tls_private_key.audit_admin.private_key_pem
         }
       } : null
     }

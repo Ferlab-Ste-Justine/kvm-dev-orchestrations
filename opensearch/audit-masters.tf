@@ -38,7 +38,7 @@ module "audit_first_master" {
 
     auth_dn_fields = {
       admin_common_name = "admin"
-      node_common_name  = local.domain
+      node_common_name  = local.audit_domain
       organization      = "ferlab"
     }
 
@@ -95,7 +95,7 @@ module "audit_other_masters" {
 
     auth_dn_fields = {
       admin_common_name = "admin"
-      node_common_name  = local.domain
+      node_common_name  = local.audit_domain
       organization      = "ferlab"
     }
 

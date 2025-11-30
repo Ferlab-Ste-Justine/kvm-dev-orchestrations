@@ -201,6 +201,19 @@
         "count": 2,
         "vcpus": 1,
         "memory": 4096
+      },
+      "audit_cluster_enabled": true,
+      "audit": {
+        "masters": {
+          "count": 3,
+          "vcpus": 1,
+          "memory": 4096
+        },
+        "workers": {
+          "count": 2,
+          "vcpus": 1,
+          "memory": 4096
+        }
       }
     },
     "starrocks": {

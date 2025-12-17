@@ -1,0 +1,33 @@
+{
+  "patient_details": {
+      "externalid": "2024MDYS_01-T1--chr10",
+      "label": "2024MDYS_01-T1--chr10",
+      "category": "qlin-test",
+      "maternal_affected": true
+  },
+  "phenotype_hpo_code_list":
+    [
+      "HP:0000151", 
+      "HP:0001762",
+      "HP:0002009",
+      "HP:0010958"
+    ],
+  "phenotype_onset_hpo_code": "HP:0010958",
+  "download_specifications": {
+    "download_source": "s3_minio",
+    "details": {
+      "bucket_name": "phenovar-analysis-data"
+    }
+  },
+  "analysis_files": [
+    {
+      "filepath": "420001.hard-filtered.gvcf.gz",
+      "filetype": "patient_called_snv"
+    },
+    {
+      "filepath": "420001.cnv.vcf.gz",
+      "filetype": "patient_called_cnv"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,104 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phenovar-server
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - phenovar.k8.ferlab.lan
+      secretName: phenovar-ingress-tls
+  rules:
+    - host: phenovar.k8.ferlab.lan
+      http:
+        paths:
+          - path: /phenovar3
+            pathType: Prefix
+            backend:
+              service:
+                name: phenovar-server
+                port:
+                  number: 8000
+          - path: /phenovar-static/
+            pathType: Prefix
+            backend:
+              service:
+                name: phenovar-file-server
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phenovar-server-redirect
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: /phenovar3/
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - phenovar.k8.ferlab.lan
+      secretName: phenovar-ingress-tls
+  rules:
+    - host: phenovar.k8.ferlab.lan
+      http:
+        paths:
+        - path: /
+          pathType: Exact
+          backend:
+            service:
+              name: phenovar-server
+              port:
+                number: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phenovar-flower-server
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/auth-type: "basic"
+    nginx.ingress.kubernetes.io/auth-secret: "flower-basic-auth"
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+spec:
+  tls:
+    - hosts:
+        - phenovar-flower.k8.ferlab.lan
+      secretName: phenovar-ingress-tls
+  rules:
+    - host: phenovar-flower.k8.ferlab.lan
+      http:
+        paths:
+          - path: /phenovar3-flower/
+            pathType: Prefix
+            backend:
+              service:
+                name: phenovar-flower-server
+                port:
+                  number: 8100
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phenovar-flower-server-redirect
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: /phenovar3-flower/
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - phenovar-flower.k8.ferlab.lan
+      secretName: phenovar-ingress-tls
+  rules:
+    - host: phenovar-flower.k8.ferlab.lan
+      http:
+        paths:
+        - path: /
+          pathType: Exact
+          backend:
+            service:
+              name: phenovar-flower-server
+              port:
+                number: 8100

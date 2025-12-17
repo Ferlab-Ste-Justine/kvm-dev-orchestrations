@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: phenovar-edge-proxy-vars
+data:
+  PHENOVAR_PROXY_PORT: "443"
+  PHENOVAR_PROXY_PROTOCOL: "https"
+  PHENOVAR_PROXY_DOMAIN: "phenovar.k8.ferlab.lan"

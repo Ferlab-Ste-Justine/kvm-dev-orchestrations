@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phenovar
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: container-registry-credentials
+      volumes:
+        - name: phenovar-results
+          persistentVolumeClaim:
+            claimName: phenovar-results
+        - name: phenovar-resources
+          persistentVolumeClaim:
+            claimName: phenovar-resources
+        - name: s3-ca
+          secret:
+            secretName: minio-ca
+            defaultMode: 0555
+      initContainers:
+        - name: create-databases
+          envFrom:
+            - secretRef:
+                name: mysql-root-password
+            - secretRef:
+                name: mysql-phenovar-password
+            - secretRef:
+                name: phenovar-django-admin
+      containers:
+        - name: phenovar-server
+          env:
+            - name: MINIO_CLIENT_SECURE
+              value: "true"
+            - name: S3_CA_PATH
+              value: /etc/s3/ca.crt
+          envFrom:
+            - secretRef:
+                name: mysql-phenovar-password
+            - secretRef:
+                name: phenovar-django-admin
+            - configMapRef:
+                name: phenovar-edge-proxy-vars
+          volumeMounts:
+            - name: phenovar-results
+              mountPath: /opt/phenovar/data
+            - name: phenovar-resources
+              mountPath: /opt/phenovar/resources
+              readOnly: true
+            - name: s3-ca
+              mountPath: /etc/s3/
+        - name: celery-worker
+          env:
+            - name: MINIO_CLIENT_SECURE
+              value: "true"
+            - name: S3_CA_PATH
+              value: /etc/s3/ca.crt
+          envFrom:
+            - secretRef:
+                name: mysql-phenovar-password
+            - secretRef:
+                name: phenovar-django-admin
+            - configMapRef:
+                name: phenovar-edge-proxy-vars
+          volumeMounts:
+            - name: phenovar-results
+              mountPath: /opt/phenovar/data
+            - name: phenovar-resources
+              mountPath: /opt/phenovar/resources
+              readOnly: true
+            - name: s3-ca
+              mountPath: /etc/s3/
+        - name: flower-server
+          env:
+            - name: MINIO_CLIENT_SECURE
+              value: "true"
+            - name: S3_CA_PATH
+              value: /etc/s3/ca.crt
+          envFrom:
+            - secretRef:
+                name: mysql-phenovar-password
+            - secretRef:
+                name: phenovar-django-admin
+            - configMapRef:
+                name: phenovar-edge-proxy-vars
+          volumeMounts:
+            - name: phenovar-resources
+              mountPath: /opt/phenovar/resources
+              readOnly: true
+            - name: s3-ca
+              mountPath: /etc/s3/

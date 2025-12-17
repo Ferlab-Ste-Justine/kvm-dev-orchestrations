@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: phenovar-resources-rclone
+spec:
+  template:
+    spec:
+      volumes:
+        - name: s3-ca
+          secret:
+            secretName: minio-ca
+            defaultMode: 0555
+        - name: rclone-conf
+          secret:
+            secretName: phenovar-resources-rclone-conf
+            defaultMode: 0555
+        - name: phenovar-resources
+          persistentVolumeClaim:
+            claimName: phenovar-resources-rclone
+      containers:
+        - name: phenovar-resources-rclone
+          env:
+            - name: S3_CONF_NAME
+              value: local_dev_minio
+          volumeMounts:
+            - name: s3-ca
+              mountPath: /etc/s3/
+            - name: rclone-conf
+              mountPath: /etc/rclone/
+            - name: phenovar-resources
+              mountPath: /var/lib/phenovar-resources

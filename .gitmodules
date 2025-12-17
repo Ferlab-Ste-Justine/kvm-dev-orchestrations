@@ -64,9 +64,6 @@
 [submodule "prometheus/terraform-etcd-prometheus-configuration"]
 	path = prometheus/terraform-etcd-prometheus-configuration
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-prometheus-configuration.git
-[submodule "kubernetes-orchestrations/prometheus/k8-generic-orchestrations"]
-	path = kubernetes-orchestrations/prometheus/k8-generic-orchestrations
-	url = git@github.com:Ferlab-Ste-Justine/k8-generic-orchestrations
 [submodule "opensearch/terraform-libvirt-opensearch-server"]
 	path = opensearch/terraform-libvirt-opensearch-server
 	url = git@github.com:Ferlab-Ste-Justine/terraform-libvirt-opensearch-server.git
@@ -109,3 +106,6 @@
 [submodule "minio/terraform-etcd-ferio-configuration"]
 	path = minio/terraform-etcd-ferio-configuration
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-ferio-configuration.git
+[submodule "kubernetes-orchestrations/k8-generic-orchestrations"]
+	path = kubernetes-orchestrations/k8-generic-orchestrations
+	url = git@github.com:Ferlab-Ste-Justine/k8-generic-orchestrations.git

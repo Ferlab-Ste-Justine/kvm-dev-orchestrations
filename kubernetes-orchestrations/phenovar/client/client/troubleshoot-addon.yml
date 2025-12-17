@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: phenovar-client
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: container-registry-credentials
+      volumes:
+        - name: troubleshoot-client-files
+          configMap:
+            name: phenovar-troubleshoot-client-files
+            defaultMode: 0555
+        - name: phenovar-token
+          emptyDir:
+            medium: Memory
+      initContainers:
+        - name: token-generation
+          env:
+            - name: S3_ENDPOINT
+              value: minio.ferlab.lan:9000
+            - name: S3_BUCKET
+              value: phenovar-analysis-data
+          envFrom:
+            - secretRef:
+                name: phenovar-minio-credentials
+            - secretRef:
+                name: mysql-phenovar-password
+            - secretRef:
+                name: phenovar-django-admin
+          volumeMounts:
+            - name: phenovar-token
+              mountPath: /opt/phenovar-token
+      containers:
+        - name: api-troubleshoot
+          image: curlimages/curl:8.16.0
+          command: ["sleep", "infinity"]
+          workingDir: /opt/work
+          volumeMounts:
+            - name: troubleshoot-client-files
+              mountPath: /opt/work
+            - name: phenovar-token
+              mountPath: /opt/phenovar-token

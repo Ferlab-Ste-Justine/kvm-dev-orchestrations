@@ -1,3 +1,47 @@
+locals {
+  nfs_configs = {
+    "default" = [
+      {
+        path = "/opt/fs"
+        rw = true
+        sync = true
+        subtree_check = false
+        no_root_squash = true
+      }
+    ],
+    "phenovar" = [
+      {
+        path = "/opt/fs/phenovar-resources"
+        rw = true
+        sync = true
+        subtree_check = false
+        no_root_squash = true
+      },
+      {
+        path = "/opt/fs/phenovar-results"
+        rw = true
+        sync = true
+        subtree_check = false
+        no_root_squash = true
+      },
+      {
+        path = "/opt/fs/phenovar-mysql"
+        rw = true
+        sync = true
+        subtree_check = false
+        no_root_squash = true
+      },
+      {
+        path = "/opt/fs/phenovar-redis"
+        rw = true
+        sync = true
+        subtree_check = false
+        no_root_squash = true
+      }
+    ]
+  }
+}
+
 resource "libvirt_volume" "nfs" {
   name             = "ferlab-nfs"
   pool             = "default"
@@ -29,15 +73,7 @@ module "nfs" {
   cloud_init_volume_pool = "default"
   ssh_admin_public_key = tls_private_key.admin_ssh.public_key_openssh
   admin_user_password = local.params.virsh_console_password
-  nfs_configs = [
-    {
-      path = "/opt/fs"
-      rw = true
-      sync = true
-      subtree_check = false
-      no_root_squash = true
-    }
-  ]
+  nfs_configs = local.nfs_configs[local.params.nfs.fs_layout]
   nfs_tunnel = {
     listening_port     = 2050
     server_key         = tls_private_key.nfs_tunnel_server_key.private_key_pem

@@ -110,14 +110,16 @@
       "workers": {
         "count": 3,
         "vcpus": 8,
-        "memory": 8192,
-        "nfs_tunnel": false
+        "memory": 12288,
+        "nfs_tunnel": true
       }
     },
     "nfs": {
       "vcpus": 1,
       "memory": 4096,
-      "data_volumes": false
+      "data_volumes": true,
+      "data_volumes_capacity": 300,
+      "fs_layout": "phenovar"
     },
     "postgres": {
       "servers": {

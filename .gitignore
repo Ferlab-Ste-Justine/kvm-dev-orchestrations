@@ -28,6 +28,7 @@ shared/postgres_root_auth.yml
 shared/minio_rclone.conf
 shared/.mc
 shared/default_pool_path
+shared/container_registry_credentials.yml
 logs/certs/
 logs/logs/
 kubernetes-orchestrations/*/terraform.tfstate
@@ -47,3 +48,6 @@ terracd/pushgateway/certs/
 terracd/pushgateway/confs/
 terracd/work-env/
 patroni-conf/provider.tf
+kubernetes-orchestrations/cubefs/cubefs-helm
+kubernetes-orchestrations/phenovar/resources-rclone-setup/upload-to-s3/path
+kubernetes-orchestrations/phenovar/client-setup/upload-to-s3/path

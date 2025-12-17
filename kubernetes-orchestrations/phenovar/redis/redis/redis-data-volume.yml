@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phenovar-redis
+spec:
+  template:
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: phenovar-redis
+      containers:
+        - name: phenovar-redis
+          volumeMounts:
+            - name: data
+              mountPath: /data

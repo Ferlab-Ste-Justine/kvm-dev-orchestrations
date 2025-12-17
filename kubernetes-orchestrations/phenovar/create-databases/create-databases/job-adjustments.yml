@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-databases
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: container-registry-credentials
+      containers:
+        - name: create-databases
+          envFrom:
+            - secretRef:
+                name: mysql-root-password
+            - secretRef:
+                name: mysql-phenovar-password
+            - secretRef:
+                name: phenovar-django-admin

@@ -65,6 +65,7 @@ module "first_master" {
       } : null
     }
   }
+  snapshot_repository = local.opensearch_snapshot_repository
 }
 
 module "other_masters" {
@@ -125,4 +126,5 @@ module "other_masters" {
       } : null
     }
   }
+  snapshot_repository = local.opensearch_snapshot_repository
 }

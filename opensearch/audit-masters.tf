@@ -63,6 +63,7 @@ module "audit_first_master" {
       ignore_users = []
     }
   }
+  snapshot_repository = local.audit_snapshot_repository
 }
 
 module "audit_other_masters" {
@@ -120,4 +121,5 @@ module "audit_other_masters" {
       ignore_users = []
     }
   }
+  snapshot_repository = local.audit_snapshot_repository
 }

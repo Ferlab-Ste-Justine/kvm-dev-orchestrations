@@ -63,4 +63,5 @@ module "audit_workers" {
       ignore_users = []
     }
   }
+  snapshot_repository = local.audit_snapshot_repository
 }

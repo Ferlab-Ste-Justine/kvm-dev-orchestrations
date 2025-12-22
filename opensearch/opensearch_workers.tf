@@ -66,4 +66,5 @@ module "workers" {
       } : null
     }
   }
+  snapshot_repository = local.opensearch_snapshot_repository
 }

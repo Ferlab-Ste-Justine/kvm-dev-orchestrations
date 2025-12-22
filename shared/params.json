@@ -203,6 +203,29 @@
         "count": 2,
         "vcpus": 1,
         "memory": 4096
+      },
+      "snapshot_repository": {
+        "access_key": "minio",
+        "secret_key": "testtest",
+        "ca_certs": []
+      },
+      "audit_cluster_enabled": true,
+      "audit": {
+        "masters": {
+          "count": 3,
+          "vcpus": 1,
+          "memory": 4096
+        },
+        "workers": {
+          "count": 2,
+          "vcpus": 1,
+          "memory": 4096
+        },
+        "snapshot_repository": {
+          "access_key": "minio",
+          "secret_key": "testtest",
+          "ca_certs": []
+        }
       }
     },
     "starrocks": {

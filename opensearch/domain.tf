@@ -3,7 +3,7 @@ module "domain" {
   domain          = local.domain
   key_prefix      = "/ferlab/coredns/"
   dns_server_name = "ns.ferlab.lan."
-  a_records = concat(
+ a_records = concat(
     [for server in concat(netaddr_address_ipv4.masters, netaddr_address_ipv4.workers) : {
       prefix = ""
       ip     = server.address
@@ -14,6 +14,19 @@ module "domain" {
     }],
     [for worker in netaddr_address_ipv4.workers : {
       prefix = "workers"
+      ip     = worker.address
+    }],
+
+    [for master in netaddr_address_ipv4.audit_masters : {
+      prefix = "audit"
+      ip     = master.address
+    }],
+    [for master in netaddr_address_ipv4.audit_masters : {
+      prefix = "masters.audit"
+      ip     = master.address
+    }],
+    [for worker in netaddr_address_ipv4.audit_workers : {
+      prefix = "workers.audit"
       ip     = worker.address
     }]
   )

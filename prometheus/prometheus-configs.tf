@@ -1,3 +1,7 @@
+locals {
+  include_physical_host_virtualization = local.host_params.ip != "" && local.params.prometheus.physical_host.node_exporter && local.params.prometheus.physical_host.libvirt_exporter
+}
+
 module "prometheus_confs" {
   source               = "./terraform-etcd-prometheus-configuration"
   etcd_key_prefix      = "/ferlab/prometheus/"
@@ -9,7 +13,8 @@ module "prometheus_confs" {
       minio_cluster_monitoring      = local.params.prometheus.minio_cluster_monitoring
       starrocks_cluster_monitoring  = local.params.prometheus.starrocks_cluster_monitoring
       etcd_addresses                = local.params.etcd.addresses
-      host_ip                       = local.host_params.ip
+      host_ip                       = local.host_params.ip,
+      physical_host                 = local.params.prometheus.physical_host
     }
   )
   heartbeat = {
@@ -154,4 +159,10 @@ module "prometheus_confs" {
       }
     }
   ]
+  custom_rule_files = local.include_physical_host_virtualization ? [
+    {
+      name = "physical_hosts_virtualization.yml"
+      content = file("${path.module}/prometheus-configs/rules/physical_hosts_virtualization.yml")
+    }
+  ] : []
 }

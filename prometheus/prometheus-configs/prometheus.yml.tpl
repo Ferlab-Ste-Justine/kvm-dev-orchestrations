@@ -18,12 +18,7 @@ alerting:
 
 scrape_configs:
 %{ if host_ip != "" ~}
-  - job_name: "physical-host-libvirt-exporter"
-    static_configs:
-      - targets:
-          - "${host_ip}:9000"
-%{ endif ~}
-%{ if host_ip != "" ~}
+%{ if physical_host.prometheus_gateway ~}
   - job_name: "physical-host-pushgateway"
     honor_labels: true
     static_configs:
@@ -34,6 +29,21 @@ scrape_configs:
       ca_file: /opt/physical-host-pushgateway/ca.crt
       cert_file: /opt/physical-host-pushgateway/client.crt
       key_file: /opt/physical-host-pushgateway/client.key
+%{ endif ~}
+%{ if physical_host.node_exporter ~}
+  - job_name: "physical-host-node-exporter"
+    static_configs:
+      - targets:
+          - "${host_ip}:9100"
+    scheme: http
+%{ endif ~}
+%{ if physical_host.libvirt_exporter ~}
+  - job_name: "physical-host-libvirt-exporter"
+    static_configs:
+      - targets:
+          - "${host_ip}:9000"
+    scheme: http
+%{ endif ~}
 %{ endif ~}
   - job_name: "prometheus"
     static_configs:

@@ -1,0 +1,13 @@
+groups:
+  - name: physical-hosts-virtualization-metrics
+    rules:
+      #Virtualization memory metrics
+      - record: physical_hosts:virtualization_assigned_memory:gigabytes
+        expr: sum without(domain, instance_id) (libvirt_domain_maximum_memory_bytes / 1024 / 1024 / 1024)
+      - record: physical_hosts:virtualization_assigned_memory_ratio:percentage
+        expr: (sum without(domain, instance_id) (libvirt_domain_maximum_memory_bytes) / on(machine_id) node_memory_MemTotal_bytes{job="physical-host-node-exporter"}) * 100
+      #Virtualization cpu metrics
+      - record: physical_hosts:virtualization_cpus:count
+        expr: sum without (domain, instance_id) (libvirt_domain_virtual_cpus)
+      - record: physical_hosts:virtualization_assigned_cpus_ratio:percentage
+        expr: (physical_hosts:virtualization_cpus:count / on(machine_id) count without(mode, cpu) (node_cpu_seconds_total{job="physical-host-node-exporter", mode="idle"})) * 100

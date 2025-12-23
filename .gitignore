@@ -39,8 +39,6 @@ kubernetes-orchestrations/*/.terraform/
 kubernetes-orchestrations/opensearch/certificates/
 dhcp-pxe-os-setup/bin/
 dhcp-pxe-os-setup/image/
-prometheus/prometheus-configs/prometheus.yml
-prometheus/prometheus-configs/rules/
 etcd-backup/setup/s3-conf.yml
 etcd-backup/work-env/
 envoy-transport-control-plane/work-env/

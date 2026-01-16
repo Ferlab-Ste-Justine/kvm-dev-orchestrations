@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: create-databases
+  name: phenovar-create-databases
 spec:
   template:
     spec:
       imagePullSecrets:
         - name: container-registry-credentials
       containers:
-        - name: create-databases
+        - name: phenovar-create-databases
           envFrom:
             - secretRef:
                 name: mysql-root-password

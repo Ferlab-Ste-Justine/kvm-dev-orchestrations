@@ -209,12 +209,7 @@
         "vcpus": 1,
         "memory": 4096
       },
-      "snapshot_repository": {
-        "access_key": "minio",
-        "secret_key": "testtest",
-        "ca_certs": []
-      },
-      "audit_cluster_enabled": true,
+      "audit_cluster_enabled": false,
       "audit": {
         "masters": {
           "count": 3,

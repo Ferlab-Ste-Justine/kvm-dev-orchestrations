@@ -14,9 +14,10 @@ locals {
     ca_certs   = []
   }
 
-  minio_snapshot_ca_certs = [
-    trimspace(file("${path.module}/../shared/minio_ca.crt"))
-  ]
+  minio_snapshot_ca_certs = try(
+    [trimspace(file("${path.module}/../shared/minio_ca.crt"))],
+    []
+  )
 
   opensearch_snapshot_repository = merge(
     local.default_snapshot_repository,

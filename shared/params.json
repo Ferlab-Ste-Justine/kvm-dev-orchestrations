@@ -111,14 +111,15 @@
         "count": 3,
         "vcpus": 8,
         "memory": 12288,
-        "nfs_tunnel": true
+        "nfs_tunnel": false,
+        "data_volume_capacity": 30
       }
     },
     "nfs": {
       "vcpus": 1,
       "memory": 4096,
       "data_volumes": true,
-      "data_volumes_capacity": 300,
+      "data_volumes_capacity": 100,
       "fs_layout": "phenovar"
     },
     "postgres": {

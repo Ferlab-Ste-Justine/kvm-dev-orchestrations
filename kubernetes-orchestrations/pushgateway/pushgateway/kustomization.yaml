@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: prometheus-pushgateway
+
+patchesStrategicMerge:
+  - volumes-addon.yml
+
+resources:
+  - ingress.yml
+  - data-volume.yml
+  - ../../k8-generic-orchestrations/pushgateway

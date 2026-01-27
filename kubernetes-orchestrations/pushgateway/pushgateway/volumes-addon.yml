@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-pushgateway
+spec:
+  template:
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: prometheus-pushgateway
+        - name: certs
+          secret:
+            secretName: pushgateway-server-certs
+      containers:
+        - name: prometheus-pushgateway
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/pushgateway
+            - name: certs
+              mountPath: /etc/pushgateway/tls

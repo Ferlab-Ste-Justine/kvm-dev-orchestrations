@@ -1,0 +1,2 @@
+helm repo add longhorn https://charts.longhorn.io;
+helm --kubeconfig="../../shared/kubeconfig" --kube-context="kubernetes-admin-ferlab@ferlab" upgrade --install longhorn longhorn/longhorn -f ./values.yaml --namespace longhorn-system --create-namespace --version 1.10.1;

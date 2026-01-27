@@ -29,6 +29,14 @@ resource "tls_locally_signed_cert" "nfs_tunnel_client_certificate" {
   is_ca_certificate = false
 }
 
+resource "libvirt_volume" "kubernetes_workers_data" {
+  count            = local.params.kubernetes.workers.data_volume_capacity > 0 ? local.params.kubernetes.workers.count : 0
+  name             = "ferlab-kubernetes-worker-${count.index + 1}-data"
+  pool             = "default"
+  size             = local.params.kubernetes.workers.data_volume_capacity * 1024 * 1024 * 1024
+  format           = "qcow2"
+}
+
 resource "libvirt_volume" "kubernetes_workers" {
   count            = local.params.kubernetes.workers.count
   name             = "ferlab-kubernetes-worker-${count.index + 1}"
@@ -46,6 +54,12 @@ module "kubernetes_workers" {
   vcpus = local.params.kubernetes.workers.vcpus
   memory = local.params.kubernetes.workers.memory
   volume_id = libvirt_volume.kubernetes_workers[count.index].id
+  data_volume = {
+    id = local.params.kubernetes.workers.data_volume_capacity > 0 ? libvirt_volume.kubernetes_workers_data[count.index].id : ""
+    mount_path = "/mnt/data"
+    filesystem = "ext4"
+    overwrite  = true
+  }
   libvirt_networks = [{
     network_name = "ferlab"
     network_id = ""

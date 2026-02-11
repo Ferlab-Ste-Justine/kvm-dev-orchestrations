@@ -1,0 +1,20 @@
+- username: stuard
+  role: dev
+  attributes:
+    github_user: stuartme
+  environments: [qa, staging, prod]
+- username: clack
+  role: analyst
+  attributes:
+    rstudio_user: "1021"
+  environments: [qa, staging]
+  temporary_grants:
+    - name: read_indices
+      scope: postgres_prod
+      expires_at: "2026-11-30T00:00:00Z"
+    - name: read_logs
+      scope: opensearch_ops
+      expires_at: "2025-11-30T00:00:00Z"
+- username: grom
+  role: admin
+  environments: [qa, staging, prod]

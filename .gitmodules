@@ -109,3 +109,6 @@
 [submodule "kubernetes-orchestrations/k8-generic-orchestrations"]
 	path = kubernetes-orchestrations/k8-generic-orchestrations
 	url = git@github.com:Ferlab-Ste-Justine/k8-generic-orchestrations.git
+[submodule "users/terraform-etcd-ferlab-users"]
+	path = users/terraform-etcd-ferlab-users
+	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-ferlab-users.git

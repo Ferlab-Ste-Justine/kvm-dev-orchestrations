@@ -5,6 +5,8 @@ provider "etcd" {
   password  = file("${path.module}/../shared/etcd-root_password")
 }
 
+resource "time_static" "now" {}
+
 module "upload_users" {
   source = "./terraform-etcd-ferlab-users/upload"
   etcd_key = "/test-users/users.yml"
@@ -20,5 +22,6 @@ module "upload_users" {
 module "download_users" {
   source = "./terraform-etcd-ferlab-users/download"
   etcd_key = "/test-users/users.yml"
+  execution_time = time_static.now.rfc3339
   depends_on = [module.upload_users]
 }

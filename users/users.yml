@@ -1,10 +1,10 @@
 - username: stuard
-  role: dev
+  roles: [dev, admin]
   attributes:
     github_user: stuartme
   environments: [qa, staging, prod]
 - username: clack
-  role: analyst
+  roles: [analyst]
   attributes:
     rstudio_user: "1021"
   environments: [qa, staging]
@@ -16,5 +16,5 @@
       scope: opensearch_ops
       expires_at: "2025-11-30T00:00:00Z"
 - username: grom
-  role: admin
+  roles: [admin]
   environments: [qa, staging, prod]

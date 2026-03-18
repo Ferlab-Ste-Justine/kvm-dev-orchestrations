@@ -13,6 +13,8 @@ shared/*_key_algorithm
 shared/*.md
 shared/*_ssh_key
 shared/*_webhook
+shared/slack_alert_channel
+shared/slack_token
 shared/kubeconfig
 shared/*tunnel_config.json
 shared/registry_credentials.yml

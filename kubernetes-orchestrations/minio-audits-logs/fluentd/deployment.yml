@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: minio-audit-fluentd
+  name: minio-audit-fluentd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio-audit-fluentd
+  template:
+    metadata:
+      labels:
+        app: minio-audit-fluentd
+    spec:
+      volumes:
+        - name: dedup-script
+          configMap:
+            name: minio-audit-dedub-script
+            defaultMode: 0555
+        - name: fluentd-conf
+          configMap:
+            name: minio-audit-fluentd-config
+            defaultMode: 0555
+        - name: fluentd-slack-output-conf
+          configMap:
+            name: minio-audit-slack-output-fluentd-config
+            defaultMode: 0555
+        - name: server-credentials
+          secret:
+            secretName: server-credentials
+            defaultMode: 0555
+        - name: opensearch-client-credentials
+          secret:
+            secretName: opensearch-client-credentials
+            defaultMode: 0555
+      containers:
+        - image: python:3.14
+          name: minio-audit-dedup
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.25"
+            limits:
+              memory: "256Mi"
+              cpu: "0.50"
+          command: ["python3"]
+          args: ["/opt/script/dedup.py"]
+          env:
+            - name: CACHE_TTL
+              value: "600"
+          volumeMounts:
+            - name: dedup-script
+              mountPath: /opt/script
+        - image: index.docker.io/ferlabcrsj/fluentd:6f0e6316edb2648bb2cbe89f0060d9d04b17dbe0-1773252359
+          name: minio-audit-fluentd
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.25"
+            limits:
+              memory: "256Mi"
+              cpu: "0.50"
+          env:
+            - name: FLUENTD_CONF
+              value: fluentd.conf
+            - name: FLUENT_OPENSEARCH_HOST
+              value: workers.opensearch.ferlab.lan
+            - name: FLUENT_OPENSEARCH_PORT
+              value: "9200"
+            - name: FLUENT_OPENSEARCH_SCHEME
+              value: "https"
+            - name: FLUENT_OPENSEARCH_SSL_VERIFY
+              value: "true"
+            - name: FLUENT_OPENSEARCH_SSL_VERSION
+              value: "TLSv1_2"
+            - name: FLUENT_OPENSEARCH_CA_PATH
+              value: "/opt/opensearch-client-credentials/ca.crt"
+            - name: FLUENT_OPENSEARCH_CLIENT_CERT
+              value: "/opt/opensearch-client-credentials/client.crt"
+            - name: FLUENT_OPENSEARCH_CLIENT_KEY
+              value: "/opt/opensearch-client-credentials/client.key"
+            - name: FLUENT_OPENSEARCH_LOGSTASH_PREFIX
+              value: "minio-audit"
+            - name: OPENSEARCH_STORAGE
+              value: "false"
+            - name: ALERTS
+              value: "true"
+          volumeMounts:
+            - name: fluentd-conf
+              mountPath: /fluentd/etc
+              readOnly: true
+            - name: server-credentials
+              mountPath: /opt/server-credentials/
+              readOnly: true
+            - name: opensearch-client-credentials
+              mountPath: /opt/opensearch-client-credentials
+              readOnly: true
+        - image: index.docker.io/ferlabcrsj/fluentd:6f0e6316edb2648bb2cbe89f0060d9d04b17dbe0-1773252359
+          name: minio-audit-slack-output-fluentd
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "0.25"
+            limits:
+              memory: "256Mi"
+              cpu: "0.50"
+          envFrom:
+            - secretRef:
+                name: slack-token
+          env:
+            - name: FLUENTD_CONF
+              value: fluentd.conf
+          volumeMounts:
+            - name: fluentd-slack-output-conf
+              mountPath: /fluentd/etc
+              readOnly: true

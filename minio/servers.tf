@@ -1,9 +1,15 @@
 locals {
   audit_base = {
-    enable     = true
-    endpoint   = "https://${local.host_params.ip}:9880/minio_audit"
+    enable     = local.params.minio.audit_enabled
+    endpoint   = "https://workers.k8.ferlab.lan:30100"
     queue_size = "200000"
+    client_cert = fileexists("${path.module}/../shared/minio_audit_logs_client.crt") ? file("${path.module}/../shared/minio_audit_logs_client.crt") : ""
+    client_key = fileexists("${path.module}/../shared/minio_audit_logs_client.key") ? file("${path.module}/../shared/minio_audit_logs_client.key") : ""
   }
+  server_ca_certs = concat([
+    module.minio_ca.certificate,
+    module.minio_ingress_ca.certificate
+  ], fileexists("${path.module}/../shared/minio_audit_logs_ca.crt") ? [file("${path.module}/../shared/minio_audit_logs_ca.crt")] : [])
   sse_server_clients = [
     #No tenants
     [{
@@ -107,10 +113,7 @@ locals {
       tls = {
         server_cert = tls_locally_signed_cert.minio.cert_pem
         server_key  = tls_private_key.minio.private_key_pem
-        ca_certs     = [
-          module.minio_ca.certificate,
-          module.minio_ingress_ca.certificate
-        ]
+        ca_certs     = local.server_ca_certs
       }
       auth = {
         root_username = local.params.minio.root_username
@@ -130,10 +133,7 @@ locals {
       tls = {
         server_cert = tls_locally_signed_cert.minio.cert_pem
         server_key  = tls_private_key.minio.private_key_pem
-        ca_certs     = [
-          module.minio_ca.certificate,
-          module.minio_ingress_ca.certificate
-        ]
+        ca_certs     = local.server_ca_certs
       }
       auth = {
         root_username = local.params.minio.root_username
@@ -154,10 +154,7 @@ locals {
         tls = {
           server_cert = tls_locally_signed_cert.minio.cert_pem
           server_key  = tls_private_key.minio.private_key_pem
-          ca_certs     = [
-            module.minio_ca.certificate,
-            module.minio_ingress_ca.certificate
-          ]
+          ca_certs     = local.server_ca_certs
         }
         auth = {
           root_username = local.params.minio.root_username
@@ -175,10 +172,7 @@ locals {
         tls = {
           server_cert = tls_locally_signed_cert.minio.cert_pem
           server_key  = tls_private_key.minio.private_key_pem
-          ca_certs     = [
-            module.minio_ca.certificate,
-            module.minio_ingress_ca.certificate
-          ]
+          ca_certs     = local.server_ca_certs
         }
         auth = {
           root_username = local.params.minio.root_username

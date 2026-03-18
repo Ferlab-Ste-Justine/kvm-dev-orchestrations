@@ -66,7 +66,8 @@
       "root_password": "testtest",
       "ferio_enabled": true,
       "ferio_update_release": true,
-      "k8_ingress_setup": false
+      "k8_ingress_setup": false,
+      "audit_enabled": true
     },
     "etcd": {
       "vcpus": 1,

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-audit-fluentd
+spec:
+  type: NodePort
+  ports:
+  - port: 4443
+    protocol: TCP
+    targetPort: 4443
+    nodePort: 30100
+  selector:
+    app: minio-audit-fluentd

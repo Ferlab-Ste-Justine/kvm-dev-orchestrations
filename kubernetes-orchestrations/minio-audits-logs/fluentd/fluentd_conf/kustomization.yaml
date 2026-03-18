@@ -9,4 +9,5 @@ configMapGenerator:
       - fluentd.conf
       - fluentd_opensearch.conf
       - fluentd_alert.conf
+      - fluentd_alert_download_filters.conf
       - fluentd_null.conf

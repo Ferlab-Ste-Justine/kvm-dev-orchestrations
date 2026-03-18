@@ -8,4 +8,3 @@ resources:
   - service.yml
   - fluentd_conf
   - fluentd_slack_conf
-  - dedup

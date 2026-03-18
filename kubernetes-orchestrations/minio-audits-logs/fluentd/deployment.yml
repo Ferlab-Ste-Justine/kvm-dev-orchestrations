@@ -15,10 +15,6 @@ spec:
         app: minio-audit-fluentd
     spec:
       volumes:
-        - name: dedup-script
-          configMap:
-            name: minio-audit-dedub-script
-            defaultMode: 0555
         - name: fluentd-conf
           configMap:
             name: minio-audit-fluentd-config
@@ -36,7 +32,7 @@ spec:
             secretName: opensearch-client-credentials
             defaultMode: 0555
       containers:
-        - image: python:3.14
+        - image: ferlabcrsj/fluentd-dedup-proxy:eb5a298fa8884fc74f95599f2c5b21d614b124a5-1773855176
           name: minio-audit-dedup
           resources:
             requests:
@@ -45,15 +41,10 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "0.50"
-          command: ["python3"]
-          args: ["/opt/script/dedup.py"]
           env:
             - name: CACHE_TTL
               value: "600"
-          volumeMounts:
-            - name: dedup-script
-              mountPath: /opt/script
-        - image: index.docker.io/ferlabcrsj/fluentd:6f0e6316edb2648bb2cbe89f0060d9d04b17dbe0-1773252359
+        - image: index.docker.io/ferlabcrsj/fluentd:eb5a298fa8884fc74f95599f2c5b21d614b124a5-1773855175
           name: minio-audit-fluentd
           resources:
             requests:
@@ -97,7 +88,7 @@ spec:
             - name: opensearch-client-credentials
               mountPath: /opt/opensearch-client-credentials
               readOnly: true
-        - image: index.docker.io/ferlabcrsj/fluentd:6f0e6316edb2648bb2cbe89f0060d9d04b17dbe0-1773252359
+        - image: index.docker.io/ferlabcrsj/fluentd:eb5a298fa8884fc74f95599f2c5b21d614b124a5-1773855175
           name: minio-audit-slack-output-fluentd
           resources:
             requests:

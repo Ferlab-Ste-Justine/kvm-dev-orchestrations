@@ -1,17 +1,11 @@
-resource "opensearch_dashboard_object" "ferlab_kubernetes_logs" {
-  index = ".dashboard"
-  body  = <<EOF
-[
-  {
-    "_id": "index-pattern:ferlab-kubernetes-logs",
-    "_source": {
-      "type": "index-pattern",
-      "index-pattern": {
-        "title": "ferlab-kubernetes*",
-        "timeFieldName": "@timestamp"
-      }
-    }
-  }
-]
-EOF
+module "kubernetes_logs" {
+  source = "./terraform-opensearch-dashboard-object/index-pattern"
+  id            = "index-pattern:ferlab-kubernetes-logs"
+  index_pattern = "ferlab-kubernetes*"
+}
+
+module "minio_audit_notifications_logs" {
+  source = "./terraform-opensearch-dashboard-object/index-pattern"
+  id            = "index-pattern:minio-audit-notifications"
+  index_pattern = "minio-audit-notifications*"
 }

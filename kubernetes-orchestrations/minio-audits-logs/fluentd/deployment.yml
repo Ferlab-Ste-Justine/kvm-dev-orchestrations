@@ -19,9 +19,9 @@ spec:
           configMap:
             name: minio-audit-fluentd-config
             defaultMode: 0555
-        - name: fluentd-slack-output-conf
+        - name: fluentd-alert-conf
           configMap:
-            name: minio-audit-slack-output-fluentd-config
+            name: minio-audit-alert-fluentd-config
             defaultMode: 0555
         - name: server-credentials
           secret:
@@ -89,7 +89,7 @@ spec:
               mountPath: /opt/opensearch-client-credentials
               readOnly: true
         - image: index.docker.io/ferlabcrsj/fluentd:eb5a298fa8884fc74f95599f2c5b21d614b124a5-1773855175
-          name: minio-audit-slack-output-fluentd
+          name: minio-audit-alert-fluentd
           resources:
             requests:
               memory: "128Mi"
@@ -97,13 +97,31 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "0.50"
-          envFrom:
-            - secretRef:
-                name: slack-token
           env:
             - name: FLUENTD_CONF
               value: fluentd.conf
+            - name: FLUENT_OPENSEARCH_HOST
+              value: workers.opensearch.ferlab.lan
+            - name: FLUENT_OPENSEARCH_PORT
+              value: "9200"
+            - name: FLUENT_OPENSEARCH_SCHEME
+              value: "https"
+            - name: FLUENT_OPENSEARCH_SSL_VERIFY
+              value: "true"
+            - name: FLUENT_OPENSEARCH_SSL_VERSION
+              value: "TLSv1_2"
+            - name: FLUENT_OPENSEARCH_CA_PATH
+              value: "/opt/opensearch-client-credentials/ca.crt"
+            - name: FLUENT_OPENSEARCH_CLIENT_CERT
+              value: "/opt/opensearch-client-credentials/client.crt"
+            - name: FLUENT_OPENSEARCH_CLIENT_KEY
+              value: "/opt/opensearch-client-credentials/client.key"
+            - name: FLUENT_OPENSEARCH_LOGSTASH_PREFIX
+              value: "minio-audit-notifications"
           volumeMounts:
-            - name: fluentd-slack-output-conf
+            - name: fluentd-alert-conf
               mountPath: /fluentd/etc
+              readOnly: true
+            - name: opensearch-client-credentials
+              mountPath: /opt/opensearch-client-credentials
               readOnly: true

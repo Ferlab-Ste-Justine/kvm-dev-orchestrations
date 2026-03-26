@@ -112,3 +112,6 @@
 [submodule "users/terraform-etcd-ferlab-users"]
 	path = users/terraform-etcd-ferlab-users
 	url = git@github.com:Ferlab-Ste-Justine/terraform-etcd-ferlab-users.git
+[submodule "kubernetes-orchestrations/opensearch/terraform-resources/terraform-opensearch-dashboard-object"]
+	path = kubernetes-orchestrations/opensearch/terraform-resources/terraform-opensearch-dashboard-object
+	url = git@github.com:Ferlab-Ste-Justine/terraform-opensearch-dashboard-object.git

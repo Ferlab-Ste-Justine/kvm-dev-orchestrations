@@ -22,3 +22,8 @@ output "users_by_environment" {
   description = "Map of filtered users lists with the environments as key."
   value       = module.download_users.users_by_environment
 }
+
+output "users_by_environment_role" {
+  description = "Nested maps of filtered users lists with the environments and the role as keys."
+  value       = module.download_users.users_by_environment_role
+}

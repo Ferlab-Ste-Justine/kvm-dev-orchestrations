@@ -26,8 +26,13 @@ module "download_users" {
   etcd_key = "/test-users/users.yml"
   execution_time = time_rotating.now.rfc3339
   compute = {
-    users_by_role = false
-    users_by_environment = false
+    users_by_username = true
+    users_by_role = true
+    usernames_by_role = true
+    users_by_environment = true
+    usernames_by_environment = true
+    users_by_environment_role = true
+    usernames_by_environment_role = true
   }
   depends_on = [module.upload_users]
 }

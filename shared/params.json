@@ -71,7 +71,7 @@
   },
   "etcd": {
     "vcpus": 1,
-    "memory": 2048,
+    "memory": 512,
     "data_volumes": false,
     "cert_auth": false,
     "addresses": [
@@ -91,34 +91,34 @@
   },
   "coredns": {
     "vcpus": 1,
-    "memory": 2048
+    "memory": 512
   },
   "kubernetes": {
     "bastion": {
       "vcpus": 1,
-      "memory": 4096
+      "memory": 1024
     },
     "load_balancer": {
       "vcpus": 1,
-      "memory": 1024,
+      "memory": 512,
       "tunnel": false
     },
     "masters": {
       "count": 1,
       "vcpus": 2,
-      "memory": 3072
+      "memory": 2048
     },
     "workers": {
       "count": 2,
       "vcpus": 8,
-      "memory": 4096,
+      "memory": 2048,
       "nfs_tunnel": false,
       "data_volume_capacity": 30
     }
   },
   "nfs": {
     "vcpus": 1,
-    "memory": 1024,
+    "memory": 512,
     "data_volumes": true,
     "data_volumes_capacity": 100,
     "fs_layout": "phenovar"
@@ -255,6 +255,6 @@
   },
   "custom": {
     "vcpus": 1,
-    "memory": 2048
+    "memory": 1024
   }
 }

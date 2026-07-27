@@ -114,7 +114,7 @@ module "prometheus_confs" {
       }
     }
   ]
-  kubernetes_cluster_jobs = [
+  kubernetes_exporter_jobs = [
     {
       tag = "local"
       expected_services = [
@@ -130,7 +130,7 @@ module "prometheus_confs" {
       ]
     }
   ]
-  minio_cluster_jobs = [
+  minio_exporter_jobs = [
     {
       tag = "local"
     }

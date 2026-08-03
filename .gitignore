@@ -51,3 +51,4 @@ patroni-conf/provider.tf
 kubernetes-orchestrations/cubefs/cubefs-helm
 kubernetes-orchestrations/phenovar/resources-rclone-setup/upload-to-s3/path
 kubernetes-orchestrations/phenovar/client-setup/upload-to-s3/path
+shared/resolv.conf

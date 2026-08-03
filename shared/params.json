@@ -1,206 +1,218 @@
 {
-    "network": {
-      "addresses": "192.168.55.0/24",
-      "gateway": "192.168.55.1",
-      "dns": "192.168.55.1",
-      "broadcast": "192.168.55.255",
-      "static_range": {
-        "start": "192.168.55.10",
-        "end": "192.168.55.244"
-      },
-      "dhcp_range": {
-        "start": "192.168.55.245",
-        "end": "192.168.55.254"
-      }
+  "network": {
+    "addresses": "192.168.55.0/24",
+    "gateway": "192.168.55.1",
+    "dns": "192.168.55.1",
+    "broadcast": "192.168.55.255",
+    "static_range": {
+      "start": "192.168.55.10",
+      "end": "192.168.55.244"
     },
-    "mac_range": {
-      "start": "aa:00:00:00:00:0b",
-      "end": "aa:ff:ff:ff:ff:ff"
+    "dhcp_range": {
+      "start": "192.168.55.245",
+      "end": "192.168.55.254"
+    }
+  },
+  "mac_range": {
+    "start": "aa:00:00:00:00:0b",
+    "end": "aa:ff:ff:ff:ff:ff"
+  },
+  "virsh_console_password": "test",
+  "logs_forwarding": false,
+  "alertmanager": {
+    "vcpus": 1,
+    "memory": 1024,
+    "data_volumes": false,
+    "client_auth": "certificate"
+  },
+  "automation_server": {
+    "vcpus": 1,
+    "memory": 1024,
+    "address": {
+      "mac": "aa:00:00:00:00:03",
+      "ip": "192.168.55.5"
     },
-    "virsh_console_password": "test",
-    "logs_forwarding": false,
-    "alertmanager": {
-      "vcpus": 1,
-      "memory": 4096,
-      "data_volumes": false,
-      "client_auth": "certificate"
-    },
-    "automation_server": {
-      "vcpus": 1,
-      "memory": 4096,
-      "address": {
-        "mac": "aa:00:00:00:00:03",
-        "ip": "192.168.55.5"
-      },
-      "dynamic_config": {
-        "source": "etcd",
-        "git": {
-          "systemd": {
-            "repo": "git@github.com:Ferlab-Ste-Justine/kvm-dev-orchestrations.git",
-            "ref": "main",
-            "path": "automation-server-configurations/config"
-          },
-          "fluentbit": {
-            "repo": "git@github.com:Ferlab-Ste-Justine/kvm-dev-orchestrations.git",
-            "ref": "main",
-            "path": "automation-server-configurations/fluent-bit-config"
-          }
+    "dynamic_config": {
+      "source": "etcd",
+      "git": {
+        "systemd": {
+          "repo": "git@github.com:Ferlab-Ste-Justine/kvm-dev-orchestrations.git",
+          "ref": "main",
+          "path": "automation-server-configurations/config"
+        },
+        "fluentbit": {
+          "repo": "git@github.com:Ferlab-Ste-Justine/kvm-dev-orchestrations.git",
+          "ref": "main",
+          "path": "automation-server-configurations/fluent-bit-config"
         }
       }
-    },
-    "dhcp": {
+    }
+  },
+  "dhcp": {
+    "vcpus": 1,
+    "memory": 512,
+    "data_volumes": false
+  },
+  "minio": {
+    "vcpus": 2,
+    "memory": 4096,
+    "tenants": 0,
+    "migrate_to_tenants": false,
+    "cluster_on": true,
+    "extra_server_pool": false,
+    "data_disk_capacity": 100,
+    "queue_disk_capacity": 2,
+    "root_username": "minio",
+    "root_password": "testtest",
+    "ferio_enabled": true,
+    "ferio_update_release": true,
+    "k8_ingress_setup": false,
+    "audit_enabled": true
+  },
+  "etcd": {
+    "vcpus": 1,
+    "memory": 512,
+    "data_volumes": false,
+    "cert_auth": false,
+    "addresses": [
+      {
+        "mac": "aa:00:00:00:00:00",
+        "ip": "192.168.55.2"
+      },
+      {
+        "mac": "aa:00:00:00:00:01",
+        "ip": "192.168.55.3"
+      },
+      {
+        "mac": "aa:00:00:00:00:02",
+        "ip": "192.168.55.4"
+      }
+    ]
+  },
+  "coredns": {
+    "vcpus": 1,
+    "memory": 512
+  },
+  "kubernetes": {
+    "bastion": {
       "vcpus": 1,
-      "memory": 4096,
-      "data_volumes": false
+      "memory": 1024
     },
-    "minio": {
+    "load_balancer": {
+      "vcpus": 1,
+      "memory": 512,
+      "tunnel": false
+    },
+    "masters": {
+      "count": 1,
       "vcpus": 2,
-      "memory": 8192,
-      "tenants": 0,
-      "migrate_to_tenants": false,
-      "cluster_on": true,
-      "extra_server_pool": false,
-      "data_disk_capacity": 100,
-      "queue_disk_capacity": 2,
-      "root_username": "minio",
-      "root_password": "testtest",
-      "ferio_enabled": true,
-      "ferio_update_release": true,
-      "k8_ingress_setup": false,
-      "audit_enabled": true
+      "memory": 2048
     },
-    "etcd": {
+    "workers": {
+      "count": 2,
+      "vcpus": 8,
+      "memory": 2048,
+      "nfs_tunnel": false,
+      "data_volume_capacity": 30
+    }
+  },
+  "nfs": {
+    "vcpus": 1,
+    "memory": 512,
+    "data_volumes": true,
+    "data_volumes_capacity": 100,
+    "fs_layout": "phenovar"
+  },
+  "postgres": {
+    "servers": {
       "vcpus": 1,
-      "memory": 4096,
+      "memory": 2048,
       "data_volumes": false,
-      "cert_auth": false,
-      "addresses": [
+      "pg_rewind": true,
+      "params": [
         {
-          "mac": "aa:00:00:00:00:00",
-          "ip": "192.168.55.2"
-        }, 
-        {
-          "mac": "aa:00:00:00:00:01",
-          "ip": "192.168.55.3"
+          "key": "max_connections",
+          "value": "100"
         },
         {
-          "mac": "aa:00:00:00:00:02",
-          "ip": "192.168.55.4"
+          "key": "effective_cache_size",
+          "value": "512MB"
+        },
+        {
+          "key": "shared_buffers",
+          "value": "1GB"
+        },
+        {
+          "key": "max_wal_size",
+          "value": "256MB"
+        },
+        {
+          "key": "checkpoint_timeout",
+          "value": "30min"
+        },
+        {
+          "key": "checkpoint_warning",
+          "value": "10min"
+        },
+        {
+          "key": "checkpoint_completion_target",
+          "value": "0.9"
+        },
+        {
+          "key": "work_mem",
+          "value": "3MB"
+        },
+        {
+          "key": "maintenance_work_mem",
+          "value": "128MB"
         }
       ]
     },
-    "coredns": {
+    "load_balancer": {
       "vcpus": 1,
-      "memory": 4096
-    },
-    "kubernetes": {
-      "bastion": {
-        "vcpus": 1,
-        "memory": 4096
-      },
-      "load_balancer": {
-        "vcpus": 1,
-        "memory": 4096,
-        "tunnel": false
-      },
-      "masters": {
-        "count": 3,
-        "vcpus": 2,
-        "memory": 4096
-      },
-      "workers": {
-        "count": 3,
-        "vcpus": 8,
-        "memory": 12288,
-        "nfs_tunnel": false,
-        "data_volume_capacity": 30
-      }
-    },
-    "nfs": {
+      "memory": 1024
+    }
+  },
+  "prometheus": {
+    "vcpus": 1,
+    "memory": 1024,
+    "data_volumes": false,
+    "kubernetes_cluster_federation": false,
+    "minio_cluster_monitoring": false,
+    "starrocks_cluster_monitoring": false,
+    "physical_host": {
+      "node_exporter": false,
+      "libvirt_exporter": false,
+      "prometheus_gateway": false
+    }
+  },
+  "vault": {
+    "servers": {
+      "count": 3,
       "vcpus": 1,
-      "memory": 4096,
-      "data_volumes": true,
-      "data_volumes_capacity": 100,
-      "fs_layout": "phenovar"
+      "memory": 1024
     },
-    "postgres": {
-      "servers": {
-        "vcpus": 1,
-        "memory": 4096,
-        "data_volumes": false,
-        "pg_rewind": true,
-        "params": [
-          {
-            "key": "max_connections",
-            "value": "100"
-          },
-          {
-            "key": "effective_cache_size",
-            "value": "2GB"
-          },
-          {
-            "key": "shared_buffers",
-            "value": "1GB"
-          },
-          {
-            "key": "max_wal_size",
-            "value": "2GB"
-          },
-          {
-            "key": "checkpoint_timeout",
-            "value": "30min"
-          },
-          {
-            "key": "checkpoint_warning",
-            "value": "10min"
-          },
-          {
-            "key": "checkpoint_completion_target",
-            "value": "0.9"
-          },
-          {
-            "key": "work_mem",
-            "value": "3MB"
-          },
-          {
-            "key": "maintenance_work_mem",
-            "value": "128MB"
-          }
-        ]
-      },
-      "load_balancer": {
-        "vcpus": 1,
-        "memory": 4096
-      }
-    },
-    "prometheus": {
+    "load_balancer": {
       "vcpus": 1,
-      "memory": 4096,
-      "data_volumes": false,
-      "kubernetes_cluster_federation": false,
-      "minio_cluster_monitoring": false,
-      "starrocks_cluster_monitoring": false,
-      "physical_host": {
-        "node_exporter": false,
-        "libvirt_exporter": false,
-        "prometheus_gateway": false
-      }
+      "memory": 1024,
+      "tunnel": false
     },
-    "vault": {
-      "servers": {
-        "count": 3,
-        "vcpus": 1,
-        "memory": 1024
-      },
-      "load_balancer": {
-        "vcpus": 1,
-        "memory": 1024,
-        "tunnel": false
-      },
-      "pkcs12_password": "test",
-      "clear_data": true
+    "pkcs12_password": "test",
+    "clear_data": true
+  },
+  "opensearch": {
+    "masters": {
+      "count": 3,
+      "vcpus": 1,
+      "memory": 1024
     },
-    "opensearch": {
+    "workers": {
+      "count": 2,
+      "vcpus": 1,
+      "memory": 2048
+    },
+    "audit_cluster_enabled": false,
+    "audit": {
       "masters": {
         "count": 3,
         "vcpus": 1,
@@ -211,50 +223,38 @@
         "vcpus": 1,
         "memory": 4096
       },
-      "audit_cluster_enabled": false,
-      "audit": {
-        "masters": {
-          "count": 3,
-          "vcpus": 1,
-          "memory": 4096
-        },
-        "workers": {
-          "count": 2,
-          "vcpus": 1,
-          "memory": 4096
-        },
-        "snapshot_repository": {
-          "access_key": "minio",
-          "secret_key": "testtest",
-          "ca_certs": []
-        }
+      "snapshot_repository": {
+        "access_key": "minio",
+        "secret_key": "testtest",
+        "ca_certs": []
       }
-    },
-    "starrocks": {
-      "fe_nodes": {
-        "count": 3,
-        "vcpus": 1,
-        "memory": 2048
-      },
-      "be_nodes": {
-        "count": 3,
-        "vcpus": 2,
-        "memory": 4096
-      },
-      "root_password": "testtest",
-      "ssl_keystore_password": "test"
-    },
-    "smrtlink": {
-      "vcpus": 1,
-      "memory": 4096,
-      "data_volume": false,
-      "admin_password": "test",
-      "pbinstrument_password": "test",
-      "db_backups": false,
-      "s3_backups": false
-    },
-    "custom": {
-      "vcpus": 1,
-      "memory": 4096
     }
+  },
+  "starrocks": {
+    "fe_nodes": {
+      "count": 3,
+      "vcpus": 1,
+      "memory": 1024
+    },
+    "be_nodes": {
+      "count": 3,
+      "vcpus": 2,
+      "memory": 2048
+    },
+    "root_password": "testtest",
+    "ssl_keystore_password": "test"
+  },
+  "smrtlink": {
+    "vcpus": 1,
+    "memory": 1024,
+    "data_volume": false,
+    "admin_password": "test",
+    "pbinstrument_password": "test",
+    "db_backups": false,
+    "s3_backups": false
+  },
+  "custom": {
+    "vcpus": 1,
+    "memory": 1024
+  }
 }

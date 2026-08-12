@@ -152,7 +152,7 @@ scrape_configs:
           cluster: local
 %{ endif ~}
 %{ if starrocks_cluster_monitoring ~}
-  - job_name: "starrocks-cluster-monitoring"
+  - job_name: "starrocks-starrocks-exporter"
     metrics_path: /metrics
     dns_sd_configs:
       - names:

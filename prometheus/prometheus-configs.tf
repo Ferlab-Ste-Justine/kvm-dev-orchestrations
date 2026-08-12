@@ -159,6 +159,30 @@ module "prometheus_confs" {
       }
     }
   ]
+  starrocks_exporter_jobs = [
+    {
+      tag                     = "starrocks"
+      fe                      = {
+        count                       = local.params.starrocks.fe_nodes.count
+        heap_usage_threshold        = 90
+        query_error_rate_threshold  = 0.05
+        p95_query_latency_threshold = 5000
+        txn_publish_delay_threshold = 60000
+      }
+      be                      = {
+        count = local.params.starrocks.be_nodes.count
+        cpu_usage_threshold        = 95
+        cpus_per_node              = local.params.starrocks.be_nodes.vcpus
+        memory_usage_threshold     = 90
+        memory_per_node            = local.params.starrocks.be_nodes.memory * 1024 * 1024
+        disk_space_usage_threshold = 90
+        disk_io_usage_threshold    = 90
+      }
+      alert_labels            = {
+        org = "ferlab"
+      }
+    }
+  ]
   custom_rule_files = local.include_physical_host_virtualization ? [
     {
       name = "physical_hosts_virtualization.yml"

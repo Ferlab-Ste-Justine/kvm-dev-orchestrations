@@ -56,7 +56,9 @@ module "fe_nodes" {
         enabled           = count.index == 0 ? true : false
         fe_follower_fqdns = local.fe_follower_fqdns
         be_fqdns          = local.be_fqdns
-        root_password     = local.params.starrocks.root_password
+        root_password     = {
+          literal = local.params.starrocks.root_password
+        }
       }
       initial_follower = {
         enabled            = count.index != 0 ? true : false

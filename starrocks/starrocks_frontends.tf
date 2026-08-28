@@ -72,4 +72,7 @@ module "fe_nodes" {
       }
     }
   }
+  security_reverse_proxy = {
+    expose_metrics = true
+  }
 }

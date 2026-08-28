@@ -51,5 +51,16 @@ module "be_nodes" {
 
   starrocks = {
     node_type   = "be"
+    fe_config   = {
+      ssl = {
+        enabled           = true
+        cert              = tls_locally_signed_cert.starrocks_certificate.cert_pem
+        key               = tls_private_key.starrocks_key.private_key_pem
+        keystore_password = local.params.starrocks.ssl_keystore_password
+      }
+    }
+  }
+  security_reverse_proxy = {
+    expose_metrics = true
   }
 }

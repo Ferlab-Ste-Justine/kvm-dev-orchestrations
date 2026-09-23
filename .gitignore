@@ -51,3 +51,5 @@ patroni-conf/provider.tf
 kubernetes-orchestrations/cubefs/cubefs-helm
 kubernetes-orchestrations/phenovar/resources-rclone-setup/upload-to-s3/path
 kubernetes-orchestrations/phenovar/client-setup/upload-to-s3/path
+etcd-provider-tests/get-keys-prefix.sh
+kubernetes-orchestrations/keycloak/secrets/postgres_ca.crt

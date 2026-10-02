@@ -1,0 +1,72 @@
+airflowVersion: "3.2.1"
+
+defaultAirflowRepository: apache/airflow
+defaultAirflowTag: "3.2.1"
+
+# Smallest useful deployment for this test.
+executor: LocalExecutor
+
+env:
+  - name: AIRFLOW__CORE__AUTH_MANAGER
+    value: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+
+  - name: AIRFLOW__CORE__LOAD_EXAMPLES
+    value: "False"
+
+# Chart 1.21.0's createUserJob uses:
+# airflow users create ...
+createUserJob:
+  enabled: true
+
+  defaultUser:
+    enabled: true
+    role: Admin
+    username: admin
+    email: admin@example.com
+    firstName: Airflow
+    lastName: Admin
+    password: admin
+
+postgresql:
+  enabled: true
+  primary:
+    persistence:
+      enabled: false
+
+redis:
+  enabled: false
+
+triggerer:
+  enabled: false
+
+statsd:
+  enabled: false
+
+flower:
+  enabled: false
+
+dags:
+  persistence:
+    enabled: false
+
+  gitSync:
+    enabled: false
+
+logs:
+  persistence:
+    enabled: false
+
+workers:
+  celery:
+    persistence:
+      enabled: false
+
+ingress:
+  apiServer:
+    enabled: true
+
+    hosts:
+      - name: airflow.k8.ferlab.lan
+
+    path: /
+    pathType: Prefix

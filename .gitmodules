@@ -115,3 +115,6 @@
 [submodule "kubernetes-orchestrations/opensearch/terraform-resources/terraform-opensearch-dashboard-object"]
 	path = kubernetes-orchestrations/opensearch/terraform-resources/terraform-opensearch-dashboard-object
 	url = git@github.com:Ferlab-Ste-Justine/terraform-opensearch-dashboard-object.git
+[submodule "keycloak-conf/terraform-keycloak"]
+	path = keycloak-conf/terraform-keycloak
+	url = git@github.com:Ferlab-Ste-Justine/terraform-keycloak.git

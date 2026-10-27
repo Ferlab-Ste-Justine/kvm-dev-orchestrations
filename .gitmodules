@@ -118,3 +118,6 @@
 [submodule "keycloak-conf/terraform-keycloak"]
 	path = keycloak-conf/terraform-keycloak
 	url = git@github.com:Ferlab-Ste-Justine/terraform-keycloak.git
+[submodule "kubernetes-orchestrations/ranger/ranger-starrocks"]
+	path = kubernetes-orchestrations/ranger/ranger-starrocks
+	url = git@github.com:Ferlab-Ste-Justine/ranger-starrocks.git

@@ -1,0 +1,24 @@
+image:
+  repository: ghcr.io/radiant-network/apache-ranger-starrocks:2.8.0-v0.11.0
+  tag: latest
+  pullPolicy: Always
+
+db:
+  host: "postgres.ferlab.lan:5432"
+  name: ranger
+  user: ranger
+  secret: ranger-db
+
+ranger:
+  externalUrl: http://ranger.k8.ferlab.lan
+  loginAutolockEnabled: false
+
+serve:
+  ingress:
+    enabled: true
+
+migrate:
+  enabled: false
+
+register:
+  enabled: false

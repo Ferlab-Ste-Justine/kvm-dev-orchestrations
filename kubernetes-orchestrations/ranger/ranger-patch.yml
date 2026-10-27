@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ranger-starrocks
+spec:
+  template:
+    spec:
+      volumes:
+        - name: postgres-ca
+          secret:
+            secretName: postgres-ca
+      containers:
+        - name: ranger
+          env:
+            - name: RANGER_DB_SSL_ENABLED
+              value: "true"
+            - name: RANGER_DB_SSL_CERTIFICATE_FILE
+              value: /etc/ranger/postgres/postgres_ca.crt
+              
+            - name: RANGER_ADMIN_PASSWORD
+              value: Admin12345
+            - name: RANGER_KEYADMIN_PASSWORD
+              value: Keyadmin12345
+            - name: RANGER_TAGSYNC_PASSWORD
+              value: Tagsync12345
+            - name: RANGER_USERSYNC_PASSWORD
+              value: Usersync12345
+          volumeMounts:
+            - name: postgres-ca
+              mountPath: /etc/ranger/postgres
+              readOnly: true

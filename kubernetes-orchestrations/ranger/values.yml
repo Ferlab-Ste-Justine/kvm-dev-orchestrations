@@ -1,6 +1,6 @@
 image:
-  repository: ghcr.io/radiant-network/apache-ranger-starrocks:2.8.0-v0.11.0
-  tag: latest
+  repository: ghcr.io/radiant-network/apache-ranger-starrocks
+  tag: 2.8.0-v0.11.0
   pullPolicy: Always
 
 db:
